@@ -1,0 +1,21 @@
+<Alloy>
+	<Window barColor="#75d0cb" id="win" title="Upload New Item" navBarHidden="false">
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+	<ScrollView class="wfill hfill vert" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
+    	<View class="wfill hsize">
+        	<View class="wsize hsize vert padding">
+	        	<Label class="h3 wsize hsize">Item Upload</Label>
+        	</View>
+    	</View>
+    	<View id="item_container" class="wfill hsize box padding" top="0" bottom="0" >
+	    	<View id="inner_box" class="wfill hsize padding vert" bottom="0" backgroundColor="#F2F4F5">
+	    		<Label class="h5 wfill hsize bold">Please upload your item photo</Label>
+				<ImageView id="item_image" onClick="loadPhoto" image="/images/icons/icon_take_photo.png" top="10" width="50%" />
+				<TextField id="item_name" hintText="Item name"></TextField>
+				<TextField id="item_category" hintText="Item category"></TextField>
+	    	</View>
+	    </View>
+		<ImageView image="/images/shadow.png" left="10" right="10" class="wfill hsize"></ImageView>
+    </ScrollView>
+    </Window>
+</Alloy>

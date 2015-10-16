@@ -1,0 +1,35 @@
+<Alloy>
+	<Window class="container" barColor="#75d0cb" id="win" title="Personal" navBarHidden="false">
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+		<Menu id="menu" platform="android">
+			<MenuItem title="Upload Item" onClick="navToPersonalUpload" showAsAction="Titanium.Android.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW"/>
+		</Menu>
+	<RightNavButton>
+		<Button onClick="navToPersonalUpload">Upload Item</Button>
+	</RightNavButton>
+	<ScrollView class="wfill hfill vert" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
+    	<View class="wfill hsize">
+        	<View class="wsize hsize vert padding">
+	        	<Label class="h3 wsize hsize" id="label_waiting_list">Waiting List (0)</Label>
+        	</View>
+    	</View>
+    	<View id="waiting_list" class="wfill hsize box padding" top="0" bottom="0" backgroundColor="#e5e5e5">
+	    	<View id="inner_box" class="wfill hsize padding vert" top="0">
+	    		
+	    	</View>
+		</View>
+		<ImageView image="/images/shadow.png" left="10" right="10" class="wfill hsize"></ImageView>
+		<View class="wfill hsize" >
+        	<View class="wsize hsize vert padding">
+	        	<Label class="h3 wsize hsize" id="label_matching_list">Matching List (0)</Label>
+        	</View>
+    	</View>
+    	<View class="wfill hsize box vert padding" top="0" bottom="0" backgroundColor="#e5e5e5">
+	    	<View id="matching_inner_box" class="wfill hsize padding vert" top="0">
+	    		
+	    	</View>
+		</View>
+		<ImageView image="/images/shadow.png" left="10" right="10" class="wfill hsize"></ImageView>
+    </ScrollView>
+    </Window>
+</Alloy>

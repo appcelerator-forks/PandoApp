@@ -1,0 +1,9 @@
+<Alloy>
+	<Window barColor="#75d0cb" id="win" title="Code" navBarHidden="false">
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+	<View class="wfill hfill vert" backgroundColor="#ddd">
+		<View id="qrcode" class="wsize hsize">
+		</View>
+	</View>
+    </Window>
+</Alloy>

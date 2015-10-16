@@ -1,0 +1,14 @@
+<Alloy>
+	<Window barColor="#75d0cb" id="win" title="Image Preview" navBarHidden="false">
+		<RightNavButton title="Cancel" onKeypressed="onCancel"></RightNavButton>
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+	<View class="wfill hfill vert" backgroundColor="#ddd">
+		<View id="cropimage" class="wsize hsize">
+			<ScrollView id="inner_box" class="" backgroundColor="#fff" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.SIZE">
+				<!--<View class="box" backgroundColor="#ddd" borderColor="#000" zIndex="10" top="50" width="200" height="200"></View>-->
+			</ScrollView>
+		</View>
+		<Button title="Send" class="small_button" width="80" top="10" onClick="image_save"></Button>
+	</View>
+    </Window>
+</Alloy>

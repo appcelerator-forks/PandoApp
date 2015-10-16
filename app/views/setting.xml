@@ -1,0 +1,30 @@
+<Alloy>
+	<Window class="container" barColor="#75d0cb" id="win" title="Setting" navBarHidden="false">
+		<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+		<ScrollableView class="wfill hsize padding">
+			<TableView class="wfill hsize rounded">
+				<TableViewRow>
+					<View class="padding wfill hsize">
+						<Label class="wsize hsize h4" left="0">Left-handed</Label>
+						<Switch class="wsize hsize" id="left_handed_switch" right="0" value="false" onChange="switch_left_handed"></Switch>
+					</View>
+				</TableViewRow>
+				<TableViewRow onClick="nav2Profile">
+					<View class="padding wfill hsize">
+						<Label class="wsize hsize h4" left="0">Profile</Label>
+					</View>
+				</TableViewRow>
+				<TableViewRow>
+					<View class="padding wfill hsize">
+						<Label class="wsize hsize h4" left="0">Privacy</Label>
+					</View>
+				</TableViewRow>
+				<TableViewRow onClick="logout">
+					<View class="padding wfill hsize">
+						<Label class="wsize hsize h4" left="0">Logout</Label>
+					</View>
+				</TableViewRow>
+			</TableView>
+		</ScrollableView>
+	</Window>
+</Alloy>

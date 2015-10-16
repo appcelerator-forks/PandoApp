@@ -1,0 +1,19 @@
+<Alloy>
+	<Window barColor="#75d0cb" id="win" title="Profile" navBarHidden="false">
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+	<ScrollView class="wfill hfill vert" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
+    	<View id="item_container" class="wfill hsize box padding" top="0" bottom="0" >
+	    	<View id="inner_box" class="wfill hsize padding vert" bottom="0" backgroundColor="#F2F4F5">
+	    		<Label class="h5 wfill hsize bold">Upload profile</Label>
+	    		<View class="wfill hsize" top="10">
+					<ImageView id="item_image" onClick="loadPhoto" defaultImage="/images/default/item.png" image="/images/icons/icon_take_photo.png" width="60%" />
+				</View>
+				<TextField color="#000000" id="fullname" hintText="Fullname"></TextField>
+				<TextField color="#000000" id="mobile" hintText="Mobile Number"></TextField>
+				<TextField color="#000000" id="email" hintText="Email Address"></TextField>
+	    	</View>
+	    </View>
+		<ImageView image="/images/shadow.png" left="10" right="10" class="wfill hsize"></ImageView>
+    </ScrollView>
+    </Window>
+</Alloy>
