@@ -25,6 +25,9 @@ message.messageRead({item_id:item_id});
 function SendMessage(){
 	console.log(f_id+" "+u_id);
 	console.log(item_id+" "+$.message.value);
+	if($.message.value == ""){
+		return;
+	}
 	API.callByPost({url: "sendMessageUrl", params:{to_id: f_id, item_id: item_id, u_id: u_id, message: $.message.value, target: "friends"}});
 	
 	var params = {u_id: u_id, to_id: f_id, message: $.message.value, type: "text", read: 1, item_id: item_id};
@@ -95,54 +98,6 @@ function render_item_box(){
 		classes:['gray-line']
 	});
 	$.item_box.add(line);
-	/*
-	 completed code box
-	 * 
-	console.log(items_data.owner_id+" "+u_id);
-	if(items_data.owner_id == u_id || items_data.status == 5){
-		var view_complete_box = $.UI.create("View",{
-			classes:['wfill','hsize', 'box'],
-			top: 10,
-			bottom: 10
-		});
-	
-		var label_completed_code = $.UI.create("Label",{
-			classes:['h5','wfill','hsize','bold', 'padding'],
-			text: "Complete Code - "+items_data.code
-		});
-		view_complete_box.add(label_completed_code);
-		$.item_box.add(view_complete_box);
-	}else{
-		var input_completed_code = $.UI.create("TextField",{
-			classes:['h5','wfill','hsize','bold', 'padding'],
-			hintText: "Completed Code"
-		});
-		
-		var button_completed = $.UI.create("Button",{
-			classes:['small_button'],
-			bottom: 10,
-			width: 100,
-			title: "Completed"
-		});
-		
-		button_completed.addEventListener('click', function (e){
-			var completed_code = input_completed_code.value || "";
-			if(completed_code != ""){
-				API.callByPost({url: "validateTransactionCodeUrl", params:{code: completed_code, item_id: item_id}}, function(responseText){
-					var res = JSON.parse(responseText);
-					var arr = res.data;
-					var items = Alloy.createCollection('items');
-					items.saveArray(arr);
-					refresh();
-				});
-				
-			}else{
-				Common.createAlert("Error", "Completed Code cannot be empty.");
-			}
-		});
-		$.item_box.add(input_completed_code);
-		$.item_box.add(button_completed);
-	}*/
 }
 
 function render_conversation(){
@@ -226,6 +181,7 @@ Ti.App.addEventListener('conversation:refresh', refresh);
 
 $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener('conversation:refresh',refresh);
+	Ti.App.fireEvent("friends_items:refresh");
 	Ti.App.fireEvent("friends:refresh");
 	Ti.App.fireEvent("personal:refresh");
 	$.destroy();

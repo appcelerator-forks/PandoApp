@@ -56,17 +56,20 @@ function init(){
 	original_image.addEventListener('pinch', function(e) {
 			if(moving == false){
 				pinching = true;
-				console.log(baseHeight+" "+e.scale);
 			    original_image.height = baseHeight * e.scale;
 			    original_image.width = baseWidth * e.scale;
-			    console.log( Math.round(original_image.width) + ' x ' + Math.round(original_image.height));
 		   }
 	});
 	original_image.addEventListener('touchstart', function(e) {
 		offset.x = e.x;
 		offset.y = e.y;
-	    baseHeight = original_image.height || original_image.rect.height;
-	    baseWidth = original_image.width || original_image.rect.width;
+		baseHeight = original_image.rect.height;
+   		baseWidth = original_image.rect.width;
+   		
+		if(baseHeight == 0){
+			 baseHeight = original_image.rect.height;
+   			baseWidth = original_image.rect.width;
+		}
 	});
 	/*original_image.addEventListener('touchmove', function(e) {
 		if(pinching == false){
@@ -81,6 +84,8 @@ function init(){
 	original_image.addEventListener('touchend', function(e) {
 		pinching = false;
 		moving = false;
+		baseHeight = original_image.rect.height;
+	    baseWidth = original_image.rect.width;
 	});
 	$.inner_box.add(original_image);
 }

@@ -10,7 +10,8 @@ exports.definition = {
 		    "actions": "INTEGER", //1 - yes , 2 - no
 		    "status": "INTEGER", //0 - havent decide, 1 - yes, 2 -reject
 		    "updated": "TEXT",
-		    "created": "TEXT"
+		    "created": "TEXT",
+		    "point": "INTEGER"
 		},
 		adapter: {
 			type: "sql",
@@ -53,6 +54,7 @@ exports.definition = {
 					    id: res.fieldByName('id'),
 					    item_name: res.fieldByName('item_name'),
 					    item_img_path: res.fieldByName('img_path'),
+					    point: res.fieldByName('point'),
 					    owner_id: res.fieldByName('owner_id'),
 					    item_id: res.fieldByName('item_id'),
 					    requestor_id: res.fieldByName('requestor_id'),
@@ -68,6 +70,28 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getSpendPoint : function(){
+				var collection = this;
+				var u_id = Ti.App.Properties.getString('user_id') || 0;
+                var sql = "SELECT sum(point) as total FROM " + collection.config.adapter.collection_name + " WHERE requestor_id=? AND actions = 1" ;
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+				}
+                //	return;
+                var res = db.execute(sql, u_id);
+                var point; 
+               
+                if (res.isValidRow()){
+					point = res.fieldByName('total') || 0;
+				} 
+		 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return point;
+			},
 			saveArray : function(arr){
 				
 				var collection = this;
@@ -78,10 +102,10 @@ exports.definition = {
                 db.execute("BEGIN");
                 
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, item_id, requestor_id, status, actions, updated, created, requestor_name, requestor_img_path) VALUES (?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.id, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, item_id=?, requestor_id=?, status=?, actions=?, updated=?, created=?, requestor_name=?, requestor_img_path=? WHERE id=?";
-					db.execute(sql_query, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path, entry.id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, item_id, requestor_id, status, actions, updated, created, requestor_name, requestor_img_path, point) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.id, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path,entry.point);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, item_id=?, requestor_id=?, status=?, actions=?, updated=?, created=?, requestor_name=?, requestor_img_path=?, point=? WHERE id=?";
+					db.execute(sql_query, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path, entry.point, entry.id);
 				});
 				console.log(db.getRowsAffected()+"insert into item response 1");
 				db.execute("COMMIT");
@@ -95,13 +119,32 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-				var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, item_id, requestor_id, status, actions, updated, created, requestor_name, requestor_img_path) VALUES (?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.id, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, item_id=?, requestor_id=?, status=?, actions=?, updated=?, created=?, requestor_name=?, requestor_img_path=? WHERE id=?";
-					db.execute(sql_query, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path, entry.id);
+				var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, item_id, requestor_id, status, actions, updated, created, requestor_name, requestor_img_path, point) VALUES (?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.id, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path, entry.point);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, item_id=?, requestor_id=?, status=?, actions=?, updated=?, created=?, requestor_name=?, requestor_img_path=?, point=? WHERE id=?";
+					db.execute(sql_query, entry.owner_id, entry.item_id, entry.requestor_id, entry.status, entry.actions, entry.updated, entry.created, entry.requestor_name, entry.requestor_img_path, entry.point, entry.id);
 				console.log(db.getRowsAffected+"insert into item response");
 	            db.close();
 	            collection.trigger('sync');
+			},
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
 			}
 		});
 

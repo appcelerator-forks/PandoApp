@@ -10,6 +10,12 @@ function closeWindow(){
 	$.win.close();
 }
 
+function buy_premium_account(){
+	var in_app_purchase = Alloy.createController("in_app_purchase").getView();
+	$.win.add(in_app_purchase);
+	//in_app_purchase.open();
+}
+
 /**
  * load photo for item thumbnail.
  */

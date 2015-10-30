@@ -4,19 +4,13 @@ var items = Alloy.createCollection("items");
 var loading = Alloy.createController("loading");
 var data;
 var match_data;
+var status = ["Active", "Waiting for receive", "Banned", "Removed", "TRANSACTION SUCCESS"];
+
 /**
  * Closes the Window
  */
 function closeWindow(){
 	$.win.close();
-}
-
-/**
- * Navigate to Conversation by u_id
- */
-function navToConversation(e){
-	var u_id = parent({name: "u_id"}, e.source);
-	Alloy.Globals.Navigator.open("conversation", {u_id: u_id});
 }
 
 /**
@@ -33,6 +27,7 @@ function navToPersonalUpload(e){
 function navToConversation(e){
 	var f_id = parent({name: "f_id"}, e.source);
 	var id = parent({name: "id"}, e.source);
+	console.log(f_id+" "+id);
 	Alloy.Globals.Navigator.open("conversation", {f_id: f_id, id: id});
 }
 
@@ -48,25 +43,47 @@ function navToWaitingList(e){
  	render waiting list
  * */
 function render_waiting_list(){
-	$.inner_box.removeAllChildren();
+	var view_title_waiting = $.UI.create("View", {
+		classes:['wfill'],
+		backgroundColor: "#f1f5f7",
+		height: 40
+	});
+	var label_title = $.UI.create("Label", {
+		classes:['h5','wfill','hsize','padding'],
+		text: "ITEMS(S) WAITING TO BE PAIRED",
+		color: "#2eafa8"
+	});
+	view_title_waiting.add(label_title);
+	var tblsec_waiting_list = $.UI.create("TableViewSection", {
+		headerView: view_title_waiting
+	});
+	
 	for (var i=0; i < data.length; i++) {
-
+		var tableviewrow = $.UI.create("TableViewRow",{});
 		var view_container = $.UI.create("View",{
-			classes: ['hsize', 'wfill', 'horz'],
+			classes: ['wfill', 'horz'],
+			height: 70,
+			backgroundColor: "#ffffff",
 			item_response_id: data[i].id
 		});
-		
+		var view_indicator = $.UI.create("View", {
+			classes: ['indicator_yellow']
+		});
 		var imageView_item_thumb = $.UI.create("ImageView",{
-			top: 10,
-			width: 60,
-			height: "auto",
+			
+			width: 70,
+			height: 70,
 			defaultImage: "/images/default/small_item.png",
 			image: data[i].img_path
 		});
 		
+		var view_horz_div = $.UI.create("View",{
+			classes: ['horz_div']
+		});
+		
 		var view_info_box = $.UI.create("View",{
-			classes: ['hsize', 'vert', 'padding'],
-			width: "70%"
+			classes: ['hfill', 'vert', 'padding'],
+			width: "auto"
 		});
 		var total = data[i].total || 0;
 		
@@ -77,8 +94,7 @@ function render_waiting_list(){
 		});
 		
 		var label_number_unread = $.UI.create("Label",{
-			classes:['h6','wfill','hsize'],
-			color: "#333333",
+			classes:['h6','wfill','hsize', 'font_light_grey'],
 			textAlign: "left",
 			text: total+" people interest on it"
 		});
@@ -87,32 +103,61 @@ function render_waiting_list(){
 		view_info_box.add(label_number_unread);
 		
 		view_container.add(imageView_item_thumb);
+		//view_container.add(view_indicator);
+		view_container.add(view_horz_div);
 		view_container.add(view_info_box);
-		$.inner_box.add(view_container);
+		
+		tableviewrow.add(view_container);
+		tblsec_waiting_list.add(tableviewrow);
 		
 		view_container.addEventListener("click", navToWaitingList);
 	};
 	
+	var view_title_waiting2 = $.UI.create("View", {
+		classes:['wfill'],
+		backgroundColor: "#f1f5f7",
+		height: 40
+	});
+	var label_title2 = $.UI.create("Label", {
+		classes:['h5','wfill','hsize', 'padding'],
+		text: "ITEM(S) WAITING TO PICKUP",
+		color: "#2eafa8"
+	});
+	view_title_waiting2.add(label_title2);
 	//matching List
-	$.matching_inner_box.removeAllChildren();
+	var tblsec_matching_list = $.UI.create("TableViewSection", {
+		headerView: view_title_waiting2,
+	});
+	
 	for (var i=0; i < match_data.length; i++) {
+		var tableviewrow = $.UI.create("TableViewRow",{});
 		var view_container = $.UI.create("View",{
-			classes: ['hsize', 'wfill', 'horz'],
+			classes: ['wfill', 'horz'],
+			height: 70,
+			backgroundColor: "#ffffff",
 			f_id: match_data[i].receiver_id,
 			id: match_data[i].id
 		});
 		
+		var view_indicator = $.UI.create("View", {
+			classes: ['indicator_green']
+		});
+		
 		var imageView_item_thumb = $.UI.create("ImageView",{
-			top: 10,
-			width: 60,
-			height: "auto",
+			
+			width: 70,
+			height: 70,
 			defaultImage: "/images/default/small_item.png",
 			image: match_data[i].img_path
 		});
 		
+		var view_horz_div = $.UI.create("View",{
+			classes: ['horz_div']
+		});
+		
 		var view_info_box = $.UI.create("View",{
 			classes: ['hsize', 'vert', 'padding'],
-			width: "70%"
+			width: "auto"
 		});
 		var total = match_data[i].total || 0;
 		
@@ -129,23 +174,25 @@ function render_waiting_list(){
 		});
 		
 		var label_number_unread = $.UI.create("Label",{
-			classes:['h6','wfill','hsize'],
-			color: "#333333",
+			classes:['h6','wfill','hsize','font_light_grey'],
 			textAlign: "left",
-			text: total+" Unread message"
+			text: status[match_data[i].status-1]
 		});
 		
 		view_info_box.add(label_item_name);
 		view_info_box.add(label_receiver_name);
 		view_info_box.add(label_number_unread);
 		
-		
 		view_container.add(imageView_item_thumb);
+		//view_container.add(view_indicator);
+		view_container.add(view_horz_div);
 		view_container.add(view_info_box);
-		$.matching_inner_box.add(view_container);
 		
+		tableviewrow.add(view_container);
+		tblsec_matching_list.add(tableviewrow);
 		view_container.addEventListener("click", navToConversation);
-	}
+	};
+	$.tblview.setData([tblsec_waiting_list, tblsec_matching_list]);
 }
 
 /*
@@ -193,8 +240,6 @@ function refresh(){
 			data = model.getWaitingDataByOwner();
 			match_data = model.getMatchingDataByOwner();
 			render_waiting_list();
-			$.label_waiting_list.text = "Waiting List ("+data.length+")";
-			$.label_matching_list.text = "Matching List ("+match_data.length+")";
 			loading.finish();
 		});
 	});

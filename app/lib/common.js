@@ -39,13 +39,15 @@ function removeAllChildren (viewObject){
 function dialogTextfield(callback){
 	var textfield = Ti.UI.createTextField();
 	var dialog = Ti.UI.createAlertDialog({
-	    title: 'Enter text',
+	    title: 'Enter Point',
 	    androidView: textfield,
+	    style: Ti.UI.iPhone.AlertDialogStyle.PLAIN_TEXT_INPUT,
 	    buttonNames: ['OK', 'cancel']
 	});
 	dialog.addEventListener('click', function(e){
-		console.log(e.index);
-	    callback(textfield.value);
+		var point = (OS_IOS)?e.text:textfield.value;
+		console.log("bidding point"+point);
+	    callback(point);
 	});
 	dialog.show();
 }
@@ -72,6 +74,7 @@ exports.openWindow = _.throttle(openWindow, 500, true);
 //exports.closeWindow = _.debounce(closeWindow, 0, true);
 exports.removeAllChildren = _.debounce(removeAllChildren, 0, true);
 exports.createAlert = _.throttle(createAlert, 500, true);
+exports.dialogTextfield = _.throttle(dialogTextfield, 500, true);
 
 exports.now = function(){
 	var today = new Date();

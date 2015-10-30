@@ -11,63 +11,6 @@ function closeWindow(){
 
 
 /**
- * private function for crop image use. later export to a new object.
- */
-
-function previewImage(event){
-	var image = event.media;
-    var win = $.UI.create("Window", {
-    	barColor:"#75d0cb",
-    	title: "Photo Preview",
-    	classes: ['vert', 'wfill', 'hfill'],
-    	navBarHidden:"false"
-    });
-    var pWidth = Titanium.Platform.displayCaps.platformWidth;
-    var thumb_width = pWidth - 20;
-    var thumb_height = thumb_width * 0.7;
-    var view_crop = $.UI.create("View", {
-    	width: thumb_width,
-    	height: thumb_height,
-    });
-    var scrollview_crop = $.UI.create("ScrollView",{
-    	width: thumb_width,
-    	height: thumb_height,
-    	contentWidth: pWidth,
-    	contentHeight: Ti.UI.SIZE,
-    	backgroundColor: "#ffffff",
-    	classes:['box'],
-    	platform: "ios"
-    });
-    
-    var button_save = $.UI.create("Button", {
-    	classes: ['hszie', 'wsize'],
-    	title: "Crop"
-    });
-    button_save.addEventListener('click', function(){
-    	var croppedImage = view_crop.toImage();
-		$.item_image.image = croppedImage;
-		$.item_image.width = Ti.UI.FILL;
-		$.item_image.left = 10;
-		$.item_image.right = 10;
-		photoLoad = 1;
-		win.close();
-    });
-    
-    var imageView = Ti.UI.createImageView({
-		width: Ti.UI.FILL,
-		height: "auto",
-		image:event.media
-	});
-			
-    scrollview_crop.add(imageView);
-    view_crop.add(scrollview_crop);
-   	win.add(view_crop);
-    win.add(button_save);
-    Alloy.Globals.Navigator.openWindow(win);
-   // Alloy.Globals.Navigator.navGroup.openWindow(win);
-}
-
-/**
  * load photo for item thumbnail.
  */
 function loadPhoto(){
@@ -165,6 +108,7 @@ function callback_no(){
 }
 
 function imageCallback(e){
+	console.log(image_preview);
 	var media = image_preview.getMedia();
 	$.item_image.image = media;
 	photoLoad = 1;

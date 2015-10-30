@@ -27,6 +27,7 @@ function onload(responseText){
    		Ti.App.Properties.setString('mobile', arr.mobile);
    		Ti.App.Properties.setString('img_path', arr.img_path);
    		Ti.App.Properties.setString('thumb_path', arr.thumb_path);
+   		Ti.App.Properties.setString('point', arr.point);
    		
 		$.win.close();
 		Ti.App.fireEvent("home:refresh");

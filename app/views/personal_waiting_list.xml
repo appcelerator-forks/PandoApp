@@ -3,11 +3,22 @@
 	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
     	<View class="wfill hsize box padding vert" top="0" bottom="0" backgroundColor="#F2F4F5">
     		<View class="hsize wfill horz">
-        		<ImageView id="img_path" class="" left="10" top="10" width="60" height="auto" image=""></ImageView>
+        		<!--<ImageView id="img_path" class="" left="10" top="10" width="60" height="auto" image=""></ImageView>
         		<View class="hsize vert padding" width="70%">
         			<Label id="label_field_1" class="h5 wfill hsize bold" textAlign="left"></Label>
         			<Label id="label_field_2" class="h5 wfill hsize"></Label>
-        		</View>
+        		</View>-->
+        		<View class="wsize hsize box horz padding" bottom="0" backgroundColor="#fff">
+	        		<View class=" hsize vert small-padding" width="70%">
+			        	<Label class="wsize hsize" left="0" textAlign="right">NAME</Label>
+			        	<Label id="label_field_1" minimumFontSize="14" class="h3 wfill hsize">-</Label>
+		        	</View>
+		        	<View width="1" height="50" backgroundColor="#d2d3ce"></View>
+		        	<View class=" hsize vert small-padding" width="auto">
+			        	<Label class="wsize hsize" left="0" textAlign="right">POINTS</Label>
+			        	<Label id="label_field_2" class="h2 wsize hsize">0</Label>
+			        </View>
+	        	</View>
     		</View>
     		<View id="indicator" class="wfill hsize">
     			<Label class="wsize" id="label_no_more" >No user</Label>

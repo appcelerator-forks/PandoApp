@@ -18,10 +18,13 @@ var sound_no = Ti.Media.createSound({url:"/sound/bloop_x.wav"});
 var sound_yes = Ti.Media.createSound({url:"/sound/game-sound-correct.wav"});
 var item_response = Alloy.createCollection("item_response");
 var items = Alloy.createCollection("items");
+var message = Alloy.createCollection("message"); // for first time create message use.
 var data = items.getData();
 // declare for local use.
 var my_timer;
 var item;
+var point = 0;
+var user_point = 0;
 
 var countDown =  function( m , s, fn_tick, fn_end  ) {
 	return {
@@ -107,7 +110,8 @@ function refreshLife(){
 	}else{
 		lives = 5;
 	}
-	$.lives_bar.image = lives_bar[lives];
+	//$.lives_bar.image = lives_bar[lives];
+	$.life.text = lives;
 }
 
 /*
@@ -133,19 +137,30 @@ var items =  function(counter) {
 		},
 		init: function() {
 			console.log("total items number: "+this.counter);
-			$.item_container.removeAllChildren();
-			this.insetItem();
-			this.insetItem();
-			//this.displayCurrentItemInfo();
-			$.item_container.children[0].addEventListener("postlayout",function(){
-				var rect = $.item_container.children[0].rect;
-				$.label_no_more.height = rect.height;
-			});
-			
+			if(!this.counter){
+				var rect = $.item_container.rect;
+				console.log(rect.width);
+				var view = $.UI.create("ImageView",{
+					classes:['box'],
+					width: rect.width,
+					height: rect.width,
+					image: "/images/default/item.png",
+				});
+				$.item_container.add(view);
+			}else{
+				$.item_container.removeAllChildren();
+				this.insetItem();
+				this.insetItem();
+				//this.displayCurrentItemInfo();
+				$.item_container.children[0].addEventListener("postlayout",function(){
+					
+					var rect = $.item_container.children[0].rect;
+					$.label_no_more.height = rect.height;
+				});
+			}
 			return this;
 		},
 		insetItem: function(){
-			console.log(this.counter+" insert item counter");
 			if(this.counter){
 				var item_data = data[this.counter-1];
 				var view_container = $.UI.create("View",{
@@ -174,6 +189,7 @@ var items =  function(counter) {
 					owner_name: item_data.owner_name,
 					owner_img_path: item_data.owner_img_path,
 					image: item_data.img_path,
+					defaultImage: "/images/default/item.png",
 					zIndex: 1
 				});
 				view_item_name.add(label_item_name);
@@ -197,14 +213,15 @@ var items =  function(counter) {
 			//if yes call api to sent request to owner
 			var u_id = Ti.App.Properties.getString('user_id');
 			var item_upload = $.item_container.children[0];
-			console.log(item_upload);
-			API.callByPost({url:"addToItemResponseUrl", params: {item_id: item_upload.id, owner_id: item_upload.owner_id, requestor_id: u_id, actions: action}}, function(response_text){
+			API.callByPost({url:"addToItemResponseUrl", params: {point: point, item_id: item_upload.id, owner_id: item_upload.owner_id, requestor_id: u_id, actions: action}}, function(response_text){
 				//on succes insert into item_response
 				var res = JSON.parse(response_text);
 				var model = Alloy.createCollection("item_response");
 				if(res.status == "success"){
+					console.log("item response save");
 					console.log(res.data);
 					model.saveRecord(res.data);
+					get_point();
 				}
 			});
 			animation($.item_container.children[0], function(){
@@ -230,39 +247,75 @@ var items =  function(counter) {
 };
 
 function navTo(e){
-	console.log(e.source.controller);
 	if(typeof e.source.controller != "undefined"){
 		Alloy.Globals.Navigator.open(e.source.controller);
 	}
 }
 
+function get_point(){
+	var user_model = Alloy.createCollection("user");
+	var item_response_model = Alloy.createCollection("item_response");
+	var up = user_model.getPoint();
+	var sp = item_response_model.getSpendPoint();
+	console.log(up+"-"+sp);
+	user_point = up - sp;
+	$.point.text = user_point;
+	console.log("latest point from d"+user_point);
+}
+
+function checkpoint(p){
+	return (user_point >= p)?true:false;
+}
+
 function callback_yes(){
+	if(!items.counter){
+		Common.createAlert("Message", "No more item. Please try again later");
+		return ;
+	}
 	if(!lives){
 		Common.createAlert("Message", "No more lives. Please try again later");
 		return ;
 	}
-	lives = lives - 1;
-	Ti.App.Properties.setString('lives', lives);
-	$.lives_bar.image = lives_bar[lives];
-	
-	var ObjDate = new Date();
-	var now = Math.floor(ObjDate.getTime()/1000)+1;
-	//set estimate times
-	if(now > estimate_time){
-		estimate_time = parseInt(now)+waiting_time;
-	}else{
-		estimate_time = parseInt(estimate_time) + waiting_time;
-	}
-	Ti.App.Properties.setString('estimate_time', estimate_time);
-	timer(1);
-	
-	sound_yes.play();
-	refreshLife();
-	item.ItemRemove(1); // 1 = yes
-	item.insetItem();
+	Common.dialogTextfield(function(p){
+		console.log("user point before check point"+user_point);
+		if(!checkpoint(p)){
+			Common.createAlert("Message", "Not enough point. Please try again later");
+			return;
+		}
+		if(!p){
+			Common.createAlert("Message", "Please insert your bid amount.");
+			return;
+		}
+		point = p || 0;
+		lives = lives - 1;
+		Ti.App.Properties.setString('lives', lives);
+		//$.lives_bar.image = lives_bar[lives];
+		$.life.text = lives;
+		
+		var ObjDate = new Date();
+		var now = Math.floor(ObjDate.getTime()/1000)+1;
+		//set estimate times
+		if(now > estimate_time){
+			estimate_time = parseInt(now)+waiting_time;
+		}else{
+			estimate_time = parseInt(estimate_time) + waiting_time;
+		}
+		Ti.App.Properties.setString('estimate_time', estimate_time);
+		timer(1);
+		
+		sound_yes.play();
+		refreshLife();
+		item.ItemRemove(1); // 1 = yes
+		item.insetItem();
+	});
 }
 
 function callback_no(){
+	point = 0;
+	if(!items.counter){
+		Common.createAlert("Message", "No more item. Please try again later");
+		return ;
+	}
 	if(!lives){
 		Common.createAlert("Message", "No more lives. Please try again later");
 		return ;
@@ -316,16 +369,15 @@ function leftright_refresh(){
 }
 
 function refresh(){
+	get_point();
 	loading.start();
 	getItemList(function(){
 		getItemResponseList(function(){
 			var model = Alloy.createCollection("items");
 			data = model.getData();
 			console.log(data.length);
-			if(data.length > 0){
-				item = new items(data.length);
-				item.init();
-			}
+			item = new items(data.length);
+			item.init();
 			loading.finish();
 		});
 	});
@@ -335,12 +387,18 @@ function refresh(){
 function init(){
 	$.win.add(loading.getView());
 	refreshLife();
-	$.lives_bar.image = lives_bar[lives];
+	get_point();
+	//$.lives_bar.image = lives_bar[lives];
+	$.life.text = lives;
 	timer();
 	
 	var left_right = Alloy.createController("_left_right");
 	var label_desc = "Swipe left or right to select";
 	left_right.generate_button($.left_right_button, label_desc, callback_yes, callback_no);
+	
+	var rect = $.label_no_more.rect;
+	console.log(rect.width);
+	$.label_no_more.height = rect.width;
 	//Deparecated function
 	//left_right.generate_indicator($.indicator);
 	//left_right.add_event($.indicator, callback_yes, callback_no);

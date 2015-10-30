@@ -1,3 +1,10 @@
+   /***status
+    *	1- ACTIVE
+    *	2- GIVE TO SOMEONE
+    *   3- BANNED
+    *   4- REMOVE
+    *   5- TRANSACTION SUCCESS
+    ****/
 exports.definition = {
 	config: {
 		columns: {
@@ -16,7 +23,8 @@ exports.definition = {
 		    "updated": "TEXT",
 		    "owner_name": "TEXT",
 		    "owner_img_path": "TEXT",
-		    "distance": "TEXT"
+		    "distance": "TEXT",
+		    "point": "INTEGER"
 		},
 		adapter: {
 			type: "sql",
@@ -122,13 +130,15 @@ exports.definition = {
 			getDataByFid : function(f_id){
 				var u_id = Ti.App.Properties.getString('user_id') || 0;
 				var collection = this;
-                var sql = "select items.*, fm.total from items LEFT OUTER JOIN (select count(*) as total, u_id, item_id from message where u_id = ? AND read is null group by item_id) as fm on items.id = fm.item_id where (items.status = 2 OR items.status = 5) AND (( items.owner_id = ? AND items.receiver_id = ?) OR ( items.owner_id = ? AND items.receiver_id = ?)) order by items.created desc";
+                var sql = "select items.*, fm.total from items LEFT OUTER JOIN (select count(*) as total, u_id, item_id from message where u_id = ? AND (read is null OR read != 1) group by item_id) as fm on items.id = fm.item_id where (items.status = 2 OR items.status = 5) AND (( items.owner_id = ? AND items.receiver_id = ?) OR ( items.owner_id = ? AND items.receiver_id = ?)) order by items.created desc";
+
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
                 console.log(sql+" "+u_id+" "+f_id);
                 var res = db.execute(sql, f_id, f_id, u_id, u_id, f_id);
+
                 var arr = []; 
                 var count = 0;
                 
@@ -173,7 +183,7 @@ exports.definition = {
 				var u_id = Ti.App.Properties.getString('user_id');
 				var collection = this;
                 //var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1) as ir on items.id = ir.item_id where items.status = 1 AND items.owner_id = ? and items.receiver_id is null";
-                var sql = "select match_item.*, friends.fullname from (select items.*, ir.total from items left outer join (select count(*) as total, message.u_id from message where message.to_id = ? AND message.read is null group by message.u_id) as ir on items.receiver_id = ir.u_id where (items.status = 2 OR items.status = 5) AND items.owner_id = ? AND receiver_id != 0) as match_item left outer join friends ON friends.f_id = match_item.receiver_id ";
+                var sql = "select match_item.*, friends.fullname from (select items.*, ir.total from items left outer join (select count(*) as total, message.u_id from message where message.to_id = ? AND message.read is null group by message.u_id) as ir on items.receiver_id = ir.u_id where (items.status = 2) AND items.owner_id = ? AND receiver_id != 0) as match_item left outer join friends ON friends.f_id = match_item.receiver_id ";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -294,10 +304,10 @@ exports.definition = {
                 db.execute("BEGIN");
                
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, receiver_id, item_name, item_desc, item_category, longitude, latitude, status, created, updated, owner_name, owner_img_path, img_path, code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-					db.execute(sql_query, entry.id, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, receiver_id=?, item_name=?, item_desc=?, item_category=?, longitude=?, latitude=?, status=?, created=?, updated=?, owner_name=?, owner_img_path=?, img_path=?, code=? WHERE id=?";
-					db.execute(sql_query, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, receiver_id, item_name, item_desc, item_category, longitude, latitude, status, created, updated, owner_name, owner_img_path, img_path, code, point) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+					db.execute(sql_query, entry.id, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.point);
+					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, receiver_id=?, item_name=?, item_desc=?, item_category=?, longitude=?, latitude=?, status=?, created=?, updated=?, owner_name=?, owner_img_path=?, img_path=?, code=?, point=? WHERE id=?";
+					db.execute(sql_query, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.point, entry.id);
 				});
 				db.execute("COMMIT");
 	            db.close();
@@ -311,13 +321,32 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
                 }
                 
-              	var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, receiver_id, item_name, item_desc, item_category, longitude, latitude, status, created, updated, owner_name, owner_img_path, img_path, code) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-				db.execute(sql_query, entry.id, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code);
-				var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, receiver_id=?, item_name=?, item_desc=?, item_category=?, longitude=?, latitude=?, status=?, created=?, updated=?, owner_name=?, owner_img_path=?, img_path=?, code=? WHERE id=?";
-				db.execute(sql_query, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.id);
+              	var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (id, owner_id, receiver_id, item_name, item_desc, item_category, longitude, latitude, status, created, updated, owner_name, owner_img_path, img_path, code, point) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				db.execute(sql_query, entry.id, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.point);
+				var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET owner_id=?, receiver_id=?, item_name=?, item_desc=?, item_category=?, longitude=?, latitude=?, status=?, created=?, updated=?, owner_name=?, owner_img_path=?, img_path=?, code=?, point=? WHERE id=?";
+				db.execute(sql_query, entry.owner_id, entry.receiver_id, entry.item_name, entry.item_desc, entry.item_category, entry.longitude, entry.latitude, entry.status, entry.created, entry.updated, entry.owner_name, entry.owner_img_path, entry.img_path, entry.code, entry.point, entry.id);
 				
 	            db.close();
 	            collection.trigger('sync');
+			},
+			addColumn : function( newFieldName, colSpec) {
+				var collection = this;
+				var db = Ti.Database.open(collection.config.adapter.db_name);
+				if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+				var fieldExists = false;
+				resultSet = db.execute('PRAGMA TABLE_INFO(' + collection.config.adapter.collection_name + ')');
+				while (resultSet.isValidRow()) {
+					if(resultSet.field(1)==newFieldName) {
+						fieldExists = true;
+					}
+					resultSet.next();
+				}  
+			 	if(!fieldExists) { 
+					db.execute('ALTER TABLE ' + collection.config.adapter.collection_name + ' ADD COLUMN '+newFieldName + ' ' + colSpec);
+				}
+				db.close();
 			}
 		});
 

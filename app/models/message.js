@@ -145,6 +145,7 @@ exports.definition = {
                 }
 				var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET read=1 WHERE item_id=?";
 				db.execute(sql_query, entry.item_id);
+				console.log(db.getRowsAffected()+" "+entry.item_id+" read");
 	            db.close();
 	            collection.trigger('sync');
 			},

@@ -1,0 +1,24 @@
+<Alloy>
+	<View class="transaprent-bg hfill wfill" id="win">
+		<View class="rounded box vert hsize" width="80%">
+			<Label class="h3 wsize hsize padding">Get Premium Account</Label>
+			<ScrollableView class="padding wfill hsize" showPagingControl="true" pagingControlColor="transparent">
+				<View class="wfill hsize vert">
+					<ImageView image="/images/no-ads.png" left="20" right="20"></ImageView>
+					<Label class="h4 wsize hsize" textAlign="center">Turn Off Ads</Label>
+				</View>
+				<View class="wfill hsize vert">
+					<ImageView image="/images/no-ads.png" left="20" right="20"></ImageView>
+					<Label class="h4 wsize hsize" textAlign="center">Turn Off Ads</Label>
+				</View>
+				<View class="wfill hsize vert">
+					<ImageView image="/images/no-ads.png" left="20" right="20"></ImageView>
+					<Label class="h4 wsize hsize" textAlign="center">Turn Off Ads</Label>
+				</View>
+			</ScrollableView>
+			<Button class="wfill" onClick="payment_method_1" backgroundColor="#75d0cb" height="40">$0.99 FOR ONE MONTH</Button>
+			<Button class="wfill" backgroundColor="#7fdcd7" height="40">$1.99 FOR ONE YEAR</Button>
+			<Button class="wfill" onClick="closeWindow" backgroundColor="#c2e8e6" height="40">NOT NOW</Button>
+		</View>
+	</View>
+</Alloy>

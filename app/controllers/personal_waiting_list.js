@@ -34,11 +34,13 @@ var items =  function(counter) {
 			console.log("total items number: "+this.counter);
 			if(this.counter){
 				var item_data = data[this.counter-1];
+				console.log(item_data.point+" item point!!");
 				var imgview = $.UI.create("ImageView",{
 					zIndex: this.counter,
 					classes: ["wfill"],
 					height: "auto",
 					id:  item_data.id,
+					point:  item_data.point,
 					item_name: item_data.item_name,
 					item_img_path: item_data.item_img_path,
 					requestor_name: item_data.requestor_name,
@@ -86,17 +88,17 @@ var items =  function(counter) {
 			});
 		}, displayCurrentItemInfo: function(index){
 			index = index || 0;
-			var label_field_1 = $.item_container.children[index].item_name;
-			var label_field_2 = $.item_container.children[index].requestor_name;
-			var img_path = $.item_container.children[index].item_img_path;
+			var label_field_1 = $.item_container.children[index].requestor_name;
+			var label_field_2 = $.item_container.children[index].point || 0;
+			//var img_path = $.item_container.children[index].item_img_path;
 			
 			$.label_field_1.text = label_field_1;
 			$.label_field_2.text = label_field_2;
-			$.img_path.image = img_path;
-		},resetCurrentItemInfo: function(){
+			//$.img_path.image = img_path;
+		}, resetCurrentItemInfo: function(){
 			$.label_field_1.text = "";
 			$.label_field_2.text = "";
-			$.img_path.image = "";
+			//$.img_path.image = "";
 		}
 	};
 };

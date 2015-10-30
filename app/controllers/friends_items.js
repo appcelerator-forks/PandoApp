@@ -68,26 +68,11 @@ function render_items_list(){
  * */
 function refresh(){
 	loading.start();
+	data = items.getDataByFid(f_id);
 	render_items_list();
 	$.label_friends.text = "Items ("+data.length+")";
 	loading.finish();
 	return;
-	var u_id = Ti.App.Properties.getString('user_id') || 0;
-	var checker = Alloy.createCollection('updateChecker'); 
-	var isUpdate = checker.getCheckerById(3, u_id);
-	var last_update = isUpdate.updated || "";
-	
-	API.callByPost({url:"getFriendListUrl", params: {last_updated: last_update, u_id:u_id}}, function(responseText){
-		var model = Alloy.createCollection("friends");
-		var res = JSON.parse(responseText);
-		var arr = res.data || null;
-		model.saveArray(arr);
-		data = model.getData();
-		checker.updateModule(3,"friends", Common.now(), u_id);
-		render_items_list();
-		$.label_friends.text = "Friends ("+data.length+")";
-		loading.finish();
-	});
 }
 
 /**
@@ -104,10 +89,10 @@ function init(){
 
 init();
 
-Ti.App.addEventListener('friends:refresh',refresh);
+Ti.App.addEventListener('friends_items:refresh', refresh);
 
 $.win.addEventListener("close", function(){
-	Ti.App.removeEventListener('friends:refresh',refresh);
+	Ti.App.removeEventListener('friends_items:refresh', refresh);
 	$.destroy();
 	console.log("window close");
 });

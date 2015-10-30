@@ -10,11 +10,25 @@
         	</View>
         </View>
         <View class="wfill hfill vert" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
-        	<View class="wfill hsize">
-	        	<ImageView class="wsize" left="10" height="50" id="lives_bar"></ImageView>
-	        	<View class="wsize hsize vert" right="10" bottom="10">
-		        	<Label class="wsize hsize" right="0" textAlign="right">TIME</Label>
-		        	<Label id="time" class="h2 wsize hsize">00:00</Label>
+        	<View class="wfill hsize horz">
+	        	<!--<ImageView class="wsize" left="10" height="50" id="lives_bar"></ImageView>-->
+	        	
+	        	<View class="wsize hsize box horz" backgroundColor="#fff" left="10" right="10" bottom="10">
+	        		<View class=" hsize vert small-padding" width="60">
+			        	<Label class="wsize hsize" left="0" textAlign="right">LIFE</Label>
+			        	<Label id="life" class="h2 wsize hsize">0</Label>
+		        	</View>
+		        	<View width="1" height="50" backgroundColor="#d2d3ce"></View>
+	        		<View class=" hsize vert small-padding" width="120">
+			        	<Label class="wsize hsize" left="0" textAlign="right">TIME</Label>
+			        	<Label id="time" class="h2 wsize hsize">00:00</Label>
+			        </View>
+	        	</View>
+	        	<View class=" hsize box" backgroundColor="#fff" width="auto" right="10" bottom="10">
+	        		<View class=" hsize vert small-padding">
+			        	<Label class="wsize hsize" left="0" textAlign="right">POINT</Label>
+			        	<Label id="point" class="h2 wsize hsize"></Label>
+		        	</View>
 	        	</View>
         	</View>
         	<View class="wfill hsize box padding vert" top="0" bottom="0" >

@@ -18,7 +18,6 @@ var DBVersionControl = require('DBVersionControl');
 
 Alloy.Globals.Map = require('ti.map');
 
-PUSH.registerPush();
 DBVersionControl.checkAndUpdate();
 
 function parent(key, e){

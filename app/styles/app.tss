@@ -22,10 +22,11 @@ overrode the settings with other TSS, XML, or JS settings:
 */
 
 'Label': {
-	color: '#202020',
+	color: '#2a363a',
 	width: Ti.UI.FILL,
 	height: Ti.UI.SIZE,
 	font: {
+		fontFamily: 'Lato-Regular',
 		fontSize: 12
 	}
 },
@@ -40,6 +41,9 @@ overrode the settings with other TSS, XML, or JS settings:
         color: "#eaebe6"
    },
    navBarHidden: true,
+   font: {
+		fontFamily: 'Lato-Regular',
+	}
 },
 
 'Window[platform=android]': {
@@ -59,6 +63,9 @@ overrode the settings with other TSS, XML, or JS settings:
 	left: 10,
 	right: 10,
 	top: 10,
+	font: {
+		fontFamily: 'Lato-Regular'
+	}
 },
 
 "ImageView":{
@@ -83,7 +90,8 @@ overrode the settings with other TSS, XML, or JS settings:
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
 	font:{
-		fontSize: 14
+		fontSize: 14,
+		fontFamily: 'Lato-Regular',
 	}
 }
 
@@ -98,6 +106,9 @@ overrode the settings with other TSS, XML, or JS settings:
 	left: 10,
 	right: 10,
 	top: 10,
+	font: {
+		fontFamily: 'Lato-Regular',
+	}
 },
 
 
@@ -131,6 +142,13 @@ overrode the settings with other TSS, XML, or JS settings:
 	left: 10,
 	right: 10,
 	bottom: 10,
+},
+
+'.small-padding':{
+	top: 5,
+	left: 5,
+	right: 5,
+	bottom: 5,
 },
 
 ".padding-top":{
@@ -182,37 +200,43 @@ overrode the settings with other TSS, XML, or JS settings:
 
 ".h1":{
 	font:{
-		fontSize: 36
+		fontSize: 36,
+		fontFamily: 'Lato-Light',
 	}
 },
 
 ".h2":{
 	font:{
-		fontSize: 30
+		fontSize: 30,
+		fontFamily: 'Lato-Light',
 	}
 },
 
 ".h3":{
 	font:{
-		fontSize: 24
+		fontSize: 24,
+		fontFamily: 'Lato-Light',
 	}
 },
 
 ".h4":{
 	font:{
-		fontSize: 18
+		fontSize: 18,
+		fontFamily: 'Lato-Light',
 	},
 },
 
 ".h5":{
 	font:{
-		fontSize: 14
+		fontSize: 14,
+		fontFamily: 'Lato-Light',
 	}
 },
 
 ".h6":{
 	font:{
-		fontSize: 12
+		fontSize: 12,
+		fontFamily: 'Lato-Light',
 	}
 },
 
@@ -235,7 +259,7 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 
 '.font_light_grey':{
-	color: "#9197a3 "
+	color: "#a0a9ae "
 },
 
 ".black-line":{
@@ -257,9 +281,19 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 
 ".bold":{
-	font: { fontWeight: 'bold'}
+	font: {
+		fontFamily: 'Lato-Regular',
+	}
 },
+
+".white":{
+	color: "#ffffff"
+}
 
 ".shadow":{
 	backgroundImage: "/images/transparent-bg.png",
+}
+
+".transaprent-bg":{
+	backgroundImage: "/images/transparent-background.png"
 }
