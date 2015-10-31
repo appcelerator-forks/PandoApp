@@ -1,12 +1,11 @@
-var args = arguments[0] || {};
 var Storekit = require('ti.storekit');
-
+ 
 /*
  If you decide to perform receipt verification then you need to indicate if the receipts should be verified
  against the "Sandbox" or "Live" server. If you are verifying auto-renewable subscriptions then you need
  to set the shared secret for the application from your iTunes Connect account.
  */
-
+ 
 Storekit.receiptVerificationSandbox = (Ti.App.deployType !== 'production');
 Storekit.receiptVerificationSharedSecret = "<YOUR STOREKIT SHARED SECRET HERE>";
 
@@ -22,11 +21,16 @@ Storekit.autoFinishTransactions = false;
  bundleVersion and bundleIdentifier must be set before calling validateReceipt().
  Do not pull these values from the app, they should be hard coded for security reasons.
  */
-Storekit.bundleVersion = "1.0.0"; // eg. "1.0.0"
+Storekit.bundleVersion = "1.0"; // eg. "1.0.0"
 Storekit.bundleIdentifier = "com.geonn.pandoapp"; // eg. "com.appc.storekit"
 
-var verifyingReceipts = false;
 
+var verifyingReceipts = false;
+  
+var win = Ti.UI.createWindow({
+	backgroundColor:'#fff'
+});
+ 
 /*
  We want to show the user when we're communicating with the server, so let's define two simple
  functions that interact with an activity indicator.
@@ -36,7 +40,6 @@ var loading = Ti.UI.createActivityIndicator({
 	backgroundColor:'black', borderRadius:10,
 	style:Ti.UI.iPhone.ActivityIndicatorStyle.BIG
 });
-
 var loadingCount = 0;
 function showLoading()
 {
@@ -54,8 +57,7 @@ function hideLoading()
 		}
 	}
 }
-
-$.win.add(loading);
+win.add(loading);
 
 /*
  Now let's define a couple utility functions. We'll use these throughout the app.
@@ -82,7 +84,7 @@ function isIOS7Plus()
 
 }
 var IOS7 = isIOS7Plus();
-
+ 
 /**
  * Keeps track (internally) of purchased products.
  * @param identifier The identifier of the Ti.Storekit.Product that was purchased.
@@ -238,10 +240,10 @@ Storekit.addEventListener('updatedDownloads', function (evt) {
 						image: file.read()
 					});
 					iv.addEventListener('click', function() {
-						$.win.remove(iv);
+						win.remove(iv);
 						iv = null;
 					});
-					$.win.add(iv);
+					win.add(iv);
 				} else {
 					Ti.API.error('Downloaded File does not exist at: ' + file.nativePath);
 				}
@@ -315,13 +317,13 @@ Storekit.addEventListener('restoredCompletedTransactions', function (evt) {
  * Calling addTransactionObserver before event listeners are added can result in lost events.
  */
 Storekit.addTransactionObserver();
-
+ 
 /**
  * Validating receipt at startup
  * Useful for volume purchase programs.
  */
 if (IOS7) {
-	$.win.addEventListener('postlayout', function() {
+	win.addEventListener('open', function() {
 		function validate() {
 			Ti.API.info('Validating receipt.');
 			Ti.API.info('Receipt is Valid: ' + Storekit.validateReceipt());
@@ -342,9 +344,34 @@ if (IOS7) {
 		}
 	});
 }
-
-function payment_method_1(){
-	requestProduct('premium_account_tier_1', function (product) {
+ 
+/*
+ 1) Can the user make payments? Their device may be locked down, or this may be a simulator.
+ */
+if (!Storekit.canMakePayments)
+	alert('This device cannot make purchases!');
+else {
+ 
+	/*
+	 2) Tracking what the user has purchased in the past.
+	 */
+	var whatHaveIPurchased = Ti.UI.createButton({
+		title:'What Have I Purchased?',
+		top:10, left:5, right:5, height:40
+	});
+	whatHaveIPurchased.addEventListener('click', function () {
+		alert({
+			'Single Item':checkIfProductPurchased('DigitalSodaPop') ? 'Purchased!' : 'Not Yet',
+			'Subscription':checkIfProductPurchased('MonthlySodaPop') ? 'Purchased!' : 'Not Yet',
+			'Downloadable':checkIfProductPurchased('DownloadablePop') ? 'Purchased!' : 'Not Yet',
+		});
+	});
+	win.add(whatHaveIPurchased);
+ 
+	/*
+	 3) Buying a single item.
+	 */
+	requestProduct('DigitalSodaPop', function (product) {
 		var buySingleItem = Ti.UI.createButton({
 			title:'Buy ' + product.title + ', ' + product.formattedPrice,
 			top:60, left:5, right:5, height:40
@@ -352,24 +379,77 @@ function payment_method_1(){
 		buySingleItem.addEventListener('click', function () {
 			purchaseProduct(product);
 		});
-		$.win.add(buySingleItem);
+		win.add(buySingleItem);
 	});
+ 
+	/*
+	 4) Buying a subscription.
+	 */
+	requestProduct('MonthlySodaPop', function (product) {
+		var buySubscription = Ti.UI.createButton({
+			title:'Buy ' + product.title + ', ' + product.formattedPrice,
+			top:110, left:5, right:5, height:40
+		});
+		buySubscription.addEventListener('click', function () {
+			purchaseProduct(product);
+		});
+		win.add(buySubscription);
+	});
+	
+	/*
+	 5) Buying Apple Hosted Content.
+	 */
+	requestProduct('DownloadablePop', function (product) {
+		var buySubscription = Ti.UI.createButton({
+			title:'Buy ' + product.title + ', ' + product.formattedPrice,
+			top:160, left:5, right:5, height:40
+		});
+		buySubscription.addEventListener('click', function () {
+			purchaseProduct(product);
+		});
+		win.add(buySubscription);
+	});
+ 
+	/*
+	 6) Restoring past purchases.
+	 */
+	var restoreCompletedTransactions = Ti.UI.createButton({
+		title:'Restore Lost Purchases',
+		top:210, left:5, right:5, height:40
+	});
+	restoreCompletedTransactions.addEventListener('click', function () {
+		restorePurchases();
+	});
+	win.add(restoreCompletedTransactions);
+ 
+	/*
+	 7) Receipt verification.
+	 */
+	var view = Ti.UI.createView({
+		layout:'horizontal',
+		top:260,
+		left:10,
+		width:'auto',
+		height:'auto'
+	});
+	var verifyingLabel = Ti.UI.createLabel({
+		text:'Verify receipts:',
+		height:Ti.UI.SIZE || 'auto',
+		width:Ti.UI.SIZE || 'auto'
+	});
+	var onSwitch = Ti.UI.createSwitch({
+		value:false,
+		isSwitch:true,
+		left:4,
+		height:Ti.UI.SIZE || 'auto',
+		width:Ti.UI.SIZE || 'auto'
+	});
+	onSwitch.addEventListener('change', function (e) {
+		verifyingReceipts = e.value;
+	});
+	view.add(verifyingLabel);
+	view.add(onSwitch);
+	win.add(view);
 }
-
-if (!Storekit.canMakePayments){
-	alert('This device cannot make purchases!');
-}
-/**
- * Closes the Window
- */
-function closeWindow(){
-	$.win.hide();
-}
-
-function init(){
-	$.win.show();
-}
-
-init();
-
-
+ 
+win.open();

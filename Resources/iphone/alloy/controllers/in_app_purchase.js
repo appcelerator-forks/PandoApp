@@ -29,6 +29,11 @@ function Controller() {
         tempPurchasedStore[identifier] = true;
         Ti.App.Properties.setBool("Purchased-" + identifier, true);
     }
+    function checkIfProductPurchased(identifier) {
+        Ti.API.info("Checking if purchased: " + identifier);
+        void 0 === tempPurchasedStore[identifier] && (tempPurchasedStore[identifier] = Ti.App.Properties.getBool("Purchased-" + identifier, false));
+        return tempPurchasedStore[identifier];
+    }
     function requestProduct(identifier, success) {
         showLoading();
         Storekit.requestProducts([ identifier ], function(evt) {
@@ -43,26 +48,9 @@ function Controller() {
             product: product
         });
     }
-    function payment_method_1() {
-        requestProduct("premium_account_tier_1", function(product) {
-            var buySingleItem = Ti.UI.createButton({
-                title: "Buy " + product.title + ", " + product.formattedPrice,
-                top: 60,
-                left: 5,
-                right: 5,
-                height: 40
-            });
-            buySingleItem.addEventListener("click", function() {
-                purchaseProduct(product);
-            });
-            $.win.add(buySingleItem);
-        });
-    }
-    function closeWindow() {
-        $.win.hide();
-    }
-    function init() {
-        $.win.show();
+    function restorePurchases() {
+        showLoading();
+        Storekit.restoreCompletedTransactions();
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "in_app_purchase";
@@ -80,7 +68,6 @@ function Controller() {
     }
     var $ = this;
     var exports = {};
-    var __defers = {};
     $.__views.win = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
@@ -220,7 +207,6 @@ function Controller() {
         id: "__alloyId57"
     });
     $.__views.__alloyId44.add($.__views.__alloyId57);
-    payment_method_1 ? $.addListener($.__views.__alloyId57, "click", payment_method_1) : __defers["$.__views.__alloyId57!click!payment_method_1"] = true;
     $.__views.__alloyId58 = Ti.UI.createButton({
         width: Ti.UI.FILL,
         title: "$1.99 FOR ONE YEAR",
@@ -237,17 +223,18 @@ function Controller() {
         id: "__alloyId59"
     });
     $.__views.__alloyId44.add($.__views.__alloyId59);
-    closeWindow ? $.addListener($.__views.__alloyId59, "click", closeWindow) : __defers["$.__views.__alloyId59!click!closeWindow"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
-    arguments[0] || {};
     var Storekit = require("ti.storekit");
     Storekit.receiptVerificationSandbox = "production" !== Ti.App.deployType;
     Storekit.receiptVerificationSharedSecret = "<YOUR STOREKIT SHARED SECRET HERE>";
     Storekit.autoFinishTransactions = false;
-    Storekit.bundleVersion = "1.0.0";
+    Storekit.bundleVersion = "1.0";
     Storekit.bundleIdentifier = "com.geonn.pandoapp";
     var verifyingReceipts = false;
+    var win = Ti.UI.createWindow({
+        backgroundColor: "#fff"
+    });
     var loading = Ti.UI.createActivityIndicator({
         bottom: 10,
         height: 50,
@@ -257,7 +244,7 @@ function Controller() {
         style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
     });
     var loadingCount = 0;
-    $.win.add(loading);
+    win.add(loading);
     var tempPurchasedStore = {};
     var IOS7 = isIOS7Plus();
     Storekit.addEventListener("transactionState", function(evt) {
@@ -323,10 +310,10 @@ function Controller() {
                         image: file.read()
                     });
                     iv.addEventListener("click", function() {
-                        $.win.remove(iv);
+                        win.remove(iv);
                         iv = null;
                     });
-                    $.win.add(iv);
+                    win.add(iv);
                 } else Ti.API.error("Downloaded File does not exist at: " + file.nativePath);
                 download.transaction && download.transaction.finish();
             }
@@ -343,7 +330,7 @@ function Controller() {
         }
     });
     Storekit.addTransactionObserver();
-    IOS7 && $.win.addEventListener("postlayout", function() {
+    IOS7 && win.addEventListener("open", function() {
         function validate() {
             Ti.API.info("Validating receipt.");
             Ti.API.info("Receipt is Valid: " + Storekit.validateReceipt());
@@ -358,10 +345,99 @@ function Controller() {
             });
         }
     });
-    Storekit.canMakePayments || alert("This device cannot make purchases!");
-    init();
-    __defers["$.__views.__alloyId57!click!payment_method_1"] && $.addListener($.__views.__alloyId57, "click", payment_method_1);
-    __defers["$.__views.__alloyId59!click!closeWindow"] && $.addListener($.__views.__alloyId59, "click", closeWindow);
+    if (Storekit.canMakePayments) {
+        var whatHaveIPurchased = Ti.UI.createButton({
+            title: "What Have I Purchased?",
+            top: 10,
+            left: 5,
+            right: 5,
+            height: 40
+        });
+        whatHaveIPurchased.addEventListener("click", function() {
+            alert({
+                "Single Item": checkIfProductPurchased("DigitalSodaPop") ? "Purchased!" : "Not Yet",
+                Subscription: checkIfProductPurchased("MonthlySodaPop") ? "Purchased!" : "Not Yet",
+                Downloadable: checkIfProductPurchased("DownloadablePop") ? "Purchased!" : "Not Yet"
+            });
+        });
+        win.add(whatHaveIPurchased);
+        requestProduct("DigitalSodaPop", function(product) {
+            var buySingleItem = Ti.UI.createButton({
+                title: "Buy " + product.title + ", " + product.formattedPrice,
+                top: 60,
+                left: 5,
+                right: 5,
+                height: 40
+            });
+            buySingleItem.addEventListener("click", function() {
+                purchaseProduct(product);
+            });
+            win.add(buySingleItem);
+        });
+        requestProduct("MonthlySodaPop", function(product) {
+            var buySubscription = Ti.UI.createButton({
+                title: "Buy " + product.title + ", " + product.formattedPrice,
+                top: 110,
+                left: 5,
+                right: 5,
+                height: 40
+            });
+            buySubscription.addEventListener("click", function() {
+                purchaseProduct(product);
+            });
+            win.add(buySubscription);
+        });
+        requestProduct("DownloadablePop", function(product) {
+            var buySubscription = Ti.UI.createButton({
+                title: "Buy " + product.title + ", " + product.formattedPrice,
+                top: 160,
+                left: 5,
+                right: 5,
+                height: 40
+            });
+            buySubscription.addEventListener("click", function() {
+                purchaseProduct(product);
+            });
+            win.add(buySubscription);
+        });
+        var restoreCompletedTransactions = Ti.UI.createButton({
+            title: "Restore Lost Purchases",
+            top: 210,
+            left: 5,
+            right: 5,
+            height: 40
+        });
+        restoreCompletedTransactions.addEventListener("click", function() {
+            restorePurchases();
+        });
+        win.add(restoreCompletedTransactions);
+        var view = Ti.UI.createView({
+            layout: "horizontal",
+            top: 260,
+            left: 10,
+            width: "auto",
+            height: "auto"
+        });
+        var verifyingLabel = Ti.UI.createLabel({
+            text: "Verify receipts:",
+            height: Ti.UI.SIZE || "auto",
+            width: Ti.UI.SIZE || "auto"
+        });
+        var onSwitch = Ti.UI.createSwitch({
+            value: false,
+            isSwitch: true,
+            left: 4,
+            height: Ti.UI.SIZE || "auto",
+            width: Ti.UI.SIZE || "auto"
+        });
+        onSwitch.addEventListener("change", function(e) {
+            verifyingReceipts = e.value;
+        });
+        view.add(verifyingLabel);
+        view.add(onSwitch);
+        win.add(view);
+    } else alert("This device cannot make purchases!");
+    win.open();
     _.extend($, exports);
 }
 

@@ -2960,6 +2960,11 @@
 			"mtime": "2015-09-22T08:08:46.000Z",
 			"size": 3284
 		},
+		"AppleIncRootCertificate.cer": {
+			"hash": "7e611e0f7ba31b51986f413b41383ef0",
+			"mtime": "2015-10-31T06:00:46.000Z",
+			"size": 1215
+		},
 		"fonts/Lato-Bold.ttf": {
 			"hash": "44dfe8cc676882243911a3197a50169e",
 			"mtime": "2015-10-27T14:30:31.000Z",
@@ -4841,9 +4846,9 @@
 			"size": 54453
 		},
 		"Classes/ApplicationRouting.m": {
-			"hash": "6474b59b68fa1d78c223c61bde70f0f9",
-			"mtime": "2015-10-29T15:57:28.000Z",
-			"size": 1851406
+			"hash": "1520a0b2921a31c5a92bac545c15f0b0",
+			"mtime": "2015-10-31T06:53:34.000Z",
+			"size": 1877557
 		},
 		"modules/ui/images/badge.png": {
 			"hash": "4c5e51e328d337a135f513bc1e958c82",
