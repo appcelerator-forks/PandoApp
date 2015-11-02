@@ -9,8 +9,7 @@ function __processArg(obj, key) {
 
 function Controller() {
     function buy_premium_account() {
-        var in_app_purchase = Alloy.createController("in_app_purchase");
-        in_app_purchase.open();
+        Alloy.createController("in_app_purchase");
     }
     function loadPhoto() {
         var dialog = Titanium.UI.createOptionDialog({

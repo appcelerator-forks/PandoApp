@@ -1,6 +1,0 @@
-// this is a generated file - DO NOT EDIT
-
-TI_STOREKIT_OTHER_LDFLAGS=$(inherited) -framework StoreKit -framework Security
-COM_MIRASENSE_SCANDITSDK_OTHER_LDFLAGS=$(inherited) -framework CoreVideo -framework CoreMedia -framework CoreGraphics -framework AVFoundation -framework AudioToolbox -framework UIKit -framework QuartzCore -framework SystemConfiguration -liconv -lz -lc++
-TI_MAP_OTHER_LDFLAGS=$(inherited) -weak_framework MapKit
-OTHER_LDFLAGS=$(inherited) $(TI_STOREKIT_OTHER_LDFLAGS) $(COM_MIRASENSE_SCANDITSDK_OTHER_LDFLAGS) $(TI_MAP_OTHER_LDFLAGS) 

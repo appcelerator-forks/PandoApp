@@ -13,7 +13,6 @@
 	    	<View class="wfill hsize padding vert" bottom="0" backgroundColor="#F2F4F5" id="item_box">
 	    		
 	    	</View>
-	    	<View class="gray-line"></View>
 	    	<View id="inner_box" class="wfill hsize vert" top="0" backgroundColor="#e5e5e5">
 	    		<ImageView image="/images/shadow.png" class="wfill hsize"></ImageView>
 			</View>

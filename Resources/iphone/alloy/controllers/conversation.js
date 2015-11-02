@@ -95,19 +95,22 @@ function Controller() {
         $.inner_box.removeAllChildren();
         for (var i = 0; i < data.length; i++) {
             var view_container = $.UI.create("View", {
-                classes: [ "hsize", "wfill", "horz", "padding" ]
+                classes: [ "hsize", "wfill", "horz" ]
             });
             var thumb_path = data[i].u_id == u_id ? user_thumb_path : data[i].thumb_path;
             var imageview_thumb_path = $.UI.create("ImageView", {
                 top: 10,
-                width: 60,
+                width: 50,
                 height: "auto",
                 defaultImage: "/images/default/small_item.png",
+                left: 10,
                 image: thumb_path
             });
             var view_text_container = $.UI.create("View", {
-                classes: [ "hsize", "vert", "box", "padding" ],
-                width: "70%"
+                classes: [ "hsize", "vert", "box" ],
+                top: 10,
+                left: 10,
+                width: "75%"
             });
             var label_message = $.UI.create("Label", {
                 classes: [ "h5", "wfill", "padding" ],
