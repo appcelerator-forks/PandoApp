@@ -79,9 +79,9 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#E4E6E1",
+        backgroundColor: "#ebebeb",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: "false",
         font: {
@@ -92,26 +92,26 @@ function Controller() {
         title: "Image Preview"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId41 = Ti.UI.createButton({
+    $.__views.__alloyId35 = Ti.UI.createButton({
         title: "Cancel",
-        id: "__alloyId41"
+        id: "__alloyId35"
     });
-    $.__views.win.rightNavButton = $.__views.__alloyId41;
-    onCancel ? $.addListener($.__views.__alloyId41, "keypressed", onCancel) : __defers["$.__views.__alloyId41!keypressed!onCancel"] = true;
-    $.__views.__alloyId42 = Ti.UI.createView({
+    $.__views.win.rightNavButton = $.__views.__alloyId35;
+    onCancel ? $.addListener($.__views.__alloyId35, "keypressed", onCancel) : __defers["$.__views.__alloyId35!keypressed!onCancel"] = true;
+    $.__views.__alloyId36 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         backgroundColor: "#ddd",
-        id: "__alloyId42"
+        id: "__alloyId36"
     });
-    $.__views.win.add($.__views.__alloyId42);
+    $.__views.win.add($.__views.__alloyId36);
     $.__views.cropimage = Ti.UI.createView({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
         id: "cropimage"
     });
-    $.__views.__alloyId42.add($.__views.cropimage);
+    $.__views.__alloyId36.add($.__views.cropimage);
     $.__views.inner_box = Ti.UI.createScrollView({
         id: "inner_box",
         backgroundColor: "#fff",
@@ -119,10 +119,10 @@ function Controller() {
         contentWidth: Ti.UI.SIZE
     });
     $.__views.cropimage.add($.__views.inner_box);
-    $.__views.__alloyId43 = Ti.UI.createButton({
-        borderColor: "#366260",
-        backgroundColor: "#75d0cb",
-        color: "#ffffff",
+    $.__views.__alloyId37 = Ti.UI.createButton({
+        borderColor: "#75d0cb",
+        backgroundColor: "#ffffff",
+        color: "#75d0cb",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
         width: "80",
         height: Ti.UI.SIZE,
@@ -132,10 +132,10 @@ function Controller() {
         },
         title: "Send",
         top: "10",
-        id: "__alloyId43"
+        id: "__alloyId37"
     });
-    $.__views.__alloyId42.add($.__views.__alloyId43);
-    image_save ? $.addListener($.__views.__alloyId43, "click", image_save) : __defers["$.__views.__alloyId43!click!image_save"] = true;
+    $.__views.__alloyId36.add($.__views.__alloyId37);
+    image_save ? $.addListener($.__views.__alloyId37, "click", image_save) : __defers["$.__views.__alloyId37!click!image_save"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
@@ -150,8 +150,8 @@ function Controller() {
         $.destroy();
         console.log("window close");
     });
-    __defers["$.__views.__alloyId41!keypressed!onCancel"] && $.addListener($.__views.__alloyId41, "keypressed", onCancel);
-    __defers["$.__views.__alloyId43!click!image_save"] && $.addListener($.__views.__alloyId43, "click", image_save);
+    __defers["$.__views.__alloyId35!keypressed!onCancel"] && $.addListener($.__views.__alloyId35, "keypressed", onCancel);
+    __defers["$.__views.__alloyId37!click!image_save"] && $.addListener($.__views.__alloyId37, "click", image_save);
     _.extend($, exports);
 }
 

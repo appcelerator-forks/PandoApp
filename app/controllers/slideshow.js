@@ -1,5 +1,6 @@
 var args = arguments[0] || {};
 var loading = Alloy.createController("loading");
+var last_slide = 3;
 //var friends = Alloy.createCollection("friends");
 //var data = friends.getData();
 var fade_view = $.UI.create("View", {
@@ -84,6 +85,13 @@ function closeWindow(){
 function init(){
 	$.win.add(loading.getView());
 	refresh();
+	setInterval(function(){
+		if($.slogan.currentPage == last_slide){
+			$.slogan.scrollToView(0);
+		}else{
+			$.slogan.moveNext();
+		}
+	}, "3000");
 }
 
 init();

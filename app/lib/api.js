@@ -48,7 +48,7 @@ exports.callByPost = function(e, onload, onerror){
 			onload && onload(this.responseText); 
 		};
 		
-		_result.onerror = function(e) { 
+		_result.onerror = function(ex) { 
 			console.log("onerror "+url);
 			API.callByPost(e, onload, onerror);
 		};
@@ -67,7 +67,7 @@ exports.callByPostImage = function(e, onload, onerror) {
 		onload && onload(this.responseText); 
 	};
 	
-	_result.onerror = function(e) { 
+	_result.onerror = function(ex) { 
 		console.log("onerror");
 		API.callByPostImage(e, onload);
 		//onerror && onerror();
@@ -108,8 +108,8 @@ exports.sendNotification = function(e){
 		console.log(e);
 	};
 	
-	_result.onerror = function(e) { 
-		console.log(e);
+	_result.onerror = function(ex) { 
+		console.log(ex);
 	};
 };
 

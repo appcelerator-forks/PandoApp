@@ -41,7 +41,7 @@ function Controller() {
         style: Ti.UI.iPhone.ActivityIndicatorStyle.BIG
     });
     $.__views.loadingBar.add($.__views.activityIndicator);
-    $.__views.__alloyId60 = Ti.UI.createLabel({
+    $.__views.__alloyId54 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -52,9 +52,9 @@ function Controller() {
         textAlign: "center",
         top: "5",
         text: "Loading",
-        id: "__alloyId60"
+        id: "__alloyId54"
     });
-    $.__views.loadingBar.add($.__views.__alloyId60);
+    $.__views.loadingBar.add($.__views.__alloyId54);
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};

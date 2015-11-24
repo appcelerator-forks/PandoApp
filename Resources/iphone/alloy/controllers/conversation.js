@@ -167,9 +167,9 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#E4E6E1",
+        backgroundColor: "#ebebeb",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: "false",
         font: {
@@ -240,8 +240,8 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        borderColor: "#d2d3ce",
-        backgroundColor: "#f6f6f6",
+        borderColor: "#a5a5a5",
+        backgroundColor: "#ffffff",
         id: "__alloyId4"
     });
     $.__views.chatroom.add($.__views.__alloyId4);
@@ -257,13 +257,6 @@ function Controller() {
         id: "item_box"
     });
     $.__views.__alloyId4.add($.__views.item_box);
-    $.__views.__alloyId5 = Ti.UI.createView({
-        backgroundColor: "#d2d3ce",
-        width: Ti.UI.FILL,
-        height: 1,
-        id: "__alloyId5"
-    });
-    $.__views.__alloyId4.add($.__views.__alloyId5);
     $.__views.inner_box = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
@@ -273,26 +266,26 @@ function Controller() {
         backgroundColor: "#e5e5e5"
     });
     $.__views.__alloyId4.add($.__views.inner_box);
-    $.__views.__alloyId6 = Ti.UI.createImageView({
+    $.__views.__alloyId5 = Ti.UI.createImageView({
         preventDefaultImage: true,
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         image: "/images/shadow.png",
-        id: "__alloyId6"
+        id: "__alloyId5"
     });
-    $.__views.inner_box.add($.__views.__alloyId6);
-    $.__views.__alloyId7 = Ti.UI.createView({
+    $.__views.inner_box.add($.__views.__alloyId5);
+    $.__views.__alloyId6 = Ti.UI.createView({
         layout: "horizontal",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         backgroundColor: "white",
         bottom: "0",
-        id: "__alloyId7"
+        id: "__alloyId6"
     });
-    $.__views.__alloyId1.add($.__views.__alloyId7);
+    $.__views.__alloyId1.add($.__views.__alloyId6);
     $.__views.message = Ti.UI.createTextField({
         height: 40,
-        borderColor: "#dfe0e4",
+        borderColor: "#a5a5a5",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
         textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
@@ -307,11 +300,11 @@ function Controller() {
         id: "message",
         bottom: "10"
     });
-    $.__views.__alloyId7.add($.__views.message);
-    $.__views.__alloyId8 = Ti.UI.createButton({
-        borderColor: "#366260",
-        backgroundColor: "#75d0cb",
-        color: "#ffffff",
+    $.__views.__alloyId6.add($.__views.message);
+    $.__views.__alloyId7 = Ti.UI.createButton({
+        borderColor: "#75d0cb",
+        backgroundColor: "#ffffff",
+        color: "#75d0cb",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
         width: "60",
         height: "40",
@@ -321,10 +314,10 @@ function Controller() {
         },
         title: "Send",
         right: "10",
-        id: "__alloyId8"
+        id: "__alloyId7"
     });
-    $.__views.__alloyId7.add($.__views.__alloyId8);
-    SendMessage ? $.addListener($.__views.__alloyId8, "click", SendMessage) : __defers["$.__views.__alloyId8!click!SendMessage"] = true;
+    $.__views.__alloyId6.add($.__views.__alloyId7);
+    SendMessage ? $.addListener($.__views.__alloyId7, "click", SendMessage) : __defers["$.__views.__alloyId7!click!SendMessage"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};
@@ -354,7 +347,7 @@ function Controller() {
         console.log("window close");
     });
     __defers["$.__views.__alloyId0!click!onQRCode"] && $.addListener($.__views.__alloyId0, "click", onQRCode);
-    __defers["$.__views.__alloyId8!click!SendMessage"] && $.addListener($.__views.__alloyId8, "click", SendMessage);
+    __defers["$.__views.__alloyId7!click!SendMessage"] && $.addListener($.__views.__alloyId7, "click", SendMessage);
     _.extend($, exports);
 }
 

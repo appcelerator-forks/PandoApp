@@ -56,9 +56,9 @@ function Controller() {
     var $ = this;
     var exports = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#E4E6E1",
+        backgroundColor: "#ebebeb",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: "false",
         font: {
@@ -78,7 +78,7 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: "0",
-        borderColor: "#d2d3ce",
+        borderColor: "#a5a5a5",
         backgroundColor: "#F2F4F5",
         id: "__alloyId69"
     });
@@ -98,7 +98,7 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: "0",
-        borderColor: "#d2d3ce",
+        borderColor: "#a5a5a5",
         backgroundColor: "#fff",
         id: "__alloyId71"
     });

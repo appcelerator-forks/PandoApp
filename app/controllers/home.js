@@ -2,17 +2,8 @@ var args = arguments[0] || {};
 var current_point;
 var loading = Alloy.createController("loading");
 var ObjDate = new Date();
-var lives = Ti.App.Properties.getString('lives') || 5;
 var estimate_time = Ti.App.Properties.getString('estimate_time') || ObjDate.getTime()/1000;
 var waiting_time = 20;
-var lives_bar = {
-	0: "/images/icons/bar_0.png",
-	1: "/images/icons/bar_1.png",
-	2: "/images/icons/bar_2.png",
-	3: "/images/icons/bar_3.png",
-	4: "/images/icons/bar_4.png",
-	5: "/images/icons/bar_6.png",
-};
 var yes_no = "";
 var sound_no = Ti.Media.createSound({url:"/sound/bloop_x.wav"});
 var sound_yes = Ti.Media.createSound({url:"/sound/game-sound-correct.wav"});
@@ -74,7 +65,7 @@ function timer(update){
 	if(!update){
 		my_timer = new countDown(0,0, 
 		function() {
-			$.time.text = my_timer.time.m+":"+my_timer.time.s;
+			//$.time.text = my_timer.time.m+":"+my_timer.time.s;
 		},
 		function() {
 			if(lives < 5){
@@ -111,7 +102,7 @@ function refreshLife(){
 		lives = 5;
 	}
 	//$.lives_bar.image = lives_bar[lives];
-	$.life.text = lives;
+	//$.life.text = lives;
 }
 
 /*
@@ -141,9 +132,9 @@ var items =  function(counter) {
 				var rect = $.item_container.rect;
 				console.log(rect.width);
 				var view = $.UI.create("ImageView",{
-					classes:['box'],
 					width: rect.width,
 					height: rect.width,
+					backgroundColor: "#75d0cb",
 					image: "/images/default/item.png",
 				});
 				$.item_container.add(view);
@@ -153,7 +144,6 @@ var items =  function(counter) {
 				this.insetItem();
 				//this.displayCurrentItemInfo();
 				$.item_container.children[0].addEventListener("postlayout",function(){
-					
 					var rect = $.item_container.children[0].rect;
 					$.label_no_more.height = rect.height;
 				});
@@ -268,10 +258,10 @@ function checkpoint(p){
 }
 
 function callback_yes(){
-	if(!items.counter){
+	/*if(!item.counter){
 		Common.createAlert("Message", "No more item. Please try again later");
 		return ;
-	}
+	}*/
 	if(!lives){
 		Common.createAlert("Message", "No more lives. Please try again later");
 		return ;
@@ -290,7 +280,7 @@ function callback_yes(){
 		lives = lives - 1;
 		Ti.App.Properties.setString('lives', lives);
 		//$.lives_bar.image = lives_bar[lives];
-		$.life.text = lives;
+		//$.life.text = lives;
 		
 		var ObjDate = new Date();
 		var now = Math.floor(ObjDate.getTime()/1000)+1;
@@ -312,10 +302,10 @@ function callback_yes(){
 
 function callback_no(){
 	point = 0;
-	if(!items.counter){
+	/*if(!item.counter){
 		Common.createAlert("Message", "No more item. Please try again later");
 		return ;
-	}
+	}*/
 	if(!lives){
 		Common.createAlert("Message", "No more lives. Please try again later");
 		return ;
@@ -388,20 +378,12 @@ function init(){
 	$.win.add(loading.getView());
 	refreshLife();
 	get_point();
-	//$.lives_bar.image = lives_bar[lives];
-	$.life.text = lives;
 	timer();
 	
 	var left_right = Alloy.createController("_left_right");
 	var label_desc = "Swipe left or right to select";
-	left_right.generate_button($.left_right_button, label_desc, callback_yes, callback_no);
-	
 	var rect = $.label_no_more.rect;
-	console.log(rect.width);
 	$.label_no_more.height = rect.width;
-	//Deparecated function
-	//left_right.generate_indicator($.indicator);
-	//left_right.add_event($.indicator, callback_yes, callback_no);
 }
 
 init();

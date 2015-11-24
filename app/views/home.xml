@@ -1,55 +1,39 @@
 <Alloy>
 	<Window id="win" theme="Theme.NoActionBar" title="Home" navBarHidden="true" fullscreen="false">
-     <View class='vert hfill wfill'>
-        <View class="wfill hsize" backgroundImage="/images/bg/menu_bar.png">
-        	<ImageView onClick="refresh" class="padding" left="10" top="20" bottom="20" height="40" width="40" image="/images/icons/icon_referesh.png"></ImageView>
+     <View class='hfill wfill'>
+        <View zIndex="10" class="wfill hsize" top="0" backgroundImage="/images/bg/menu_bar.png">
+        	<!--<ImageView onClick="refresh" class="padding" left="10" top="20" bottom="20" height="40" width="40" image="/images/icons/icon_referesh.png"></ImageView>-->
         	<View  class="wsize hsize horz" right="0" top="10">
-        		<ImageView onClick="navTo" controller="friends" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_friends.png"></ImageView>
-        		<ImageView onClick="navTo" controller="personal" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_upload.png"></ImageView>
-        		<ImageView onClick="navTo" controller="setting" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_setting.png"></ImageView>
+        		<ImageView onClick="navTo" controller="friends" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_search.png"></ImageView>
+        		<ImageView onClick="navTo" controller="manage_item" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_plus.png"></ImageView>
+        		<ImageView onClick="navTo" controller="setting" class="padding" bottom="20" height="40" width="40" image="/images/icons/icon_more.png"></ImageView>
         	</View>
         </View>
-        <View class="wfill hfill vert" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
-        	<View class="wfill hsize horz">
-	        	<!--<ImageView class="wsize" left="10" height="50" id="lives_bar"></ImageView>-->
-	        	
-	        	<View class="wsize hsize box horz" backgroundColor="#fff" left="10" right="10" bottom="10">
-	        		<View class=" hsize vert small-padding" width="60">
-			        	<Label class="wsize hsize" left="0" textAlign="right">LIFE</Label>
-			        	<Label id="life" class="h2 wsize hsize">0</Label>
-		        	</View>
-		        	<View width="1" height="50" backgroundColor="#d2d3ce"></View>
-	        		<View class=" hsize vert small-padding" width="120">
-			        	<Label class="wsize hsize" left="0" textAlign="right">TIME</Label>
-			        	<Label id="time" class="h2 wsize hsize">00:00</Label>
-			        </View>
-	        	</View>
-	        	<View class=" hsize box" backgroundColor="#fff" width="auto" right="10" bottom="10">
-	        		<View class=" hsize vert small-padding">
-			        	<Label class="wsize hsize" left="0" textAlign="right">POINT</Label>
-			        	<Label id="point" class="h2 wsize hsize"></Label>
-		        	</View>
+        <View class="wfill hfill" top="70" contentHeight="Ti.UI.SIZE" contentWidth="Ti.UI.FILL">
+        	<View zIndex="10" class="hsize box" borderRadius="40" borderColor="#323136" borderWidth="4" backgroundColor="#fff" width="80" height="80" right="10" top="10">
+        		<View class="hsize vert small-padding">
+		        	<Label class="wfill hsize" top="5" textAlign="center">POINT</Label>
+		        	<Label id="point" textAlign="center" class="h2 wfill hsize"></Label>
 	        	</View>
         	</View>
-        	<View class="wfill hsize box padding vert" top="0" bottom="0" >
-        		<!--<View class="hsize wfill horz">
-	        		<ImageView id="owner_img_path" class="" left="10" top="10" width="60" height="60" image="/images/demo_avatar.png"></ImageView>
-	        		<View class="hsize vert padding" width="70%">
-	        			<Label id="owner_name" class="h5 wfill hsize bold" textAlign="left"></Label>
-	        			<Label id="item_name" class="h5 wfill hsize"></Label>
-	        		</View>
-        	</View>-->
-        		<View class="wfill hsize vert"></View>
+        	<View class="wfill hsize vert" top="0" >
         		<View id="indicator" class="wfill hsize">
         			<Label class="wsize" id="label_no_more" >No more Item</Label>
-        			<View id="item_container" left="10" top="10" right="10" class="hsize wfill">
+        			<View id="item_container" class="hsize wfill">
 	        			<!--<ImageView zIndex="1" id="item_2" class="wfill" height="auto" image="/images/demo_item.png"></ImageView>-->
         			</View>
+        		</View>
+        		<View class="wfill hsize horz" horizontalWrap="false">
+        			<View class="hsize" width="50%" backgroundColor="#f7941d">
+	    				<Label top="10" bottom="10" class="hsize wfill" textAlign="center" color="#ffffff">Undo</Label>
+	    			</View>
+	    			<View class="hsize" width="50%" backgroundColor="#75d0cb">
+	    				<Label top="10" bottom="10" class="hsize wfill" textAlign="center" color="#ffffff">Willing to Buy</Label>
+	    			</View>
         		</View>
         		<View id="left_right_button" class="wfill hsize padding">
         		</View>
         	</View>
-        	<ImageView image="/images/shadow.png" class="wfill hsize padding" top="0"></ImageView>
         </View>
     </View>
     </Window>

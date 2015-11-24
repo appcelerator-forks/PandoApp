@@ -47,6 +47,9 @@ function Controller() {
     function init() {
         $.win.add(loading.getView());
         refresh();
+        setInterval(function() {
+            $.slogan.currentPage == last_slide ? $.slogan.scrollToView(0) : $.slogan.moveNext();
+        }, "3000");
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "slideshow";
@@ -66,9 +69,9 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#E4E6E1",
+        backgroundColor: "#ebebeb",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: "false",
         font: {
@@ -340,6 +343,7 @@ function Controller() {
     _.extend($, $.__views);
     arguments[0] || {};
     var loading = Alloy.createController("loading");
+    var last_slide = 3;
     $.UI.create("View", {
         classes: [ "wfill", "hfill" ],
         backgroundColor: "#000000"

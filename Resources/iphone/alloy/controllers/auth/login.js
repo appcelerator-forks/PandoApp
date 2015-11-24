@@ -85,9 +85,9 @@ function Controller() {
     var exports = {};
     var __defers = {};
     $.__views.win = Ti.UI.createWindow({
-        backgroundColor: "#E4E6E1",
+        backgroundColor: "#ebebeb",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: true,
         font: {
@@ -115,7 +115,7 @@ function Controller() {
     $.__views.__alloyId126.add($.__views.__alloyId127);
     $.__views.username = Ti.UI.createTextField({
         height: 40,
-        borderColor: "#dfe0e4",
+        borderColor: "#a5a5a5",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
         textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
@@ -133,7 +133,7 @@ function Controller() {
     $.__views.__alloyId126.add($.__views.username);
     $.__views.password = Ti.UI.createTextField({
         height: 40,
-        borderColor: "#dfe0e4",
+        borderColor: "#a5a5a5",
         borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
         verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
         textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,

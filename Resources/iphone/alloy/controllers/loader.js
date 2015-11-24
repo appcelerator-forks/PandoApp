@@ -41,7 +41,7 @@ function Controller() {
     $.__views.rocket = Ti.UI.createWindow({
         backgroundColor: "#C41230",
         titleAttributes: {
-            color: "#eaebe6"
+            color: "#ffffff"
         },
         navBarHidden: true,
         font: {

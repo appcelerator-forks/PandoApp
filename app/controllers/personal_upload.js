@@ -130,7 +130,7 @@ init();
 Ti.App.addEventListener("imagePreview: imageCallback", imageCallback);
 
 $.win.addEventListener("close", function(){
-	Ti.App.fireEvent('personal:refresh');
+	Ti.App.fireEvent('manage_item:refresh');
 	$.destroy();
 	console.log("window close");
 });

@@ -1,0 +1,21 @@
+<Alloy>
+	<Window class="container" barColor="#323136" id="win" title="Items" navBarHidden="false">
+	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
+	<View class="hfill wfill vert">
+		<View class="hsize wfill">
+			<View class="padding wfill hsize horz" horizontalWrap="false" borderColor="#75d0cb" borderRadius="5">
+				<View id="firstTab" tab="1" onClick="switchListing" backgroundColor="#75d0cb" height="40" width="50%">
+					<Label v="label" class="hfill wfill" top="10" bottom="10" textAlign="center" color="#ffffff">DONATE</Label>
+				</View>
+				<View height="40" width="1" backgroundColor="#75d0cb"></View>
+				<View tab="2" id="secondTab"  onClick="switchListing" height="40" width="50%">
+					<Label v="label" class="hfill wfill" top="10" bottom="10" color="#75d0cb" textAlign="center">ADOPT</Label>
+				</View>
+			</View>
+		</View>
+		<TableView id="tblview" class="wfill hfill">
+			
+		</TableView>
+	</View>
+    </Window>
+</Alloy>

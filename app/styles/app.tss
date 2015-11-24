@@ -32,13 +32,13 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 
 "Actionbar":{
-	backgroundColor: "#75d0cb",
+	backgroundColor: "#323136",
 },
 
 'Window': {
-    backgroundColor: '#E4E6E1', // white background instead of default transparent
+    backgroundColor: '#ebebeb', // white background instead of default transparent
     titleAttributes:  {
-        color: "#eaebe6"
+        color: "#ffffff"
    },
    navBarHidden: true,
    font: {
@@ -54,7 +54,7 @@ overrode the settings with other TSS, XML, or JS settings:
 
 'TextField': {
     height: 40,
-	borderColor: "#dfe0e4",
+	borderColor: "#a5a5a5",
 	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
 	verticalAlign: Titanium.UI.TEXT_VERTICAL_ALIGNMENT_CENTER,
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_LEFT,
@@ -83,9 +83,9 @@ overrode the settings with other TSS, XML, or JS settings:
 },
 
 ".small_button":{
-	borderColor: "#366260",
-	backgroundColor: "#75d0cb",
-	color: "#ffffff",
+	borderColor: "#75d0cb",
+	backgroundColor: "#ffffff",
+	color: "#75d0cb",
 	textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
 	width: Ti.UI.SIZE,
 	height: Ti.UI.SIZE,
@@ -168,8 +168,8 @@ overrode the settings with other TSS, XML, or JS settings:
 }, 
 
 '.box':{
-	borderColor: "#d2d3ce",
-	backgroundColor: "#f6f6f6",
+	borderColor: "#a5a5a5",
+	backgroundColor: "#ffffff",
 },
 
 '.font_big':{
