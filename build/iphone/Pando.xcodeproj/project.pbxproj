@@ -954,7 +954,7 @@
 		EF0ADD19143FA0CD00977386 /* GeolocationModule.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeolocationModule.m; sourceTree = "<group>"; };
 		000000000000000000000001 /* libti.storekit.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libti.storekit.a; path = "/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/ti.storekit/3.1.2/libti.storekit.a"; sourceTree = "<absolute>"; };
 		000000000000000000000003 /* libcom.mirasense.scanditsdk.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcom.mirasense.scanditsdk.a; path = "/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/com.mirasense.scanditsdk/4.3.0/libcom.mirasense.scanditsdk.a"; sourceTree = "<absolute>"; };
-		000000000000000000000005 /* libti.map.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libti.map.a; path = "/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.4.1/libti.map.a"; sourceTree = "<absolute>"; };
+		000000000000000000000005 /* libti.map.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libti.map.a; path = "/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.5.2/libti.map.a"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2749,7 +2749,7 @@
 					"\"$(SRCROOT)/Classes/APSHTTPClient\"",
 					"\"/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/ti.storekit/3.1.2\"",
 					"\"/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/com.mirasense.scanditsdk/4.3.0\"",
-					"\"/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.4.1\"",
+					"\"/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.5.2\"",
 				);
 				OTHER_CFLAGS = "-DDEBUG";
 				PRODUCT_NAME = "Pando";
@@ -2788,7 +2788,7 @@
 					"\"$(SRCROOT)/Classes/APSHTTPClient\"",
 					"\"/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/ti.storekit/3.1.2\"",
 					"\"/Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/modules/iphone/com.mirasense.scanditsdk/4.3.0\"",
-					"\"/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.4.1\"",
+					"\"/Users/HatsuneMiku/Library/Application Support/Titanium/modules/iphone/ti.map/2.5.2\"",
 				);
 				PRODUCT_NAME = "Pando";
 				TARGETED_DEVICE_FAMILY = "1,2";

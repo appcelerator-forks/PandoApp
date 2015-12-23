@@ -27,6 +27,7 @@ dependencies: \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiBuffer.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiBlob.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiUIAlertDialogProxy.h \
+  /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/Ti2DMatrix.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiAnimation.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiPoint.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/ListenerEntry.h \

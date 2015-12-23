@@ -1,5 +1,5 @@
 <Alloy>
-	<Window class="container" barColor="#75d0cb" id="win" title="Chatroom" navBarHidden="false">
+	<Window class="container" barColor="#323136" id="win" title="Chatroom" navBarHidden="false">
 		<RightNavButton title="Code" onClick="onQRCode"></RightNavButton>
 	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
 	<ScrollView class="wfill hfill" contentHeight="Ti.UI.FILL" contentWidth="Ti.UI.FILL">

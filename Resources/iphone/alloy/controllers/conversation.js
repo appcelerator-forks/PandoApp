@@ -175,7 +175,7 @@ function Controller() {
         font: {
             fontFamily: "Lato-Regular"
         },
-        barColor: "#75d0cb",
+        barColor: "#323136",
         id: "win",
         title: "Chatroom"
     });

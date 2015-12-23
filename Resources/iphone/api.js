@@ -64,6 +64,8 @@ var getItemResponseByUidUrl = "http://" + PANDO_DOMAIN + "/pando/api/getItemResp
 
 var getFriendListUrl = "http://" + PANDO_DOMAIN + "/pando/api/getFriendList?user=" + USER + "&key=" + KEY;
 
+var getCategoryListUrl = "http://" + PANDO_DOMAIN + "/pando/api/getCategoryList?user=" + USER + "&key=" + KEY;
+
 var APILoadingList = [ {
     url: getItemListUrl,
     model: "items",
@@ -76,6 +78,10 @@ var APILoadingList = [ {
     url: getFriendListUrl,
     model: "friends",
     checkId: "3"
+}, {
+    url: getCategoryListUrl,
+    model: "friends",
+    checkId: "4"
 } ];
 
 exports.callByPost = function(e, onload, onerror) {

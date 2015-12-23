@@ -24,13 +24,6 @@ function Controller() {
         }
         my_timer.running || my_timer.start();
     }
-    function refreshLife() {
-        var ObjDate = new Date();
-        var now = Math.floor(ObjDate.getTime() / 1e3);
-        var sec_left = estimate_time - now - 1;
-        var life_in_waiting = Math.ceil(sec_left / waiting_time);
-        lives = life_in_waiting >= 0 ? 5 - life_in_waiting : 5;
-    }
     function animation(item, callback) {
         var animation = Titanium.UI.createAnimation({
             opacity: 0,
@@ -38,10 +31,13 @@ function Controller() {
         });
         item.animate(animation);
         animation.addEventListener("complete", function() {
-            console.log("call");
             callback && callback();
         });
         return;
+    }
+    function render_structure() {
+        var pwidth = Ti.Platform.displayCaps.platformWidth;
+        $.left_right_button.top = pwidth + 40;
     }
     function navTo(e) {
         "undefined" != typeof e.source.controller && Alloy.Globals.Navigator.open(e.source.controller);
@@ -51,21 +47,14 @@ function Controller() {
         var item_response_model = Alloy.createCollection("item_response");
         var up = user_model.getPoint();
         var sp = item_response_model.getSpendPoint();
-        console.log(up + "-" + sp);
         user_point = up - sp;
         $.point.text = user_point;
-        console.log("latest point from d" + user_point);
     }
     function checkpoint(p) {
         return user_point >= p ? true : false;
     }
-    function callback_yes() {
-        if (!lives) {
-            Common.createAlert("Message", "No more lives. Please try again later");
-            return;
-        }
+    function callback_yes(view) {
         Common.dialogTextfield(function(p) {
-            console.log("user point before check point" + user_point);
             if (!checkpoint(p)) {
                 Common.createAlert("Message", "Not enough point. Please try again later");
                 return;
@@ -75,28 +64,20 @@ function Controller() {
                 return;
             }
             point = p || 0;
-            lives -= 1;
-            Ti.App.Properties.setString("lives", lives);
             var ObjDate = new Date();
             var now = Math.floor(ObjDate.getTime() / 1e3) + 1;
             estimate_time = now > estimate_time ? parseInt(now) + waiting_time : parseInt(estimate_time) + waiting_time;
             Ti.App.Properties.setString("estimate_time", estimate_time);
             timer(1);
             sound_yes.play();
-            refreshLife();
-            item.ItemRemove(1);
+            item.ItemRemove(1, view);
             item.insetItem();
         });
     }
-    function callback_no() {
+    function callback_no(view) {
         point = 0;
-        if (!lives) {
-            Common.createAlert("Message", "No more lives. Please try again later");
-            return;
-        }
         sound_no.play();
-        item.ItemRemove(2);
-        console.log("insert");
+        item.ItemRemove(2, view);
         item.insetItem();
     }
     function getItemList(callback) {
@@ -118,7 +99,6 @@ function Controller() {
         });
     }
     function getItemResponseList(callback) {
-        console.log("c");
         var checker = Alloy.createCollection("updateChecker");
         var u_id = Ti.App.Properties.getString("user_id");
         var isUpdate = checker.getCheckerById(2, u_id);
@@ -139,10 +119,7 @@ function Controller() {
         });
     }
     function leftright_refresh() {
-        $.left_right_button.removeAllChildren();
-        var left_right = Alloy.createController("_left_right");
-        var label_desc = "Swipe left or right to select";
-        left_right.generate_button($.left_right_button, label_desc, callback_yes, callback_no);
+        Alloy.createController("_left_right");
     }
     function refresh() {
         get_point();
@@ -151,7 +128,6 @@ function Controller() {
             getItemResponseList(function() {
                 var model = Alloy.createCollection("items");
                 data = model.getData();
-                console.log(data.length);
                 item = new items(data.length);
                 item.init();
                 loading.finish();
@@ -160,12 +136,10 @@ function Controller() {
     }
     function init() {
         $.win.add(loading.getView());
-        refreshLife();
         get_point();
-        timer();
-        Alloy.createController("_left_right");
-        var rect = $.label_no_more.rect;
-        $.label_no_more.height = rect.width;
+        render_structure();
+        var left_right = Alloy.createController("_left_right");
+        left_right.generate_button_old($.left_right_button);
     }
     require("alloy/controllers/BaseController").apply(this, Array.prototype.slice.call(arguments));
     this.__controllerPath = "home";
@@ -200,8 +174,8 @@ function Controller() {
     });
     $.__views.win && $.addTopLevelView($.__views.win);
     $.__views.__alloyId18 = Ti.UI.createView({
-        width: Ti.UI.FILL,
-        height: Ti.UI.FILL,
+        width: Ti.UI.SIZE,
+        backgroundColor: "orange",
         id: "__alloyId18"
     });
     $.__views.win.add($.__views.__alloyId18);
@@ -228,8 +202,8 @@ function Controller() {
         top: 10,
         left: 10,
         right: 10,
-        bottom: "20",
-        controller: "friends",
+        bottom: 10,
+        controller: "search",
         height: "40",
         width: "40",
         image: "/images/icons/icon_search.png",
@@ -242,7 +216,7 @@ function Controller() {
         top: 10,
         left: 10,
         right: 10,
-        bottom: "20",
+        bottom: 10,
         controller: "manage_item",
         height: "40",
         width: "40",
@@ -256,7 +230,7 @@ function Controller() {
         top: 10,
         left: 10,
         right: 10,
-        bottom: "20",
+        bottom: 10,
         controller: "setting",
         height: "40",
         width: "40",
@@ -266,11 +240,9 @@ function Controller() {
     $.__views.__alloyId20.add($.__views.__alloyId23);
     navTo ? $.addListener($.__views.__alloyId23, "click", navTo) : __defers["$.__views.__alloyId23!click!navTo"] = true;
     $.__views.__alloyId24 = Ti.UI.createView({
-        width: Ti.UI.FILL,
+        width: Ti.UI.SIZE,
         height: Ti.UI.FILL,
-        top: "70",
-        contentHeight: Ti.UI.SIZE,
-        contentWidth: Ti.UI.FILL,
+        top: "60",
         id: "__alloyId24"
     });
     $.__views.__alloyId18.add($.__views.__alloyId24);
@@ -324,97 +296,27 @@ function Controller() {
     });
     $.__views.__alloyId26.add($.__views.point);
     $.__views.__alloyId28 = Ti.UI.createView({
-        layout: "vertical",
-        width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
+        width: Ti.UI.SIZE,
+        height: Ti.UI.FILL,
         top: "0",
         id: "__alloyId28"
     });
     $.__views.__alloyId24.add($.__views.__alloyId28);
-    $.__views.indicator = Ti.UI.createView({
-        width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
-        id: "indicator"
-    });
-    $.__views.__alloyId28.add($.__views.indicator);
-    $.__views.label_no_more = Ti.UI.createLabel({
-        color: "#2a363a",
-        width: Ti.UI.SIZE,
-        height: Ti.UI.SIZE,
-        font: {
-            fontFamily: "Lato-Regular",
-            fontSize: 12
-        },
-        text: "No more Item",
-        id: "label_no_more"
-    });
-    $.__views.indicator.add($.__views.label_no_more);
     $.__views.item_container = Ti.UI.createView({
         width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
-        id: "item_container"
+        height: Ti.UI.FILL,
+        id: "item_container",
+        top: "0",
+        zIndex: "10"
     });
-    $.__views.indicator.add($.__views.item_container);
-    $.__views.__alloyId29 = Ti.UI.createView({
+    $.__views.__alloyId28.add($.__views.item_container);
+    $.__views.left_right_button = Ti.UI.createView({
         layout: "horizontal",
         width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
+        id: "left_right_button",
+        bottom: "0",
         horizontalWrap: "false",
-        id: "__alloyId29"
-    });
-    $.__views.__alloyId28.add($.__views.__alloyId29);
-    $.__views.__alloyId30 = Ti.UI.createView({
-        height: Ti.UI.SIZE,
-        width: "50%",
-        backgroundColor: "#f7941d",
-        id: "__alloyId30"
-    });
-    $.__views.__alloyId29.add($.__views.__alloyId30);
-    $.__views.__alloyId31 = Ti.UI.createLabel({
-        color: "#ffffff",
-        width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
-        font: {
-            fontFamily: "Lato-Regular",
-            fontSize: 12
-        },
-        text: "Undo",
-        top: "10",
-        bottom: "10",
-        textAlign: "center",
-        id: "__alloyId31"
-    });
-    $.__views.__alloyId30.add($.__views.__alloyId31);
-    $.__views.__alloyId32 = Ti.UI.createView({
-        height: Ti.UI.SIZE,
-        width: "50%",
-        backgroundColor: "#75d0cb",
-        id: "__alloyId32"
-    });
-    $.__views.__alloyId29.add($.__views.__alloyId32);
-    $.__views.__alloyId33 = Ti.UI.createLabel({
-        color: "#ffffff",
-        width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
-        font: {
-            fontFamily: "Lato-Regular",
-            fontSize: 12
-        },
-        text: "Willing to Buy",
-        top: "10",
-        bottom: "10",
-        textAlign: "center",
-        id: "__alloyId33"
-    });
-    $.__views.__alloyId32.add($.__views.__alloyId33);
-    $.__views.left_right_button = Ti.UI.createView({
-        width: Ti.UI.FILL,
-        height: Ti.UI.SIZE,
-        top: 10,
-        left: 10,
-        right: 10,
-        bottom: 10,
-        id: "left_right_button"
+        backgroundColor: "#ebebeb"
     });
     $.__views.__alloyId28.add($.__views.left_right_button);
     exports.destroy = function() {};
@@ -498,13 +400,8 @@ function Controller() {
                     $.item_container.removeAllChildren();
                     this.insetItem();
                     this.insetItem();
-                    $.item_container.children[0].addEventListener("postlayout", function() {
-                        var rect = $.item_container.children[0].rect;
-                        $.label_no_more.height = rect.height;
-                    });
                 } else {
                     var rect = $.item_container.rect;
-                    console.log(rect.width);
                     var view = $.UI.create("ImageView", {
                         width: rect.width,
                         height: rect.width,
@@ -517,26 +414,33 @@ function Controller() {
             },
             insetItem: function() {
                 if (this.counter) {
+                    var pwidth = Ti.Platform.displayCaps.platformWidth;
                     var item_data = data[this.counter - 1];
                     var view_container = $.UI.create("View", {
                         id: item_data.id,
+                        isParent: "yes",
+                        top: 0,
+                        zIndex: this.counter,
+                        width: pwidth,
+                        labelname: item_data.item_name,
                         owner_id: item_data.owner_id,
-                        classes: [ "wfill", "hsize" ]
+                        classes: [ "hsize", "vert" ]
                     });
-                    console.log(item_data.item_name);
                     var label_item_name = $.UI.create("Label", {
-                        classes: [ "wfill", "hsize", "padding" ],
+                        classes: [ "wfill", "hfill", "padding" ],
                         text: item_data.item_name,
                         color: "#ffffff"
                     });
                     var view_item_name = $.UI.create("View", {
                         top: 0,
-                        classes: [ "wfill", "hsize", "shadow" ],
+                        classes: [ "wfill", "shadow" ],
+                        backgroundColor: "#323136",
+                        height: 40,
                         zIndex: 10
                     });
                     var imgview = $.UI.create("ImageView", {
                         zIndex: this.counter,
-                        classes: [ "wfill" ],
+                        width: pwidth,
                         height: "auto",
                         id: item_data.id,
                         owner_id: item_data.owner_id,
@@ -552,39 +456,20 @@ function Controller() {
                     view_container.add(view_item_name);
                     this.counter--;
                     $.item_container.add(view_container);
+                    var left_right = Alloy.createController("_left_right");
+                    left_right.add_event(view_container, callback_yes, callback_no);
                 } else console.log("no more");
                 return this;
             },
-            ItemRemove: function(action) {
-                1 != $.item_container.children[0].zIndex;
-                var u_id = Ti.App.Properties.getString("user_id");
-                var item_upload = $.item_container.children[0];
-                API.callByPost({
-                    url: "addToItemResponseUrl",
-                    params: {
-                        point: point,
-                        item_id: item_upload.id,
-                        owner_id: item_upload.owner_id,
-                        requestor_id: u_id,
-                        actions: action
-                    }
-                }, function(response_text) {
-                    var res = JSON.parse(response_text);
-                    var model = Alloy.createCollection("item_response");
-                    if ("success" == res.status) {
-                        console.log("item response save");
-                        console.log(res.data);
-                        model.saveRecord(res.data);
-                        get_point();
-                    }
-                });
-                animation($.item_container.children[0], function() {
-                    var model = Alloy.createCollection("user_items");
-                    model.markRead({
-                        id: $.item_container.children[0].id,
-                        action: action
-                    });
-                    $.item_container.remove($.item_container.children[0]);
+            ItemRemove: function(action, item_image) {
+                console.log($.item_container.children.length + " number of children");
+                for (var i = 0; i < $.item_container.children.length; i++) console.log($.item_container.children[i].labelname);
+                console.log(item_image);
+                console.log(item_image.labelname);
+                animation(item_image, function() {
+                    console.log("removed");
+                    $.item_container.remove(item_image);
+                    console.log($.item_container.children.length + " number of children");
                 });
             },
             displayCurrentItemInfo: function(index) {
@@ -609,7 +494,6 @@ function Controller() {
     $.win.addEventListener("close", function() {
         Ti.App.removeEventListener("home:refresh", refresh);
         $.destroy();
-        console.log("window close");
     });
     __defers["$.__views.__alloyId21!click!navTo"] && $.addListener($.__views.__alloyId21, "click", navTo);
     __defers["$.__views.__alloyId22!click!navTo"] && $.addListener($.__views.__alloyId22, "click", navTo);

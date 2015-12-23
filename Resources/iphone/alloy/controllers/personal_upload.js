@@ -122,27 +122,27 @@ function Controller() {
         font: {
             fontFamily: "Lato-Regular"
         },
-        barColor: "#75d0cb",
+        barColor: "#323136",
         id: "win",
         title: "Upload New Item"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId63 = Ti.UI.createScrollView({
+    $.__views.__alloyId58 = Ti.UI.createScrollView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         contentHeight: Ti.UI.SIZE,
         contentWidth: Ti.UI.FILL,
-        id: "__alloyId63"
+        id: "__alloyId58"
     });
-    $.__views.win.add($.__views.__alloyId63);
-    $.__views.__alloyId64 = Ti.UI.createView({
+    $.__views.win.add($.__views.__alloyId58);
+    $.__views.__alloyId59 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
-        id: "__alloyId64"
+        id: "__alloyId59"
     });
-    $.__views.__alloyId63.add($.__views.__alloyId64);
-    $.__views.__alloyId65 = Ti.UI.createView({
+    $.__views.__alloyId58.add($.__views.__alloyId59);
+    $.__views.__alloyId60 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -150,10 +150,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        id: "__alloyId65"
+        id: "__alloyId60"
     });
-    $.__views.__alloyId64.add($.__views.__alloyId65);
-    $.__views.__alloyId66 = Ti.UI.createLabel({
+    $.__views.__alloyId59.add($.__views.__alloyId60);
+    $.__views.__alloyId61 = Ti.UI.createLabel({
         color: "#2a363a",
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
@@ -162,9 +162,9 @@ function Controller() {
             fontSize: 24
         },
         text: "Item Upload",
-        id: "__alloyId66"
+        id: "__alloyId61"
     });
-    $.__views.__alloyId65.add($.__views.__alloyId66);
+    $.__views.__alloyId60.add($.__views.__alloyId61);
     $.__views.item_container = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -176,7 +176,7 @@ function Controller() {
         backgroundColor: "#ffffff",
         id: "item_container"
     });
-    $.__views.__alloyId63.add($.__views.item_container);
+    $.__views.__alloyId58.add($.__views.item_container);
     $.__views.inner_box = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
@@ -189,7 +189,7 @@ function Controller() {
         backgroundColor: "#F2F4F5"
     });
     $.__views.item_container.add($.__views.inner_box);
-    $.__views.__alloyId67 = Ti.UI.createLabel({
+    $.__views.__alloyId62 = Ti.UI.createLabel({
         color: "#2a363a",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -198,9 +198,9 @@ function Controller() {
             fontSize: 14
         },
         text: "Please upload your item photo",
-        id: "__alloyId67"
+        id: "__alloyId62"
     });
-    $.__views.inner_box.add($.__views.__alloyId67);
+    $.__views.inner_box.add($.__views.__alloyId62);
     $.__views.item_image = Ti.UI.createImageView({
         preventDefaultImage: true,
         id: "item_image",
@@ -246,16 +246,16 @@ function Controller() {
         hintText: "Item category"
     });
     $.__views.inner_box.add($.__views.item_category);
-    $.__views.__alloyId68 = Ti.UI.createImageView({
+    $.__views.__alloyId63 = Ti.UI.createImageView({
         preventDefaultImage: true,
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         image: "/images/shadow.png",
         left: "10",
         right: "10",
-        id: "__alloyId68"
+        id: "__alloyId63"
     });
-    $.__views.__alloyId63.add($.__views.__alloyId68);
+    $.__views.__alloyId58.add($.__views.__alloyId63);
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};

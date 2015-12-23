@@ -1,5 +1,5 @@
 <Alloy>
-	<Window barColor="#75d0cb" id="win" title="Profile" navBarHidden="false">
+	<Window barColor="#323136" id="win" title="Profile" navBarHidden="false">
 		<RightNavButton>
 			<Button onClick="buy_premium_account">Upgrade</Button>
 		</RightNavButton>

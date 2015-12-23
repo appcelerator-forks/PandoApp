@@ -132,26 +132,26 @@ function Controller() {
         font: {
             fontFamily: "Lato-Regular"
         },
-        barColor: "#75d0cb",
+        barColor: "#323136",
         id: "win",
         title: "Profile"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId96 = Ti.UI.createButton({
+    $.__views.__alloyId92 = Ti.UI.createButton({
         title: "Upgrade",
-        id: "__alloyId96"
+        id: "__alloyId92"
     });
-    buy_premium_account ? $.addListener($.__views.__alloyId96, "click", buy_premium_account) : __defers["$.__views.__alloyId96!click!buy_premium_account"] = true;
-    $.__views.win.rightNavButton = $.__views.__alloyId96;
-    $.__views.__alloyId97 = Ti.UI.createScrollView({
+    buy_premium_account ? $.addListener($.__views.__alloyId92, "click", buy_premium_account) : __defers["$.__views.__alloyId92!click!buy_premium_account"] = true;
+    $.__views.win.rightNavButton = $.__views.__alloyId92;
+    $.__views.__alloyId93 = Ti.UI.createScrollView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         contentHeight: Ti.UI.SIZE,
         contentWidth: Ti.UI.FILL,
-        id: "__alloyId97"
+        id: "__alloyId93"
     });
-    $.__views.win.add($.__views.__alloyId97);
+    $.__views.win.add($.__views.__alloyId93);
     $.__views.item_container = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -163,7 +163,7 @@ function Controller() {
         backgroundColor: "#ffffff",
         id: "item_container"
     });
-    $.__views.__alloyId97.add($.__views.item_container);
+    $.__views.__alloyId93.add($.__views.item_container);
     $.__views.inner_box = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
@@ -176,7 +176,7 @@ function Controller() {
         backgroundColor: "#F2F4F5"
     });
     $.__views.item_container.add($.__views.inner_box);
-    $.__views.__alloyId98 = Ti.UI.createLabel({
+    $.__views.__alloyId94 = Ti.UI.createLabel({
         color: "#2a363a",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -185,16 +185,16 @@ function Controller() {
             fontSize: 14
         },
         text: "Upload profile",
-        id: "__alloyId98"
+        id: "__alloyId94"
     });
-    $.__views.inner_box.add($.__views.__alloyId98);
-    $.__views.__alloyId99 = Ti.UI.createView({
+    $.__views.inner_box.add($.__views.__alloyId94);
+    $.__views.__alloyId95 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         top: "10",
-        id: "__alloyId99"
+        id: "__alloyId95"
     });
-    $.__views.inner_box.add($.__views.__alloyId99);
+    $.__views.inner_box.add($.__views.__alloyId95);
     $.__views.item_image = Ti.UI.createImageView({
         preventDefaultImage: true,
         id: "item_image",
@@ -202,7 +202,7 @@ function Controller() {
         image: "/images/icons/icon_take_photo.png",
         width: "60%"
     });
-    $.__views.__alloyId99.add($.__views.item_image);
+    $.__views.__alloyId95.add($.__views.item_image);
     loadPhoto ? $.addListener($.__views.item_image, "click", loadPhoto) : __defers["$.__views.item_image!click!loadPhoto"] = true;
     $.__views.fullname = Ti.UI.createTextField({
         height: 40,
@@ -261,16 +261,16 @@ function Controller() {
         hintText: "Email Address"
     });
     $.__views.inner_box.add($.__views.email);
-    $.__views.__alloyId100 = Ti.UI.createImageView({
+    $.__views.__alloyId96 = Ti.UI.createImageView({
         preventDefaultImage: true,
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         image: "/images/shadow.png",
         left: "10",
         right: "10",
-        id: "__alloyId100"
+        id: "__alloyId96"
     });
-    $.__views.__alloyId97.add($.__views.__alloyId100);
+    $.__views.__alloyId93.add($.__views.__alloyId96);
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
@@ -285,7 +285,7 @@ function Controller() {
         $.destroy();
         console.log("window close");
     });
-    __defers["$.__views.__alloyId96!click!buy_premium_account"] && $.addListener($.__views.__alloyId96, "click", buy_premium_account);
+    __defers["$.__views.__alloyId92!click!buy_premium_account"] && $.addListener($.__views.__alloyId92, "click", buy_premium_account);
     __defers["$.__views.item_image!click!loadPhoto"] && $.addListener($.__views.item_image, "click", loadPhoto);
     _.extend($, exports);
 }

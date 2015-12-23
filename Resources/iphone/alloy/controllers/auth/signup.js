@@ -151,16 +151,16 @@ function Controller() {
         id: "signUpWin"
     });
     $.__views.signUpWin && $.addTopLevelView($.__views.signUpWin);
-    $.__views.__alloyId130 = Ti.UI.createScrollView({
+    $.__views.__alloyId126 = Ti.UI.createScrollView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         backgroundImage: "/images/home_background.jpg",
         scrollType: "vertical",
-        id: "__alloyId130"
+        id: "__alloyId126"
     });
-    $.__views.signUpWin.add($.__views.__alloyId130);
-    $.__views.__alloyId131 = Ti.UI.createView({
+    $.__views.signUpWin.add($.__views.__alloyId126);
+    $.__views.__alloyId127 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         top: 10,
@@ -169,10 +169,10 @@ function Controller() {
         bottom: 10,
         borderColor: "#a5a5a5",
         backgroundColor: "#ffffff",
-        id: "__alloyId131"
+        id: "__alloyId127"
     });
-    $.__views.__alloyId130.add($.__views.__alloyId131);
-    $.__views.__alloyId132 = Ti.UI.createView({
+    $.__views.__alloyId126.add($.__views.__alloyId127);
+    $.__views.__alloyId128 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -180,10 +180,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        id: "__alloyId132"
+        id: "__alloyId128"
     });
-    $.__views.__alloyId131.add($.__views.__alloyId132);
-    $.__views.__alloyId133 = Ti.UI.createLabel({
+    $.__views.__alloyId127.add($.__views.__alloyId128);
+    $.__views.__alloyId129 = Ti.UI.createLabel({
         color: "#2a363a",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -192,9 +192,9 @@ function Controller() {
             fontSize: 14
         },
         text: "Please upload your photo",
-        id: "__alloyId133"
+        id: "__alloyId129"
     });
-    $.__views.__alloyId132.add($.__views.__alloyId133);
+    $.__views.__alloyId128.add($.__views.__alloyId129);
     $.__views.item_image = Ti.UI.createImageView({
         preventDefaultImage: true,
         id: "item_image",
@@ -202,7 +202,7 @@ function Controller() {
         top: "10",
         width: "50%"
     });
-    $.__views.__alloyId132.add($.__views.item_image);
+    $.__views.__alloyId128.add($.__views.item_image);
     loadPhoto ? $.addListener($.__views.item_image, "click", loadPhoto) : __defers["$.__views.item_image!click!loadPhoto"] = true;
     $.__views.fullname = Ti.UI.createTextField({
         height: 40,
@@ -222,7 +222,7 @@ function Controller() {
         id: "fullname",
         hintText: "Fullname"
     });
-    $.__views.__alloyId130.add($.__views.fullname);
+    $.__views.__alloyId126.add($.__views.fullname);
     $.__views.mobile = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -241,7 +241,7 @@ function Controller() {
         id: "mobile",
         hintText: "Mobile Number"
     });
-    $.__views.__alloyId130.add($.__views.mobile);
+    $.__views.__alloyId126.add($.__views.mobile);
     $.__views.email = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -260,7 +260,7 @@ function Controller() {
         id: "email",
         hintText: "Email Address"
     });
-    $.__views.__alloyId130.add($.__views.email);
+    $.__views.__alloyId126.add($.__views.email);
     $.__views.username = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -279,7 +279,7 @@ function Controller() {
         id: "username",
         hintText: "Username"
     });
-    $.__views.__alloyId130.add($.__views.username);
+    $.__views.__alloyId126.add($.__views.username);
     $.__views.password = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -299,7 +299,7 @@ function Controller() {
         hintText: "Password",
         passwordMask: "true"
     });
-    $.__views.__alloyId130.add($.__views.password);
+    $.__views.__alloyId126.add($.__views.password);
     $.__views.confirm = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -319,8 +319,8 @@ function Controller() {
         hintText: "Confirm Password",
         passwordMask: "true"
     });
-    $.__views.__alloyId130.add($.__views.confirm);
-    $.__views.__alloyId134 = Ti.UI.createButton({
+    $.__views.__alloyId126.add($.__views.confirm);
+    $.__views.__alloyId130 = Ti.UI.createButton({
         height: 40,
         borderColor: "#C6C8CA",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -335,10 +335,10 @@ function Controller() {
             fontFamily: "Lato-Regular"
         },
         title: "Register",
-        id: "__alloyId134"
+        id: "__alloyId130"
     });
-    $.__views.__alloyId130.add($.__views.__alloyId134);
-    doRegister ? $.addListener($.__views.__alloyId134, "click", doRegister) : __defers["$.__views.__alloyId134!click!doRegister"] = true;
+    $.__views.__alloyId126.add($.__views.__alloyId130);
+    doRegister ? $.addListener($.__views.__alloyId130, "click", doRegister) : __defers["$.__views.__alloyId130!click!doRegister"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
@@ -353,7 +353,7 @@ function Controller() {
         console.log("window close");
     });
     __defers["$.__views.item_image!click!loadPhoto"] && $.addListener($.__views.item_image, "click", loadPhoto);
-    __defers["$.__views.__alloyId134!click!doRegister"] && $.addListener($.__views.__alloyId134, "click", doRegister);
+    __defers["$.__views.__alloyId130!click!doRegister"] && $.addListener($.__views.__alloyId130, "click", doRegister);
     _.extend($, exports);
 }
 

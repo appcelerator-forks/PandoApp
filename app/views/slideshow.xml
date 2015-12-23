@@ -1,5 +1,5 @@
 <Alloy>
-	<Window class="container" barColor="#75d0cb" id="win" title="News" navBarHidden="false">
+	<Window class="container" barColor="#323136" id="win" title="News" navBarHidden="false">
 	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
 	<View id="image_container" backgroundColor="#000" class="wfill hfill">
     	

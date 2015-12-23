@@ -5,6 +5,7 @@ ID       type Name
 1		getItemList
 2		getItemResponseByUid
 3		getFriendListUrl
+4 		getCategoryList
 ************************************/
 
 exports.definition = {

@@ -247,12 +247,12 @@ function Controller() {
         title: "Personal"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId62 = Ti.UI.createButton({
+    $.__views.__alloyId57 = Ti.UI.createButton({
         title: "Upload Item",
-        id: "__alloyId62"
+        id: "__alloyId57"
     });
-    navToPersonalUpload ? $.addListener($.__views.__alloyId62, "click", navToPersonalUpload) : __defers["$.__views.__alloyId62!click!navToPersonalUpload"] = true;
-    $.__views.win.rightNavButton = $.__views.__alloyId62;
+    navToPersonalUpload ? $.addListener($.__views.__alloyId57, "click", navToPersonalUpload) : __defers["$.__views.__alloyId57!click!navToPersonalUpload"] = true;
+    $.__views.win.rightNavButton = $.__views.__alloyId57;
     $.__views.tblview = Ti.UI.createTableView({
         contentHeight: Ti.UI.SIZE,
         contentWidth: Ti.UI.FILL,
@@ -276,7 +276,7 @@ function Controller() {
         console.log("window close");
         Ti.App.removeEventListener("personal:refresh", refresh);
     });
-    __defers["$.__views.__alloyId62!click!navToPersonalUpload"] && $.addListener($.__views.__alloyId62, "click", navToPersonalUpload);
+    __defers["$.__views.__alloyId57!click!navToPersonalUpload"] && $.addListener($.__views.__alloyId57, "click", navToPersonalUpload);
     _.extend($, exports);
 }
 

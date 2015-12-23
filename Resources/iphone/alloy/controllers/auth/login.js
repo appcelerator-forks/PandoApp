@@ -97,22 +97,22 @@ function Controller() {
         color: "#ffffff",
         id: "win"
     });
-    $.__views.__alloyId126 = Ti.UI.createView({
+    $.__views.__alloyId122 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         backgroundImage: "/images/home_background.jpg",
-        id: "__alloyId126"
+        id: "__alloyId122"
     });
-    $.__views.win.add($.__views.__alloyId126);
-    $.__views.__alloyId127 = Ti.UI.createImageView({
+    $.__views.win.add($.__views.__alloyId122);
+    $.__views.__alloyId123 = Ti.UI.createImageView({
         preventDefaultImage: true,
         image: "/images/full_logo.png",
         top: "80",
         width: "50%",
-        id: "__alloyId127"
+        id: "__alloyId123"
     });
-    $.__views.__alloyId126.add($.__views.__alloyId127);
+    $.__views.__alloyId122.add($.__views.__alloyId123);
     $.__views.username = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -130,7 +130,7 @@ function Controller() {
         id: "username",
         hintText: "Username"
     });
-    $.__views.__alloyId126.add($.__views.username);
+    $.__views.__alloyId122.add($.__views.username);
     $.__views.password = Ti.UI.createTextField({
         height: 40,
         borderColor: "#a5a5a5",
@@ -149,8 +149,8 @@ function Controller() {
         hintText: "Password",
         passwordMask: "true"
     });
-    $.__views.__alloyId126.add($.__views.password);
-    $.__views.__alloyId128 = Ti.UI.createButton({
+    $.__views.__alloyId122.add($.__views.password);
+    $.__views.__alloyId124 = Ti.UI.createButton({
         height: 40,
         borderColor: "#C6C8CA",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -165,11 +165,11 @@ function Controller() {
             fontFamily: "Lato-Regular"
         },
         title: "Login",
-        id: "__alloyId128"
+        id: "__alloyId124"
     });
-    $.__views.__alloyId126.add($.__views.__alloyId128);
-    do_login ? $.addListener($.__views.__alloyId128, "click", do_login) : __defers["$.__views.__alloyId128!click!do_login"] = true;
-    $.__views.__alloyId129 = Ti.UI.createButton({
+    $.__views.__alloyId122.add($.__views.__alloyId124);
+    do_login ? $.addListener($.__views.__alloyId124, "click", do_login) : __defers["$.__views.__alloyId124!click!do_login"] = true;
+    $.__views.__alloyId125 = Ti.UI.createButton({
         height: 40,
         borderColor: "#C6C8CA",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -184,10 +184,10 @@ function Controller() {
             fontFamily: "Lato-Regular"
         },
         title: "Register",
-        id: "__alloyId129"
+        id: "__alloyId125"
     });
-    $.__views.__alloyId126.add($.__views.__alloyId129);
-    do_signup ? $.addListener($.__views.__alloyId129, "click", do_signup) : __defers["$.__views.__alloyId129!click!do_signup"] = true;
+    $.__views.__alloyId122.add($.__views.__alloyId125);
+    do_signup ? $.addListener($.__views.__alloyId125, "click", do_signup) : __defers["$.__views.__alloyId125!click!do_signup"] = true;
     $.__views.navWin = Ti.UI.iOS.createNavigationWindow({
         window: $.__views.win,
         id: "navWin"
@@ -198,8 +198,8 @@ function Controller() {
     arguments[0] || {};
     var loading = Alloy.createController("loading");
     init();
-    __defers["$.__views.__alloyId128!click!do_login"] && $.addListener($.__views.__alloyId128, "click", do_login);
-    __defers["$.__views.__alloyId129!click!do_signup"] && $.addListener($.__views.__alloyId129, "click", do_signup);
+    __defers["$.__views.__alloyId124!click!do_login"] && $.addListener($.__views.__alloyId124, "click", do_login);
+    __defers["$.__views.__alloyId125!click!do_signup"] && $.addListener($.__views.__alloyId125, "click", do_signup);
     _.extend($, exports);
 }
 

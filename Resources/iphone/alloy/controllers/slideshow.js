@@ -77,7 +77,7 @@ function Controller() {
         font: {
             fontFamily: "Lato-Regular"
         },
-        barColor: "#75d0cb",
+        barColor: "#323136",
         id: "win",
         title: "News"
     });
@@ -89,37 +89,37 @@ function Controller() {
         backgroundColor: "#000"
     });
     $.__views.win.add($.__views.image_container);
-    $.__views.__alloyId101 = Ti.UI.createImageView({
+    $.__views.__alloyId97 = Ti.UI.createImageView({
         preventDefaultImage: true,
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         image: "/images/gradient-bg.png",
-        id: "__alloyId101"
+        id: "__alloyId97"
     });
-    $.__views.win.add($.__views.__alloyId101);
-    $.__views.__alloyId102 = Ti.UI.createView({
+    $.__views.win.add($.__views.__alloyId97);
+    $.__views.__alloyId98 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
-        id: "__alloyId102"
+        id: "__alloyId98"
     });
-    $.__views.win.add($.__views.__alloyId102);
-    var __alloyId103 = [];
-    $.__views.__alloyId104 = Ti.UI.createView({
+    $.__views.win.add($.__views.__alloyId98);
+    var __alloyId99 = [];
+    $.__views.__alloyId100 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         layout: "composite",
-        id: "__alloyId104"
+        id: "__alloyId100"
     });
-    __alloyId103.push($.__views.__alloyId104);
-    $.__views.__alloyId105 = Ti.UI.createView({
+    __alloyId99.push($.__views.__alloyId100);
+    $.__views.__alloyId101 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         bottom: "0",
-        id: "__alloyId105"
+        id: "__alloyId101"
     });
-    $.__views.__alloyId104.add($.__views.__alloyId105);
-    $.__views.__alloyId106 = Ti.UI.createView({
+    $.__views.__alloyId100.add($.__views.__alloyId101);
+    $.__views.__alloyId102 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -127,10 +127,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        id: "__alloyId106"
+        id: "__alloyId102"
     });
-    $.__views.__alloyId105.add($.__views.__alloyId106);
-    $.__views.__alloyId107 = Ti.UI.createLabel({
+    $.__views.__alloyId101.add($.__views.__alloyId102);
+    $.__views.__alloyId103 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -140,10 +140,10 @@ function Controller() {
         },
         text: "Welcome,",
         textAlign: "center",
-        id: "__alloyId107"
+        id: "__alloyId103"
     });
-    $.__views.__alloyId106.add($.__views.__alloyId107);
-    $.__views.__alloyId108 = Ti.UI.createLabel({
+    $.__views.__alloyId102.add($.__views.__alloyId103);
+    $.__views.__alloyId104 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -153,24 +153,24 @@ function Controller() {
         },
         text: "Pando is a freecycle place for giveaway and adopt with a friendly community",
         textAlign: "center",
-        id: "__alloyId108"
+        id: "__alloyId104"
     });
-    $.__views.__alloyId106.add($.__views.__alloyId108);
-    $.__views.__alloyId109 = Ti.UI.createView({
+    $.__views.__alloyId102.add($.__views.__alloyId104);
+    $.__views.__alloyId105 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         layout: "composite",
-        id: "__alloyId109"
+        id: "__alloyId105"
     });
-    __alloyId103.push($.__views.__alloyId109);
-    $.__views.__alloyId110 = Ti.UI.createView({
+    __alloyId99.push($.__views.__alloyId105);
+    $.__views.__alloyId106 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         bottom: "0",
-        id: "__alloyId110"
+        id: "__alloyId106"
     });
-    $.__views.__alloyId109.add($.__views.__alloyId110);
-    $.__views.__alloyId111 = Ti.UI.createView({
+    $.__views.__alloyId105.add($.__views.__alloyId106);
+    $.__views.__alloyId107 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -178,10 +178,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        id: "__alloyId111"
+        id: "__alloyId107"
     });
-    $.__views.__alloyId110.add($.__views.__alloyId111);
-    $.__views.__alloyId112 = Ti.UI.createLabel({
+    $.__views.__alloyId106.add($.__views.__alloyId107);
+    $.__views.__alloyId108 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -191,10 +191,10 @@ function Controller() {
         },
         text: "Snap to Donate, Chat to Adopt",
         textAlign: "center",
-        id: "__alloyId112"
+        id: "__alloyId108"
     });
-    $.__views.__alloyId111.add($.__views.__alloyId112);
-    $.__views.__alloyId113 = Ti.UI.createLabel({
+    $.__views.__alloyId107.add($.__views.__alloyId108);
+    $.__views.__alloyId109 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -204,23 +204,23 @@ function Controller() {
         },
         text: "Let us reuse and keep useful stuffs away from landfill",
         textAlign: "center",
-        id: "__alloyId113"
+        id: "__alloyId109"
     });
-    $.__views.__alloyId111.add($.__views.__alloyId113);
-    $.__views.__alloyId114 = Ti.UI.createView({
+    $.__views.__alloyId107.add($.__views.__alloyId109);
+    $.__views.__alloyId110 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
-        id: "__alloyId114"
+        id: "__alloyId110"
     });
-    __alloyId103.push($.__views.__alloyId114);
-    $.__views.__alloyId115 = Ti.UI.createView({
+    __alloyId99.push($.__views.__alloyId110);
+    $.__views.__alloyId111 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         bottom: "0",
-        id: "__alloyId115"
+        id: "__alloyId111"
     });
-    $.__views.__alloyId114.add($.__views.__alloyId115);
-    $.__views.__alloyId116 = Ti.UI.createView({
+    $.__views.__alloyId110.add($.__views.__alloyId111);
+    $.__views.__alloyId112 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -228,10 +228,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: 10,
-        id: "__alloyId116"
+        id: "__alloyId112"
     });
-    $.__views.__alloyId115.add($.__views.__alloyId116);
-    $.__views.__alloyId117 = Ti.UI.createLabel({
+    $.__views.__alloyId111.add($.__views.__alloyId112);
+    $.__views.__alloyId113 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -241,10 +241,10 @@ function Controller() {
         },
         text: "Giving away as Easy as 123",
         textAlign: "center",
-        id: "__alloyId117"
+        id: "__alloyId113"
     });
-    $.__views.__alloyId116.add($.__views.__alloyId117);
-    $.__views.__alloyId118 = Ti.UI.createLabel({
+    $.__views.__alloyId112.add($.__views.__alloyId113);
+    $.__views.__alloyId114 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -254,23 +254,23 @@ function Controller() {
         },
         text: "Snap a picture and describe your preloved, start select your adopter",
         textAlign: "center",
-        id: "__alloyId118"
+        id: "__alloyId114"
     });
-    $.__views.__alloyId116.add($.__views.__alloyId118);
-    $.__views.__alloyId119 = Ti.UI.createView({
+    $.__views.__alloyId112.add($.__views.__alloyId114);
+    $.__views.__alloyId115 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
-        id: "__alloyId119"
+        id: "__alloyId115"
     });
-    __alloyId103.push($.__views.__alloyId119);
-    $.__views.__alloyId120 = Ti.UI.createView({
+    __alloyId99.push($.__views.__alloyId115);
+    $.__views.__alloyId116 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
         bottom: "0",
-        id: "__alloyId120"
+        id: "__alloyId116"
     });
-    $.__views.__alloyId119.add($.__views.__alloyId120);
-    $.__views.__alloyId121 = Ti.UI.createView({
+    $.__views.__alloyId115.add($.__views.__alloyId116);
+    $.__views.__alloyId117 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -278,10 +278,10 @@ function Controller() {
         left: 10,
         right: 10,
         bottom: "20",
-        id: "__alloyId121"
+        id: "__alloyId117"
     });
-    $.__views.__alloyId120.add($.__views.__alloyId121);
-    $.__views.__alloyId122 = Ti.UI.createLabel({
+    $.__views.__alloyId116.add($.__views.__alloyId117);
+    $.__views.__alloyId118 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -291,10 +291,10 @@ function Controller() {
         },
         text: "Thanks Giving Credit",
         textAlign: "center",
-        id: "__alloyId122"
+        id: "__alloyId118"
     });
-    $.__views.__alloyId121.add($.__views.__alloyId122);
-    $.__views.__alloyId123 = Ti.UI.createLabel({
+    $.__views.__alloyId117.add($.__views.__alloyId118);
+    $.__views.__alloyId119 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -304,26 +304,26 @@ function Controller() {
         },
         text: "Arrange your pick up and scan your credit yo your donor.",
         textAlign: "center",
-        id: "__alloyId123"
+        id: "__alloyId119"
     });
-    $.__views.__alloyId121.add($.__views.__alloyId123);
+    $.__views.__alloyId117.add($.__views.__alloyId119);
     $.__views.slogan = Ti.UI.createScrollableView({
         width: Ti.UI.FILL,
-        views: __alloyId103,
+        views: __alloyId99,
         id: "slogan",
         height: "85%",
         pagingControlColor: "transparent",
         showPagingControl: "true",
         disableBounce: "true"
     });
-    $.__views.__alloyId102.add($.__views.slogan);
-    $.__views.__alloyId124 = Ti.UI.createView({
+    $.__views.__alloyId98.add($.__views.slogan);
+    $.__views.__alloyId120 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
-        id: "__alloyId124"
+        id: "__alloyId120"
     });
-    $.__views.__alloyId102.add($.__views.__alloyId124);
-    $.__views.__alloyId125 = Ti.UI.createButton({
+    $.__views.__alloyId98.add($.__views.__alloyId120);
+    $.__views.__alloyId121 = Ti.UI.createButton({
         height: 40,
         borderColor: "#C6C8CA",
         textAlign: Titanium.UI.TEXT_ALIGNMENT_CENTER,
@@ -335,10 +335,10 @@ function Controller() {
         },
         width: "60%",
         title: "Continue",
-        id: "__alloyId125"
+        id: "__alloyId121"
     });
-    $.__views.__alloyId124.add($.__views.__alloyId125);
-    do_continue ? $.addListener($.__views.__alloyId125, "click", do_continue) : __defers["$.__views.__alloyId125!click!do_continue"] = true;
+    $.__views.__alloyId120.add($.__views.__alloyId121);
+    do_continue ? $.addListener($.__views.__alloyId121, "click", do_continue) : __defers["$.__views.__alloyId121!click!do_continue"] = true;
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
@@ -356,7 +356,7 @@ function Controller() {
         Ti.App.removeEventListener("slideshow:refresh", refresh);
         $.destroy();
     });
-    __defers["$.__views.__alloyId125!click!do_continue"] && $.addListener($.__views.__alloyId125, "click", do_continue);
+    __defers["$.__views.__alloyId121!click!do_continue"] && $.addListener($.__views.__alloyId121, "click", do_continue);
     _.extend($, exports);
 }
 

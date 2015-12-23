@@ -92,25 +92,25 @@ function Controller() {
         font: {
             fontFamily: "Lato-Regular"
         },
-        barColor: "#75d0cb",
+        barColor: "#323136",
         id: "win",
         title: "Code"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId78 = Ti.UI.createView({
+    $.__views.__alloyId73 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
         backgroundColor: "#ddd",
-        id: "__alloyId78"
+        id: "__alloyId73"
     });
-    $.__views.win.add($.__views.__alloyId78);
+    $.__views.win.add($.__views.__alloyId73);
     $.__views.qrcode = Ti.UI.createView({
         width: Ti.UI.SIZE,
         height: Ti.UI.SIZE,
         id: "qrcode"
     });
-    $.__views.__alloyId78.add($.__views.qrcode);
+    $.__views.__alloyId73.add($.__views.qrcode);
     exports.destroy = function() {};
     _.extend($, $.__views);
     var args = arguments[0] || {};

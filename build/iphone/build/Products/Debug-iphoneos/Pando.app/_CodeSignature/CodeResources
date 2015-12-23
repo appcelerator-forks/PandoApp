@@ -58,7 +58,7 @@
 		</data>
 		<key>Info.plist</key>
 		<data>
-		bBo5gTXDlqVedn4vTEktpKfXyls=
+		S8pGUW49gsLwjBcSRQr3ilZBnac=
 		</data>
 		<key>LaunchImage-700-568h@2x.png</key>
 		<data>
@@ -698,7 +698,7 @@
 		</data>
 		<key>images/icons/button_no_right-handed.png</key>
 		<data>
-		KsN+6w4sPjTJAprgo/PMaLaInOM=
+		y8TLme53l5vsqJMjb2VE9KORvxE=
 		</data>
 		<key>images/icons/button_right-handed.png</key>
 		<data>
@@ -710,7 +710,7 @@
 		</data>
 		<key>images/icons/button_yes_right-handed.png</key>
 		<data>
-		eXLbmKhQjBsXOLDMOlh62BIUWMg=
+		UVvykR2LriQ7x2ELjembiMAa+pc=
 		</data>
 		<key>images/icons/default_avatar.png</key>
 		<data>
@@ -722,7 +722,7 @@
 		</data>
 		<key>images/icons/icon_more.png</key>
 		<data>
-		78qgoJAGE3aDDPhK13/B9y/vGow=
+		hlUDtpCQLWOq5KfxylTKnA7/Lps=
 		</data>
 		<key>images/icons/icon_option.png</key>
 		<data>
@@ -730,7 +730,7 @@
 		</data>
 		<key>images/icons/icon_plus.png</key>
 		<data>
-		qYLABjFAl0aZEaurnBc4NiLwN+U=
+		7I3JqEust9B3J/FtMCcMj55Jg5o=
 		</data>
 		<key>images/icons/icon_referesh.png</key>
 		<data>
@@ -738,7 +738,7 @@
 		</data>
 		<key>images/icons/icon_search.png</key>
 		<data>
-		ZcqM/YyD0GXZzu7Ia3MxNombwgo=
+		gIuLKraQloAjjGFtOBIaesbv6ug=
 		</data>
 		<key>images/icons/icon_setting.png</key>
 		<data>
@@ -747,6 +747,10 @@
 		<key>images/icons/icon_take_photo.png</key>
 		<data>
 		GzTOSKJ8T+ywXh4dgC3mg7an7KU=
+		</data>
+		<key>images/icons/icon_take_photo_nobg.png</key>
+		<data>
+		AYQ2Pm8nqi3c1LKCDKu9l7pLaV4=
 		</data>
 		<key>images/icons/icon_upload.png</key>
 		<data>
@@ -2269,7 +2273,7 @@
 		</data>
 		<key>images/icons/button_no_right-handed.png</key>
 		<data>
-		KsN+6w4sPjTJAprgo/PMaLaInOM=
+		y8TLme53l5vsqJMjb2VE9KORvxE=
 		</data>
 		<key>images/icons/button_right-handed.png</key>
 		<data>
@@ -2281,7 +2285,7 @@
 		</data>
 		<key>images/icons/button_yes_right-handed.png</key>
 		<data>
-		eXLbmKhQjBsXOLDMOlh62BIUWMg=
+		UVvykR2LriQ7x2ELjembiMAa+pc=
 		</data>
 		<key>images/icons/default_avatar.png</key>
 		<data>
@@ -2293,7 +2297,7 @@
 		</data>
 		<key>images/icons/icon_more.png</key>
 		<data>
-		78qgoJAGE3aDDPhK13/B9y/vGow=
+		hlUDtpCQLWOq5KfxylTKnA7/Lps=
 		</data>
 		<key>images/icons/icon_option.png</key>
 		<data>
@@ -2301,7 +2305,7 @@
 		</data>
 		<key>images/icons/icon_plus.png</key>
 		<data>
-		qYLABjFAl0aZEaurnBc4NiLwN+U=
+		7I3JqEust9B3J/FtMCcMj55Jg5o=
 		</data>
 		<key>images/icons/icon_referesh.png</key>
 		<data>
@@ -2309,7 +2313,7 @@
 		</data>
 		<key>images/icons/icon_search.png</key>
 		<data>
-		ZcqM/YyD0GXZzu7Ia3MxNombwgo=
+		gIuLKraQloAjjGFtOBIaesbv6ug=
 		</data>
 		<key>images/icons/icon_setting.png</key>
 		<data>
@@ -2318,6 +2322,10 @@
 		<key>images/icons/icon_take_photo.png</key>
 		<data>
 		GzTOSKJ8T+ywXh4dgC3mg7an7KU=
+		</data>
+		<key>images/icons/icon_take_photo_nobg.png</key>
+		<data>
+		AYQ2Pm8nqi3c1LKCDKu9l7pLaV4=
 		</data>
 		<key>images/icons/icon_upload.png</key>
 		<data>

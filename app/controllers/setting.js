@@ -50,6 +50,6 @@ init();
 
 $.win.addEventListener("close", function(){
 	$.destroy();
-	Ti.App.fireEvent("home:leftright_refresh");
+	//Ti.App.fireEvent("home:leftright_refresh");
 	console.log("window close");
 });

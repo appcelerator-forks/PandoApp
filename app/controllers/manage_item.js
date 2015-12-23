@@ -111,14 +111,24 @@ function render_donate_list(){
 	 * */
 	var row_upload_item = $.UI.create("TableViewRow",{});
 	var view_upload_item = $.UI.create("View",{
-		classes: ['wfill', 'horz', 'hsize'],
+		classes: ['wfill', 'horz'],
+		height: 70,
+		horizontalWrap: false,
 		backgroundColor: "#ffffff"
 	});
-	var label_upload_item = $.UI.create("Label", {
-		classes:['h5','wfill','hsize', 'padding'],
-		textAlign: "center",
-		text: "Click here. Donate your stuff to other."
+	var image_camera = $.UI.create("ImageView", {
+		image: "/images/icons/icon_take_photo_nobg.png",
+		width: "20%",
+		left: 20,
+		top: 10,
+		bottom:10,
 	});
+	var label_upload_item = $.UI.create("Label", {
+		classes:['h5','wfill','hfill', 'padding','bold'],
+		textAlign: "center",
+		text: "Donate your stuff to other"
+	});
+	view_upload_item.add(image_camera);
 	view_upload_item.add(label_upload_item);
 	row_upload_item.add(view_upload_item);
 	row_upload_item.addEventListener("click", navToPersonalUpload);
@@ -263,7 +273,7 @@ init();
 Ti.App.addEventListener('manage_item:refresh',refresh);
 
 $.win.addEventListener("close", function(){
-	Ti.App.removeEventListener('friends:refresh',refresh);
+	Ti.App.removeEventListener('manage_item:refresh',refresh);
 	$.destroy();
 	console.log("window close");
 });

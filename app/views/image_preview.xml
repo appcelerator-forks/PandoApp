@@ -1,5 +1,5 @@
 <Alloy>
-	<Window barColor="#75d0cb" id="win" title="Image Preview" navBarHidden="false">
+	<Window barColor="#323136" id="win" title="Image Preview" navBarHidden="false">
 		<RightNavButton title="Cancel" onKeypressed="onCancel"></RightNavButton>
 	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
 	<View class="wfill hfill vert" backgroundColor="#ddd">

@@ -38,6 +38,7 @@ dependencies: \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/APSHTTPClient/APSHTTPResponse.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/APSHTTPClient/APSHTTPPostForm.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/APSHTTPClient/APSHTTPHelper.h \
+  /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/Ti2DMatrix.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiViewProxy.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiViewTemplate.h \
   /Users/HatsuneMiku/Documents/Appcelerator_Studio_Workspace/PandoApp/build/iphone/Classes/TiApp.h \

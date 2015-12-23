@@ -22,7 +22,10 @@ DBVersionControl.checkAndUpdate();
 
 function parent(key, e){
 	// if key.value undefined mean it look for key only
+	console.log(typeof key.value);
+	console.log(key.value);
 	if(typeof key.value != "undefined"){
+		
 		if(eval("e."+key.name+"") != key.value){
 			if(eval("e.parent."+key.name+"") != key.value){
 				if(eval("e.parent.parent."+key.name+"") != key.value){

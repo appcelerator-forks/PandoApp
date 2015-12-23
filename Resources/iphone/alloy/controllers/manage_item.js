@@ -74,14 +74,24 @@ function Controller() {
         var donate_list = [];
         var row_upload_item = $.UI.create("TableViewRow", {});
         var view_upload_item = $.UI.create("View", {
-            classes: [ "wfill", "horz", "hsize" ],
+            classes: [ "wfill", "horz" ],
+            height: 70,
+            horizontalWrap: false,
             backgroundColor: "#ffffff"
         });
-        var label_upload_item = $.UI.create("Label", {
-            classes: [ "h5", "wfill", "hsize", "padding" ],
-            textAlign: "center",
-            text: "Click here. Donate your stuff to other."
+        var image_camera = $.UI.create("ImageView", {
+            image: "/images/icons/icon_take_photo_nobg.png",
+            width: "20%",
+            left: 20,
+            top: 10,
+            bottom: 10
         });
+        var label_upload_item = $.UI.create("Label", {
+            classes: [ "h5", "wfill", "hfill", "padding", "bold" ],
+            textAlign: "center",
+            text: "Donate your stuff to other"
+        });
+        view_upload_item.add(image_camera);
         view_upload_item.add(label_upload_item);
         row_upload_item.add(view_upload_item);
         row_upload_item.addEventListener("click", navToPersonalUpload);
@@ -230,24 +240,25 @@ function Controller() {
             fontFamily: "Lato-Regular"
         },
         barColor: "#323136",
+        navTintColor: "#75d0cb",
         id: "win",
         title: "Items"
     });
     $.__views.win && $.addTopLevelView($.__views.win);
-    $.__views.__alloyId55 = Ti.UI.createView({
+    $.__views.__alloyId50 = Ti.UI.createView({
         layout: "vertical",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
-        id: "__alloyId55"
+        id: "__alloyId50"
     });
-    $.__views.win.add($.__views.__alloyId55);
-    $.__views.__alloyId56 = Ti.UI.createView({
+    $.__views.win.add($.__views.__alloyId50);
+    $.__views.__alloyId51 = Ti.UI.createView({
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
-        id: "__alloyId56"
+        id: "__alloyId51"
     });
-    $.__views.__alloyId55.add($.__views.__alloyId56);
-    $.__views.__alloyId57 = Ti.UI.createView({
+    $.__views.__alloyId50.add($.__views.__alloyId51);
+    $.__views.__alloyId52 = Ti.UI.createView({
         layout: "horizontal",
         width: Ti.UI.FILL,
         height: Ti.UI.SIZE,
@@ -258,9 +269,9 @@ function Controller() {
         horizontalWrap: "false",
         borderColor: "#75d0cb",
         borderRadius: "5",
-        id: "__alloyId57"
+        id: "__alloyId52"
     });
-    $.__views.__alloyId56.add($.__views.__alloyId57);
+    $.__views.__alloyId51.add($.__views.__alloyId52);
     $.__views.firstTab = Ti.UI.createView({
         id: "firstTab",
         tab: "1",
@@ -268,9 +279,9 @@ function Controller() {
         height: "40",
         width: "50%"
     });
-    $.__views.__alloyId57.add($.__views.firstTab);
+    $.__views.__alloyId52.add($.__views.firstTab);
     switchListing ? $.addListener($.__views.firstTab, "click", switchListing) : __defers["$.__views.firstTab!click!switchListing"] = true;
-    $.__views.__alloyId58 = Ti.UI.createLabel({
+    $.__views.__alloyId53 = Ti.UI.createLabel({
         color: "#ffffff",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
@@ -283,25 +294,25 @@ function Controller() {
         top: "10",
         bottom: "10",
         textAlign: "center",
-        id: "__alloyId58"
+        id: "__alloyId53"
     });
-    $.__views.firstTab.add($.__views.__alloyId58);
-    $.__views.__alloyId59 = Ti.UI.createView({
+    $.__views.firstTab.add($.__views.__alloyId53);
+    $.__views.__alloyId54 = Ti.UI.createView({
         height: "40",
         width: "1",
         backgroundColor: "#75d0cb",
-        id: "__alloyId59"
+        id: "__alloyId54"
     });
-    $.__views.__alloyId57.add($.__views.__alloyId59);
+    $.__views.__alloyId52.add($.__views.__alloyId54);
     $.__views.secondTab = Ti.UI.createView({
         tab: "2",
         id: "secondTab",
         height: "40",
         width: "50%"
     });
-    $.__views.__alloyId57.add($.__views.secondTab);
+    $.__views.__alloyId52.add($.__views.secondTab);
     switchListing ? $.addListener($.__views.secondTab, "click", switchListing) : __defers["$.__views.secondTab!click!switchListing"] = true;
-    $.__views.__alloyId60 = Ti.UI.createLabel({
+    $.__views.__alloyId55 = Ti.UI.createLabel({
         color: "#75d0cb",
         width: Ti.UI.FILL,
         height: Ti.UI.FILL,
@@ -314,9 +325,9 @@ function Controller() {
         top: "10",
         bottom: "10",
         textAlign: "center",
-        id: "__alloyId60"
+        id: "__alloyId55"
     });
-    $.__views.secondTab.add($.__views.__alloyId60);
+    $.__views.secondTab.add($.__views.__alloyId55);
     $.__views.tblview = Ti.UI.createTableView({
         contentHeight: Ti.UI.SIZE,
         contentWidth: Ti.UI.FILL,
@@ -324,7 +335,7 @@ function Controller() {
         height: Ti.UI.FILL,
         id: "tblview"
     });
-    $.__views.__alloyId55.add($.__views.tblview);
+    $.__views.__alloyId50.add($.__views.tblview);
     exports.destroy = function() {};
     _.extend($, $.__views);
     arguments[0] || {};
@@ -334,7 +345,7 @@ function Controller() {
     init();
     Ti.App.addEventListener("manage_item:refresh", refresh);
     $.win.addEventListener("close", function() {
-        Ti.App.removeEventListener("friends:refresh", refresh);
+        Ti.App.removeEventListener("manage_item:refresh", refresh);
         $.destroy();
         console.log("window close");
     });

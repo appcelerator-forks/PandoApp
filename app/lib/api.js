@@ -22,12 +22,14 @@ var validateTransactionCodeUrl = "http://"+PANDO_DOMAIN+"/pando/api/validateTran
 var getItemListUrl            = "http://"+PANDO_DOMAIN+"/pando/api/getItemList?user="+USER+"&key="+KEY;
 var getItemResponseByUidUrl = "http://"+PANDO_DOMAIN+"/pando/api/getItemResponseByUid?user="+USER+"&key="+KEY;
 var getFriendListUrl = "http://"+PANDO_DOMAIN+"/pando/api/getFriendList?user="+USER+"&key="+KEY;
+var getCategoryListUrl = "http://"+PANDO_DOMAIN+"/pando/api/getCategoryList?user="+USER+"&key="+KEY;
 
 //API that call in sequence 
 var APILoadingList = [
 	{url: getItemListUrl, model: "items", checkId: "1"},
 	{url: getItemResponseByUidUrl, model: "item_response", checkId: "2"},
 	{url: getFriendListUrl, model: "friends", checkId: "3"},
+	{url: getCategoryListUrl, model: "friends", checkId: "4"},
 ];
 
 /*********************

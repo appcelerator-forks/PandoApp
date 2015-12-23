@@ -297,3 +297,20 @@ overrode the settings with other TSS, XML, or JS settings:
 ".transaprent-bg":{
 	backgroundImage: "/images/transparent-background.png"
 }
+
+".conthsize":{
+	contentHeight: Ti.UI.SIZE
+}
+
+".conthfill":{
+	contentHeight: Ti.UI.FILL
+}
+
+".contwsize":{
+	contentWidth: Ti.UI.SIZE
+}
+
+".contwfill":{
+	contentWidth: Ti.UI.FILL
+}
+

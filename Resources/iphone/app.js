@@ -1,4 +1,6 @@
 function parent(key, e) {
+    console.log(typeof key.value);
+    console.log(key.value);
     if ("undefined" != typeof key.value) {
         if (eval("e." + key.name) == key.value) return e;
         if (eval("e.parent." + key.name) == key.value) return e.parent;
