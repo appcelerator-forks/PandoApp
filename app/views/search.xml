@@ -1,10 +1,11 @@
 <Alloy>
 	<Window class="container" barColor="#323136" navTintColor="#75d0cb" id="win" title="Search" navBarHidden="false">
 	<ActionBar platform="android" displayHomeAsUp="true" onHomeIconItemSelected="closeWindow" />
-	<View class="hfill wfill vert">
-		<TableView id="tblview" class="wfill hfill">
+	<View class="wfill hfill vert">
+		<SearchBar id="searchbar" class="wfill hsize" hintText="I'm looking for" showCancel="true"></SearchBar>
+		<ScrollView class="hfill wfill horz conthsize contwfill" id="inner_box">
 			
-		</TableView>
+		</ScrollView>
 	</View>
     </Window>
 </Alloy>

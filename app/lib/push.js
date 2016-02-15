@@ -49,14 +49,14 @@ function receivePush(e) {
 	console.log(e);
 	console.log('receive push');
 	if(OS_IOS){ 
+		console.log(e.data.target);
 		if(e.data.target == "friends"){
 			var params = {u_id:e.data.f_id , to_id: e.data.u_id, message: e.data.alert, item_id: e.data.item_id, type: "text"};
 			var messager = Alloy.createCollection('message');
 		 	console.log(redirect+" want to see true or false");
-			messager.saveRecord(params);
+			//messager.saveRecord(params);
 			if(redirect){
-				Alloy.Globals.Navigator.open("friends");
-				Alloy.Globals.Navigator.open("friends_items", {f_id: e.data.f_id});
+				Alloy.Globals.Navigator.closeAll();
 				Alloy.Globals.Navigator.open("conversation", {f_id: e.data.f_id, id: e.data.item_id});
 			}else{
 				Ti.App.fireEvent("friends:refresh");
@@ -64,8 +64,7 @@ function receivePush(e) {
 			}
 		}else if(e.data.target == "pairing_success"){
 			if(redirect){
-				Alloy.Globals.Navigator.open("friends");
-				Alloy.Globals.Navigator.open("friends_items", {f_id: e.data.f_id});
+				Alloy.Globals.Navigator.closeAll();
 				Alloy.Globals.Navigator.open("conversation", {f_id: e.data.f_id, id: e.data.item_id});
 			}else{
 				Common.createAlert("Notification", "Item pairing is successful.");
@@ -79,7 +78,7 @@ function receivePush(e) {
 			var params = {u_id:e.f_id, to_id:  e.u_id, message: e.android.alert, item_id: e.item_id, type: "text"};
 			var messager = Alloy.createCollection('message');
 		 
-			messager.saveRecord(params);
+			//messager.saveRecord(params);
 			Ti.App.fireEvent("friends:refresh");
 			Ti.App.fireEvent("conversation:refresh");
 		}

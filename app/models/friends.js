@@ -38,7 +38,7 @@ exports.definition = {
 				var collection = this;
 				var addon = (f_id)?" AND f_id="+f_id:"";
 				var u_id = Ti.App.Properties.getString('user_id');
-                var sql = "SELECT  friends.*, fm.total FROM "+collection.config.adapter.collection_name+" LEFT OUTER JOIN (select count(*) as total, u_id from message where to_id = ? AND read is null group by u_id) as fm on fm.u_id = friends.f_id where friends.u_id = ?"+addon;
+                var sql = "SELECT friends.*, fm.total FROM "+collection.config.adapter.collection_name+" LEFT OUTER JOIN (select count(*) as total, u_id from message where to_id = ? AND read is null group by u_id) as fm on fm.u_id = friends.f_id where friends.u_id = ?"+addon;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){

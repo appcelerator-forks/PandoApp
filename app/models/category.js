@@ -73,9 +73,9 @@ exports.definition = {
                 
                 arr.forEach(function(entry) {
 	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (c_id, c_name, c_level, c_parent, status, img_path) VALUES (?,?,?,?,?,?)";
-					db.execute(sql_query, entry.c_id, entry.c_name, entry.c_level, entry.c_parent, 1, "");
+					db.execute(sql_query, entry.c_id, entry.c_name, entry.c_level, entry.c_parent, 1, entry.img_path);
 					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET c_name=?, c_level=?, c_parent=?, status=?, img_path=? WHERE c_id=?";
-					db.execute(sql_query, entry.c_name, entry.c_level, entry.c_parent, 1, "", entry.c_id);
+					db.execute(sql_query, entry.c_name, entry.c_level, entry.c_parent, 1, entry.img_path, entry.c_id);
 				});
 				console.log(db.getRowsAffected()+"insert into item response 1");
 				db.execute("COMMIT");
@@ -90,9 +90,9 @@ exports.definition = {
                 	db.file.setRemoteBackup(false);
                 }
 				var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (c_id, c_name, c_level, c_parent, status, img_path) VALUES (?,?,?,?,?,?)";
-				db.execute(sql_query, entry.c_id, entry.c_name, entry.c_level, entry.c_parent, 1, "");
+				db.execute(sql_query, entry.c_id, entry.c_name, entry.c_level, entry.c_parent, 1, entry.img_path);
 				var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET c_name=?, c_level=?, c_parent=?, status=?, img_path=? WHERE c_id=?";
-				db.execute(sql_query, entry.c_name, entry.c_level, entry.c_parent, entry.status, "", entry.c_id);
+				db.execute(sql_query, entry.c_name, entry.c_level, entry.c_parent, entry.status, entry.img_path, entry.c_id);
 				console.log(db.getRowsAffected+"insert into item response");
 	            db.close();
 	            collection.trigger('sync');

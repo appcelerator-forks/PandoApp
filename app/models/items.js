@@ -42,10 +42,14 @@ exports.definition = {
 	extendCollection: function(Collection) {
 		_.extend(Collection.prototype, {
 			// extended functions and properties go here
-			getData : function(){
+			getData : function(category, keyword){
 				var u_id = Ti.App.Properties.getString('user_id') || 0;
+				console.log(typeof category);
+				var category_sql = (typeof category != "undefined" && category != "")?" AND item_category = '"+category+"' ":"";
+				var keyword_sql = (typeof keyword != "undefined" && keyword != "")?" AND item_name like '%"+keyword+"%' ":"";
 				var collection = this;
-                var sql = "select * from items where id not in (SELECT item_id FROM item_response where requestor_id = ?) AND status = 1 AND owner_id != ? order by created desc";
+                var sql = "select * from items where id not in (SELECT item_id FROM item_response where requestor_id = ?)"+category_sql+keyword_sql+" AND status = 1 AND owner_id != ? order by distance and created desc";
+                console.log(sql);
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -76,6 +80,7 @@ exports.definition = {
 					    status: res.fieldByName('status'),
 					    created: res.fieldByName('created'),
 					    updated: res.fieldByName('updated'),
+					    distance: res.fieldByName('distance'),
 					    owner_name: res.fieldByName('owner_name'),
 					    owner_img_path: res.fieldByName('owner_img_path'),
 					    img_path: res.fieldByName('img_path'),
@@ -183,7 +188,7 @@ exports.definition = {
 				var u_id = Ti.App.Properties.getString('user_id');
 				var collection = this;
                 //var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1) as ir on items.id = ir.item_id where items.status = 1 AND items.owner_id = ? and items.receiver_id is null";
-                var sql = "select match_item.*, friends.fullname from (select items.*, ir.total from items left outer join (select count(*) as total, message.u_id from message where message.to_id = ? AND message.read is null group by message.u_id) as ir on items.receiver_id = ir.u_id where (items.status = 2) AND items.owner_id = ? AND receiver_id != 0) as match_item left outer join friends ON friends.f_id = match_item.receiver_id ";
+                var sql = "select match_item.*, friends.fullname from (select items.*, ir.total from items left outer join (select count(*) as total, message.u_id from message where message.to_id = ? AND message.read is null group by message.u_id) as ir on items.receiver_id = ir.u_id where (items.status = 2) AND items.owner_id = ? AND receiver_id != 0) as match_item left outer join friends ON friends.f_id = match_item.receiver_id order by match_item.updated desc";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -232,7 +237,7 @@ exports.definition = {
 				var u_id = Ti.App.Properties.getString('user_id');
 				var collection = this;
                 //var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1) as ir on items.id = ir.item_id where items.status = 1 AND items.owner_id = ? and items.receiver_id is null";
-                var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1 and status = 0 group by item_id) as ir on items.id = ir.item_id where items.status = 1 AND items.owner_id = ? AND receiver_id = 0";
+                var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1 group by item_id) as ir on items.id = ir.item_id where items.status != 3 AND items.status != 4 AND items.owner_id = ? order by items.updated desc";
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
@@ -240,6 +245,10 @@ exports.definition = {
                 var res = db.execute(sql, u_id, u_id);
                 var arr = []; 
                 var count = 0;
+                var row_count = res.fieldCount;
+                for(var a = 0; a < row_count; a++){
+            		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+            	 }
                 while (res.isValidRow()){
                 		//console.log(res.fieldByName('i_id')+",");
 					arr[count] = {
@@ -269,10 +278,91 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getWaitingDataByRequestor: function(){
+				var u_id = Ti.App.Properties.getString('user_id');
+				var collection = this;
+                //var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where owner_id = ? and actions = 1) as ir on items.id = ir.item_id where items.status = 1 AND items.owner_id = ? and items.receiver_id is null";
+                var sql = "select items.*, ir.total from items left outer join (SELECT item_id, count(*) as total FROM item_response where requestor_id = ? and actions = 1 group by item_id) as ir on items.id = ir.item_id where items.status != 3 AND items.status != 4 AND items.owner_id != ? order by items.updated desc";
+                var sql = "select items.* from items, item_response where items.id = item_response.item_id AND item_response.requestor_id = ? AND items.status != 3 AND items.status != 4 AND items.owner_id != ? order by items.updated desc";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql, u_id, u_id);
+                var arr = []; 
+                var count = 0;
+                while (res.isValidRow()){
+                		//console.log(res.fieldByName('i_id')+",");
+					arr[count] = {
+					    id: res.fieldByName('id'),
+					    owner_id: res.fieldByName('owner_id'),
+					    receiver_id: res.fieldByName('receiver_id'),
+					    item_name: res.fieldByName('item_name'),
+					    item_desc: res.fieldByName('item_desc'),
+					    item_category: res.fieldByName('item_category'),
+					    longitude: res.fieldByName('longitude'),
+					    latitude: res.fieldByName('latitude'),
+					    status: res.fieldByName('status'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated'),
+					    owner_name: res.fieldByName('owner_name'),
+					    owner_img_path: res.fieldByName('owner_img_path'),
+					    img_path: res.fieldByName('img_path'),
+					    code: res.fieldByName('code')
+					};
+					res.next();
+					count++;
+				} 
+			 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
+			getUnreadMessageByItemId : function(item_id, f_id){
+				 var collection = this;
+				var addon = "";
+				
+                var sql = "SELECT items.*, fm.total FROM " + collection.config.adapter.collection_name + " LEFT OUTER JOIN  (select count(*) as total, item_id from message where item_id = ? AND u_id = ? AND read is null group by item_id) as fm on fm.item_id = items.id WHERE items.id=?";
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql, item_id, f_id, item_id);
+                var arr = []; 
+               
+                if (res.isValidRow()){
+					arr = {
+					    total: res.fieldByName('total'),
+					    id: res.fieldByName('id'),
+					    owner_id: res.fieldByName('owner_id'),
+					    receiver_id: res.fieldByName('receiver_id'),
+					    item_name: res.fieldByName('item_name'),
+					    item_desc: res.fieldByName('item_desc'),
+					    item_category: res.fieldByName('item_category'),
+					    longitude: res.fieldByName('longitude'),
+					    latitude: res.fieldByName('latitude'),
+					    status: res.fieldByName('status'),
+					    created: res.fieldByName('created'),
+					    updated: res.fieldByName('updated'),
+					    owner_name: res.fieldByName('owner_name'),
+					    owner_img_path: res.fieldByName('owner_img_path'),
+					    img_path: res.fieldByName('img_path'),
+					    code: res.fieldByName('code')
+					};
+				} 
+			 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			calculate_distance : function(){
 				console.log("calculate_distance");
 				var collection = this;
-                var sql = "SELECT * FROM " + collection.config.adapter.collection_name +" where distance = '' OR distance IS NULL";
+				var u_id = Ti.App.Properties.getString('user_id') || 0;
+				console.log(u_id);
+                var sql = "SELECT * FROM " + collection.config.adapter.collection_name +" where distance != NULL AND owner_id != ? AND status = 1";
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -280,12 +370,20 @@ exports.definition = {
                 }
                 var lon2 = Ti.App.Properties.getString('longitude') || 0;
    				var lat2 = Ti.App.Properties.getString('latitude') || 0;
-                var res = db.execute(sql);
+   				console.log(lon2);
+   				console.log(lat2);
+                var res = db.execute(sql, u_id);
                 var count = 0;
                 while (res.isValidRow()){
 					lon1 = res.fieldByName('longitude');
 					lat1 = res.fieldByName('latitude');
+					var id = res.fieldByName('id');
 					var dist = countDistanceByKM(lon1, lat1, lon2, lat2);
+					
+					var sql_update =  "UPDATE "+collection.config.adapter.collection_name+" SET distance=? where id=?";
+					db.execute(sql_update, dist, id);
+					
+					console.log(dist);
 					res.next();
 					count++;
 				}
@@ -363,7 +461,8 @@ var countDistanceByKM = function(lat1,lon1,lat2,lon2) {
         Math.sin(dLon/2) * Math.sin(dLon/2);
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
     var d = R * c;
-    if (d>1) return Math.round(d);//+"km";
+    return d;
+    if (d>1) return Math.round(d)+"km";//+"km";
     else if (d<=1) return Math.round(d*1000)+"m";
     return d;
 };

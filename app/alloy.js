@@ -15,7 +15,7 @@ var API = require('api');
 var PUSH = require('push'); 
 var Common = require('common'); 
 var DBVersionControl = require('DBVersionControl');
-
+var image_moving = false;
 Alloy.Globals.Map = require('ti.map');
 
 DBVersionControl.checkAndUpdate();
@@ -79,7 +79,7 @@ function children(key, e){
 }
 
 function setCurLoc(e){
-	console.log('c');
+	console.log('set current location');
 	longitude = e.coords.longitude;
     latitude = e.coords.latitude;
     console.log(longitude+", "+latitude);

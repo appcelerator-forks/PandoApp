@@ -1,4 +1,5 @@
 var args = arguments[0] || {};
+checkGeoLocation();
 
 var loadingView = Alloy.createController("loader");
 loadingView.getView().open();

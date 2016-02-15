@@ -1,143 +1,80 @@
 var args = arguments[0] || {};
+var loading = Alloy.createController("loading");
 var item_id = args.id;
-var items_response_model = Alloy.createCollection("item_response");
-var data = items_response_model.getData(item_id);
-var item;
 
-console.log(item_id);
-console.log(data);
+function navToWaiting_List_Detail(e){
+	var item_response_id = parent({name: "item_response_id"}, e.source);
+	Alloy.Globals.Navigator.open("personal_waiting_list_detail", {id: item_response_id});
+}
 
-/*
- 	Item object - generate, remove, display, events
- * */
-
-var items =  function(counter) {
-	return {
-		counter: counter,
-		set: function(counter) {
-			this.counter = parseInt(counter);
-			return this;
-		},
-		init: function() {
-			this.insetItem();
-			this.insetItem();
-			this.displayCurrentItemInfo();
-			$.item_container.children[0].addEventListener("postlayout",function(){
-				var rect = $.item_container.children[0].rect;
-				console.log(rect.height+" image height");
-				$.label_no_more.height = rect.height;
-			});
-			
-			return this;
-		},
-		insetItem: function(){
-			console.log("total items number: "+this.counter);
-			if(this.counter){
-				var item_data = data[this.counter-1];
-				console.log(item_data.point+" item point!!");
-				var imgview = $.UI.create("ImageView",{
-					zIndex: this.counter,
-					classes: ["wfill"],
-					height: "auto",
-					id:  item_data.id,
-					point:  item_data.point,
-					item_name: item_data.item_name,
-					item_img_path: item_data.item_img_path,
-					requestor_name: item_data.requestor_name,
-					defaultImage: "/images/default/item.png",
-					image: item_data.requestor_img_path
-				});
-				this.counter --;
-				$.item_container.add(imgview);
-			}else{
-				console.log("no more");
-			}
-			return this;
-		},
-		ItemRemove: function(action){
-			var parent = this;
-			// set next item info
-			if($.item_container.children[0].zIndex != 1){
-				this.displayCurrentItemInfo(1);
-			}else{
-				this.resetCurrentItemInfo();
-				closeWindow();
-			}
-			//if yes call api to sent request to owner
-			
-			var u_id = Ti.App.Properties.getString('user_id');
-			var item_upload = $.item_container.children[0];
-			API.callByPost({url:"updateItemResponseUrl", params: {id: item_upload.id, status: action}}, function(response_text){
-				//on succes insert into item_response
-				var res = JSON.parse(response_text);
-				var model = Alloy.createCollection("items");
-				if(res.status == "success"){
-					console.log("work");
-					console.log(res.data);
-					model.saveRecord(res.data);
-				}
-			});
-			if(action == 1){
-				Common.createAlert("Notification","User selected.", function(){
-					closeWindow();
-				});
-			}
-			animation($.item_container.children[0], function(){
-				console.log('remove '+$.item_container.children[0].id);
-				$.item_container.remove($.item_container.children[0]);
-			});
-		}, displayCurrentItemInfo: function(index){
-			index = index || 0;
-			var label_field_1 = $.item_container.children[index].requestor_name;
-			var label_field_2 = $.item_container.children[index].point || 0;
-			//var img_path = $.item_container.children[index].item_img_path;
-			
-			$.label_field_1.text = label_field_1;
-			$.label_field_2.text = label_field_2;
-			//$.img_path.image = img_path;
-		}, resetCurrentItemInfo: function(){
-			$.label_field_1.text = "";
-			$.label_field_2.text = "";
-			//$.img_path.image = "";
-		}
-	};
-};
-
-function animation(item, callback){
-	var animation = Titanium.UI.createAnimation({
-		opacity:0,
-		duration: 500
-	});
-	item.animate(animation);
-	animation.addEventListener("complete", function(){console.log('callback from animate');callback && callback();});
+function render_table_view(){
+	var items_response_model = Alloy.createCollection("item_response");
+	var data = items_response_model.getData(item_id);
+	console.log(item_id+" at personal_waiting_list");
+	console.log(data);
+	var waiting_list = [];
 	
-	return ;
+	for (var i=0; i < data.length; i++) {
+
+		var tableviewrow = $.UI.create("TableViewRow",{selectedBackgroundColor: "#75d0cb"});
+		var view_container = $.UI.create("View",{
+			classes: ['wfill', 'horz'],
+			height: 70,
+			backgroundColor: "#ffffff",
+			item_response_id: data[i].id
+		});
+		
+		var imageView_item_thumb = $.UI.create("ImageView",{
+			width: 70,
+			height: 70,
+			defaultImage: "/images/default/small_item.png",
+			image: data[i].requestor_img_path
+		});
+		
+		var view_info_box = $.UI.create("View",{
+			classes: ['hfill', 'vert', 'padding'],
+			width: "auto"
+		});
+		
+		var label_item_name = $.UI.create("Label",{
+			classes:['h5','wfill','hsize'],
+			textAlign: "left",
+			text: data[i].requestor_name
+		});
+		
+		var label_number_unread = $.UI.create("Label",{
+			classes:['h6','wfill','hsize'],
+			textAlign: "left",
+			text: "Point: "+data[i].point
+		});
+		
+		view_info_box.add(label_item_name);
+		view_info_box.add(label_number_unread);
+		
+		view_container.add(imageView_item_thumb);
+		//view_container.add(view_indicator);
+		view_container.add(view_info_box);
+		view_container.addEventListener("click", navToWaiting_List_Detail);
+		tableviewrow.add(view_container);
+		waiting_list.push(tableviewrow);
+	};
+	$.tblview.setEditable(true);
+	$.tblview.setData(waiting_list);
 }
 
-function callback_yes(){
-	item.ItemRemove(1);
+function refresh(){
+	loading.start();
+	render_table_view();
+	loading.finish();
 }
 
-function callback_no(){
-	item.ItemRemove(2);
-}
-/**
- * Closes the Window
- */
 function closeWindow(){
 	$.win.close();
 }
 
 function init(){
-	if(data.length > 0){
-		item = new items(data.length);
-		item.init();
-	}
-	var left_right = Alloy.createController("_left_right");
-	var label_desc = "Swipe left or right to select";
-	left_right.generate_button($.left_right_button, label_desc, callback_yes, callback_no);
-	left_right.generate_indicator($.indicator);
-	//left_right.add_event($.indicator, callback_yes, callback_no);
+	$.win.add(loading.getView());
+	refresh();
 }
 
 init();
@@ -145,5 +82,5 @@ init();
 $.win.addEventListener("close", function(){
 	$.destroy();
 	console.log("window close");
-	Ti.App.fireEvent('personal:refresh');
+	Ti.App.fireEvent('manage_item:refresh');
 });

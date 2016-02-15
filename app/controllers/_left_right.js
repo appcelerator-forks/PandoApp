@@ -4,6 +4,7 @@ var answer = "";
 var left_indicator;
 var right_indicator;
 var username = Ti.App.Properties.getString(username);
+var image_view;
 
 $.generate_button = function(container, desc, yes_callback, no_callback){
 	var left_handed = Ti.App.Properties.getString('left-handed') || "";
@@ -37,10 +38,12 @@ $.generate_button = function(container, desc, yes_callback, no_callback){
 	var offset={};
 	
 	imageview_button.addEventListener('touchstart', function(e) {
+		image_moving = false;
 		offset.x = e.x;
 	});
 	
 	imageview_button.addEventListener("touchmove", function(e){
+		image_moving = true;
 		if(Titanium.Platform.osname == "android"){
 			var moveX = imageview_button.left + (e.x - offset.x);
 		}else{	
@@ -68,6 +71,7 @@ $.generate_button = function(container, desc, yes_callback, no_callback){
 	});
 	
 	imageview_button.addEventListener("touchend", function(e){
+		
 		if(answer == "left"){
 			if(left_handed != ""){
 				yes_callback && yes_callback();
@@ -92,10 +96,12 @@ $.generate_button = function(container, desc, yes_callback, no_callback){
 /*
  Deprecated function for generate button
  * */
-$.generate_button_old = function(container){
+$.generate_button_old = function(container, yes_callback, no_callback){
 	var left_handed = Ti.App.Properties.getString('left-handed') || "";
 	var left_button_image = (left_handed != "")?"/images/icons/button_yes.png":"/images/icons/button_no_right-handed.png";
 	var right_button_image = (left_handed != "")?"/images/icons/button_no.png":"/images/icons/button_yes_right-handed.png";
+	var left_button_image_press = (left_handed != "")?"/images/icons/button_yes_pressed.png":"/images/icons/button_no_right-handed_pressed.png";
+	var right_button_image_press = (left_handed != "")?"/images/icons/button_no_pressed.png":"/images/icons/button_yes_right-handed_pressed.png";
 	
 	var undo_view = $.UI.create("View", {
 		classs:['hfill'],
@@ -105,13 +111,7 @@ $.generate_button_old = function(container){
 	var left_view = $.UI.create("View", {
 		classs:['hfill'],
 		width: "30%",
-		employee_id: i,
-		employee_name: name[i]
 	});
-	
-	var name = ['gart', 'onn','george'];
-	var obj = {name: "gart", ic: "123123123"};
-	alert(name[1]);
 	
 	var right_view = $.UI.create("View", {
 		classs:['hfill'],
@@ -137,8 +137,75 @@ $.generate_button_old = function(container){
 		right: 0
 	});
 	
+	var undo_button = $.UI.create("ImageView",{
+		classes: ['hsize', 'wfill'],
+		top: 10,
+		image: "/images/icons/icon_undo.png",
+	});
+	
+	var willingtobuy_button = $.UI.create("ImageView",{
+		classes: ['hsize', 'wfill'],
+		top: 10,
+		image: "/images/icons/icon-willing-to-buy.png",
+	});
+	
 	left_view.add(left_button);
 	right_view.add(right_button);
+	undo_view.add(undo_button);
+	willingtobuy_view.add(willingtobuy_button);
+	
+	/*
+	 pressed effect
+	 * */
+	left_button.addEventListener("touchstart", function(e){
+		left_button.image = left_button_image_press;
+		console.log(left_button_image_press);
+	});
+	
+	left_button.addEventListener("touchend", function(e){
+		left_button.image = left_button_image;
+	});
+	
+	right_button.addEventListener("touchstart", function(e){
+		right_button.image = right_button_image_press;
+		console.log(left_button_image_press);
+	});
+	
+	right_button.addEventListener("touchend", function(e){
+		right_button.image = right_button_image;
+	});
+	
+	undo_button.addEventListener("touchstart", function(e){
+		undo_button.image = "/images/icons/icon_undo_pressed.png";
+	});
+	
+	undo_button.addEventListener("touchend", function(e){
+		undo_button.image = "/images/icons/icon_undo.png";
+	});
+	
+	willingtobuy_button.addEventListener("touchstart", function(e){
+		willingtobuy_button.image = "/images/icons/icon-willing-to-buy_pressed.png";
+	});
+	
+	willingtobuy_button.addEventListener("touchend", function(e){
+		willingtobuy_button.image = "/images/icons/icon-willing-to-buy.png";
+	});
+	
+	left_button.addEventListener("click", function(e){
+		if(left_handed != ""){
+			yes_callback();
+		}else{
+			no_callback();
+		}
+	});
+	
+	right_button.addEventListener("click", function(e){
+		if(left_handed != ""){
+			no_callback();
+		}else{
+			yes_callback();
+		}
+	});
 	
 	container.add(undo_view);
 	container.add(left_view);
@@ -178,12 +245,13 @@ $.generate_indicator = function(container){
 $.add_event = function(container, yes_callback, no_callback){
 	var left_handed = Ti.App.Properties.getString('left-handed') || "";
 	var pwidth = Ti.Platform.displayCaps.platformWidth;
-	var image_view = parent({name:"isParent", value:"yes"}, container);
+	image_view = parent({name:"isParent", value:"yes"}, container);
 	var current_image_point;
-	console.log(image_view);
+	
 	image_view.addEventListener("touchstart", function(e){
 		current_point = {x: e.x, y:e.y};
 		current_image_point_diff = {x: e.x - image_view.animatedCenter.x, y: e.y - image_view.animatedCenter.y};
+		Ti.App.fireEvent("home:zIndex12");
 	});
 	
 	image_view.addEventListener("touchmove", function(e){
@@ -193,14 +261,14 @@ $.add_event = function(container, yes_callback, no_callback){
 		var floatpoint = ((image_view.animatedCenter.x - (pwidth/2))/pwidth);
 		console.log(floatpoint);
 		if((e.x - current_point.x) < 0){
-			if(floatpoint < -0.25){
+			if(floatpoint < -0.40){
 				answer = "left";
 			}else{
 				answer = "";
 			}
 			
 		}else{
-			if(floatpoint > 0.25){
+			if(floatpoint > 0.40){
 				answer = "right";
 			}
 		}
@@ -211,9 +279,7 @@ $.add_event = function(container, yes_callback, no_callback){
 	});
 	
 	image_view.addEventListener("touchend", function(e){
-		container.animate({left:-pwidth, duration:500});
-		console.log('done');
-		return;
+		
 		if(answer == "left"){
 			container.animate({left:-pwidth, duration:500});
 			if(left_handed != ""){
@@ -221,6 +287,7 @@ $.add_event = function(container, yes_callback, no_callback){
 			}else{
 				no_callback(image_view);
 			}
+			Ti.App.fireEvent("home:zIndex10");
 		}else if(answer == "right"){
 			container.animate({left:pwidth, duration:500});
 			if(left_handed != ""){
@@ -229,8 +296,9 @@ $.add_event = function(container, yes_callback, no_callback){
 			}else{
 				yes_callback(image_view);
 			}
+			Ti.App.fireEvent("home:zIndex10");
 		}else{
-			container.animate({top:0, left:0, duration:500});
+			container.animate({top:0, left:0, duration:500}, function(e){Ti.App.fireEvent("home:zIndex10");});
 			container.transform = Ti.UI.create2DMatrix().rotate(0);
 		}
 		

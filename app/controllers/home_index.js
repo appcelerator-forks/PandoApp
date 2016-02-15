@@ -28,7 +28,6 @@ Alloy.Globals.Navigator = {
 				}
 			}
 			_.debounce(win.open({navBarHidden: false, fullscreen: false}), 1000, true);
-			
 		}
 		return controller;
 	},
@@ -51,6 +50,10 @@ Alloy.Globals.Navigator = {
 			}
 			win.open({navBarHidden: false, fullscreen: false});
 		}
+	},
+	closeAll: function(){
+		this.navGroup.close();
+		this.navGroup.open({navBarHidden: true, fullscreen: false});
 	}
 };
 

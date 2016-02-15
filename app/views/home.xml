@@ -1,6 +1,6 @@
 <Alloy>
 	<Window id="win" theme="Theme.NoActionBar" title="Home" navBarHidden="true" fullscreen="false">
-     <View class='wsize wfill' backgroundColor="orange">
+     <View class='wsize wfill'>
         <View zIndex="10" class="wfill hsize" top="0" backgroundImage="/images/bg/menu_bar.png">
         	<!--<ImageView onClick="refresh" class="padding" left="10" top="20" bottom="20" height="40" width="40" image="/images/icons/icon_referesh.png"></ImageView>-->
         	<View class="wsize hsize horz" right="0" top="10">
@@ -10,8 +10,8 @@
         	</View>
         </View>
         <View class="wsize hfill" top="60">
-        	<View zIndex="10" class="hsize box" borderRadius="40" borderColor="#323136" borderWidth="4" backgroundColor="#fff" width="80" height="80" right="10" top="10">
-        		<View class="hsize vert small-padding">
+        	<View onClick="requestProduct" controller="in_app_purchase" id="view_point" zIndex="10" class="hsize box" borderRadius="40" borderColor="#323136" borderWidth="4" backgroundColor="#fff" width="80" height="80" right="10" top="10">
+        		<View  class="hsize vert small-padding">
 		        	<Label class="wfill hsize" top="5" textAlign="center">POINT</Label>
 		        	<Label id="point" textAlign="center" class="h2 wfill hsize"></Label>
 	        	</View>
@@ -25,7 +25,11 @@
 		        				ADASDd ALS LALKKS
 		    				</Label>
 		        		</View>-->
-        		<View id="left_right_button" bottom="0" class="wfill horz" horizontalWrap="false" backgroundColor="#ebebeb">
+		        <View id="desc_box" class="wfill vert" zIndex="12" backgroundColor="#323136">
+        			<Label id="item_name" class="wfill hsize small-padding h4" color="#ffffff"></Label>
+        			<Label id="desc_label" class="wfill hsize padding h5" color="#ffffff"></Label>
+        		</View>
+        		<View id="left_right_button" bottom="0" zIndex="11"class="wfill horz" horizontalWrap="false" backgroundColor="#ebebeb">
         			
         		</View>
         	</View>

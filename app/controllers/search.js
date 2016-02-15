@@ -14,30 +14,31 @@ function render_category_menu(){
 	var category_list = [];
 	
 	for (var i=0; i < data.length; i++) {
-
-		var tableviewrow = $.UI.create("TableViewRow",{});
+		console.log(data[i]);
 		var view_container = $.UI.create("View",{
-			classes: ['wfill', 'horz'],
-			height: 70,
+			classes: ['hsize'],
+			width: "50%",
 			backgroundColor: "#ffffff",
-			item_response_id: data[i].c_id
+			item_category: data[i].c_name
 		});
 		
 		var imageView_item_thumb = $.UI.create("ImageView",{
-			width: 70,
-			height: 70,
-			defaultImage: "/images/default/small_item.png",
-			image: data[i].img_path
+			classes: ['wfill'],
+			height: "auto",
+			defaultImage: "/images/default/item.png",
+			image: data[i].img_path || "/images/default/item.png"
 		});
 		
 		var view_info_box = $.UI.create("View",{
-			classes: ['hfill', 'vert', 'padding'],
-			width: "auto"
+			classes: ['hsize', 'wfill'],
+			top:0,
+			backgroundImage: "/images/bg/bg_matt_2.png"
 		});
 		
 		var label_item_name = $.UI.create("Label",{
-			classes:['h5','wfill','hsize'],
+			classes:['h5','wfill','hsize', 'padding'],
 			textAlign: "left",
+			color: "#fff",
 			text: data[i].c_name
 		});
 		
@@ -45,13 +46,24 @@ function render_category_menu(){
 		view_container.add(imageView_item_thumb);
 		//view_container.add(view_indicator);
 		view_container.add(view_info_box);
-		
-		tableviewrow.add(view_container);
-		category_list.push(tableviewrow);
+		view_container.addEventListener("click", setFilter);
+		$.inner_box.add(view_container);
 	};
-	$.tblview.setData(category_list);
 }
 
+function setFilter(e){
+	var category_type = parent({name: "item_category"},e.source);
+	console.log(category_type);
+	Ti.App.Properties.setString('category_type', category_type);
+	Ti.App.fireEvent('home:refresh');
+	closeWindow();
+}
+
+function doSearch(e){
+	Ti.App.Properties.setString('category_keyword', e.value);
+	Ti.App.fireEvent('home:refresh');
+	closeWindow();
+}
 /*
  	Sync data from server
  * */
@@ -95,6 +107,8 @@ function init(){
 }
 
 init();
+
+$.searchbar.addEventListener("return", doSearch);
 
 Ti.App.addEventListener('search:refresh',refresh);
 

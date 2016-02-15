@@ -64,6 +64,20 @@ var countDown =  function( m , s, fn_tick, fn_end  ) {
 	};
 };
 
+function refreshPoint(){
+	var ObjDate = new Date();
+	var now = Math.floor(ObjDate.getTime()/1000);
+	var sec_left = estimate_time - now - 1;
+
+	var life_in_waiting = Math.ceil(sec_left/waiting_time);
+
+	if(life_in_waiting >= 0){
+		lives = 10 - life_in_waiting;
+	}else{
+		lives = 10;
+	}
+}
+
 function timer(update){
 	if(!update){
 		my_timer = new countDown(0,0, 
@@ -71,10 +85,10 @@ function timer(update){
 			//$.time.text = my_timer.time.m+":"+my_timer.time.s;
 		},
 		function() {
-			if(lives < 5){
+			if(user_point < 10){
 				timer();
 			}
-			refreshLife();
+			refreshPoint();
 		});
 	}
 	var ObjDate = new Date();
@@ -114,7 +128,6 @@ var items =  function(counter) {
 			return this;
 		},
 		init: function() {
-			console.log("total items number: "+this.counter);
 			if(!this.counter){
 				var rect = $.item_container.rect;
 				var view = $.UI.create("ImageView",{
@@ -136,27 +149,30 @@ var items =  function(counter) {
 			if(this.counter){
 				var pwidth = Ti.Platform.displayCaps.platformWidth;
 				var item_data = data[this.counter-1];
+				var dist = (item_data.distance>1)?Math.round(item_data.distance)+"km":Math.round(item_data.distance*1000)+"m";
+    
 				var view_container = $.UI.create("View",{
 					id: item_data.id,
 					isParent: "yes",
 					top:0,
 					zIndex: this.counter,
+					desc: item_data.item_desc,
 					width:pwidth,
+					distance: dist,
 					labelname: item_data.item_name,
 					owner_id: item_data.owner_id,
 					classes: ['hsize', 'vert']
 				});
 				
 				var label_item_name = $.UI.create("Label",{
-					classes: ['wfill','hfill','padding'],
+					classes: ['wfill','hsize','small-padding', 'h4'],
 					text: item_data.item_name,
 					color: "#ffffff"
 				});
 				var view_item_name = $.UI.create("View",{
 					top: 0,
-					classes: ['wfill', 'shadow'],
+					classes: ['wfill', 'shadow', 'hsize','vert'],
 					backgroundColor: "#323136",
-					height: 40,
 					zIndex: 10
 				});
 				var imgview = $.UI.create("ImageView",{
@@ -179,6 +195,7 @@ var items =  function(counter) {
 				$.item_container.add(view_container);
 				var left_right = Alloy.createController("_left_right");
 				left_right.add_event(view_container, callback_yes, callback_no);
+				view_container.addEventListener("click", trigger_desc_box);
 			}else{
 				console.log("no more");
 			}
@@ -186,42 +203,63 @@ var items =  function(counter) {
 		},
 		ItemRemove: function(action, item_image){
 			var parent = this;
-			console.log($.item_container.children.length+" number of children");
-			for (var i=0; i < $.item_container.children.length; i++) {
-			  console.log($.item_container.children[i].labelname);
-			};
-			console.log(item_image);
-			console.log(item_image.labelname);
+			var u_id = Ti.App.Properties.getString('user_id');
+			var item_upload = $.item_container.children[0];
+			API.callByPost({url:"addToItemResponseUrl", params: {point: point, item_id: item_upload.id, owner_id: item_upload.owner_id, requestor_id: u_id, actions: action}}, function(response_text){
+				//on succes insert into item_response
+				var res = JSON.parse(response_text);
+				var model = Alloy.createCollection("item_response");
+				if(res.status == "success"){
+					model.saveRecord(res.data);
+					get_point();
+				}
+			});
+			$.item_container.remove(item_image);
+			/*
 			animation(item_image, function(){
 				console.log('removed');
 				$.item_container.remove(item_image);
 				console.log($.item_container.children.length+" number of children");
 			});
-		}, displayCurrentItemInfo: function(index){
-			index = index || 0;
-			var item_name = $.item_container.children[index].item_name;
-			var owner_name = $.item_container.children[index].owner_name;
-			var owner_img_path = $.item_container.children[index].owner_img_path;
-			
-			$.item_name.text = item_name;
-			$.owner_name.text = owner_name;
-			$.owner_img_path.image = owner_img_path;
-		},resetCurrentItemInfo: function(){
-			$.item_name.text = "";
-			$.owner_name.text = "";
-			$.owner_img_path.image = "";
+			*/
 		}
 	};
 };
 
+var desc_box_move = false;
+function trigger_desc_box(e){
+	var pheight = Ti.Platform.displayCaps.platformHeight - 70;
+	var pwidth = Ti.Platform.displayCaps.platformWidth;
+	var item_desc = parent({name: "desc"}, e.source);
+	var item_name = parent({name: "labelname"}, e.source);
+	var distance = parent({name: "distance"}, e.source);
+	console.log(item_desc);
+	$.desc_label.text = item_desc+"\n"+"Distance: "+distance;
+	$.item_name.text = item_name;
+	if(!image_moving){
+		if(!desc_box_move){
+			desc_box_move = true;
+			$.view_point.zIndex = 8;
+			$.desc_box.animate({top:pwidth, duration:50}, function(){console.log($.desc_box.top+" open");});
+		}else{
+			desc_box_move = false;
+			$.view_point.zIndex = 10;
+			$.desc_box.animate({top:pheight, duration:50}, function(){console.log($.desc_box.top+" close");});
+		}
+	}
+}
+
 function render_structure(){
+	var pheight = Ti.Platform.displayCaps.platformHeight - 70;
 	var pwidth = Ti.Platform.displayCaps.platformWidth;
 	$.left_right_button.top = pwidth + 40;
+	$.desc_box.top = pheight;
 }
 
 function navTo(e){
-	if(typeof e.source.controller != "undefined"){
-		Alloy.Globals.Navigator.open(e.source.controller);
+	var target = parent({name: "controller"}, e.source);
+	if(typeof target != "undefined"){
+		Alloy.Globals.Navigator.open(target);
 	}
 }
 
@@ -243,10 +281,11 @@ function callback_yes(view){
 		Common.createAlert("Message", "No more item. Please try again later");
 		return ;
 	}*/
-	if(false){
-		Common.createAlert("Message", "No more lives. Please try again later");
-		return ;
-	}
+	for (var i=0; i < $.item_container.children.length; i++) {
+	  console.log($.item_container.children[i].labelname);
+	};
+	console.log($.item_container.children[0].labelname+" < say yes for");
+	
 	Common.dialogTextfield(function(p){
 		if(!checkpoint(p)){
 			Common.createAlert("Message", "Not enough point. Please try again later");
@@ -272,7 +311,7 @@ function callback_yes(view){
 		timer(1);
 		
 		sound_yes.play();
-		item.ItemRemove(1, view); // 1 = yes
+		item.ItemRemove(1, $.item_container.children[0]); // 1 = yes
 		item.insetItem();
 	});
 }
@@ -287,8 +326,12 @@ function callback_no(view){
 		Common.createAlert("Message", "No more lives. Please try again later");
 		return ;
 	}
+	for (var i=0; i < $.item_container.children.length; i++) {
+	  console.log($.item_container.children[i].labelname);
+	};
+	console.log($.item_container.children[0].labelname+" < say no for");
 	sound_no.play();
-	item.ItemRemove(2, view); // 2 = no 
+	item.ItemRemove(2, $.item_container.children[0]); // 2 = no 
 	item.insetItem();
 }
 
@@ -333,16 +376,30 @@ function leftright_refresh(){
 	//left_right.generate_button($.left_right_button, label_desc, callback_yes, callback_no);
 }
 
+function zIndex10(){
+	$.item_container.zIndex = 10;
+}
+
+function zIndex12(){
+	$.item_container.zIndex = 12;
+}
+
 function refresh(){
 	get_point();
 	loading.start();
 	getItemList(function(){
 		getItemResponseList(function(){
+			var category_type = Ti.App.Properties.getString('category_type') || "";
+			var category_keyword = Ti.App.Properties.getString('category_keyword') || "";
 			var model = Alloy.createCollection("items");
-			data = model.getData();
+			data = model.getData(category_type, category_keyword);
+			console.log("refresh data");
+			console.log(data);
 			item = new items(data.length);
 			item.init();
 			loading.finish();
+			Ti.App.Properties.setString('category_type', "");
+			Ti.App.Properties.setString('category_keyword', "");
 		});
 	});
 }
@@ -351,19 +408,84 @@ function refresh(){
 function init(){
 	$.win.add(loading.getView());
 	get_point(); 
-	render_structure();
-	//timer();
+	
+	timer();
 	
 	var left_right = Alloy.createController("_left_right");
-	left_right.generate_button_old($.left_right_button);
+	left_right.generate_button_old($.left_right_button, callback_yes, callback_no);
+	render_structure();
 }
 
 init();
 
 Ti.App.addEventListener('home:refresh',refresh);
 Ti.App.addEventListener('home:leftright_refresh',leftright_refresh);
+Ti.App.addEventListener('home:zIndex10',zIndex10);
+Ti.App.addEventListener('home:zIndex12',zIndex12);
 
 $.win.addEventListener("close", function(){
 	Ti.App.removeEventListener('home:refresh',refresh);
+	Ti.App.removeEventListener('home:leftright_refresh',leftright_refresh);
+	Ti.App.removeEventListener('home:zIndex10',zIndex12);
+	Ti.App.removeEventListener('home:zIndex12',zIndex12);
 	$.destroy();
 });
+
+var storekit = require('ti.storekit');
+
+var transactionStateChanged = function(evt) {
+    switch (evt.state) {
+        case storekit.TRANSACTION_STATE_FAILED:
+            if (evt.cancelled) {
+                alert('Purchase cancelled');
+            } else {
+                alert(evt.message); 
+            }
+   
+            evt.transaction && evt.transaction.finish();
+            break;
+        case storekit.TRANSACTION_STATE_PURCHASED:
+            if(storekit.validateReceipt()) {
+                Ti.API.info(JSON.stringify(evt.receipt.toString()));
+                alert('Purchase completed!');
+            }
+  
+            evt.transaction && evt.transaction.finish();
+            break;
+    }
+};
+
+function Inappinit() {
+    storekit.receiptVerificationSandbox = Ti.App.deployType !== 'production';
+    storekit.bundleVersion = '1.0';
+    storekit.bundleIdentifier = 'com.geonn.pandoapp';
+    storekit.addEventListener('transactionState', transactionStateChanged);
+    storekit.addTransactionObserver();
+}
+// Never forget to remove the transaction observer
+// and your event listeners, otherwise you might cause memory leaks and unwanted problems
+// Assigned to the close event of my Window element (see XML)
+function cleanUp() { 
+    storekit.removeTransactionObserver();
+    storekit.removeEventListener('transactionState', transactionStateChanged);
+    storekit = null;
+}
+
+Inappinit();
+
+function requestProduct() {
+    storekit.requestProducts(['premium_account_tier_1'], function (evt) {
+        if (!evt.success) {
+            alert('Sorry, the App Store seems to be down right now. Please try again soon.');
+        } else if (evt.invalid) {
+            alert('Invalid product.');
+        } else {
+            purchaseProduct(evt.products[0]);
+        }
+    });
+}
+
+function purchaseProduct(product) {
+    storekit.purchase({product: product});
+};
+

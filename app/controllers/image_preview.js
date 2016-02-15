@@ -43,6 +43,8 @@ function init(){
 	
 	var original_image = $.UI.create("ImageView", {
 			image: media,
+			width: pWidth,
+			height: "auto",
 			zIndex: 10,
 			opacity: 0.8,
 		});

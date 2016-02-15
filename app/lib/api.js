@@ -15,8 +15,10 @@ var doSignUpUrl = "http://"+PANDO_DOMAIN+"/pando/api/doSignUp?user="+USER+"&key=
 var addItemUrl = "http://"+PANDO_DOMAIN+"/pando/api/addItem?user="+USER+"&key="+KEY;
 var addToItemResponseUrl = "http://"+PANDO_DOMAIN+"/pando/api/addToItemResponse?user="+USER+"&key="+KEY;
 var updateItemResponseUrl = "http://"+PANDO_DOMAIN+"/pando/api/updateItemResponse?user="+USER+"&key="+KEY;
+var updateItemStatusUrl = "http://"+PANDO_DOMAIN+"/pando/api/updateItemStatus?user="+USER+"&key="+KEY;
 var sendMessageUrl = "http://"+PANDO_DOMAIN+"/pando/api/sendMessage?user="+USER+"&key="+KEY;
 var validateTransactionCodeUrl = "http://"+PANDO_DOMAIN+"/pando/api/validateTransactionCode?user="+USER+"&key="+KEY;
+var getMessageByItem = "http://"+PANDO_DOMAIN+"/pando/api/getMessageByItem?user="+USER+"&key="+KEY;
 
 //API when app loading phase
 var getItemListUrl            = "http://"+PANDO_DOMAIN+"/pando/api/getItemList?user="+USER+"&key="+KEY;
@@ -29,7 +31,7 @@ var APILoadingList = [
 	{url: getItemListUrl, model: "items", checkId: "1"},
 	{url: getItemResponseByUidUrl, model: "item_response", checkId: "2"},
 	{url: getFriendListUrl, model: "friends", checkId: "3"},
-	{url: getCategoryListUrl, model: "friends", checkId: "4"},
+	{url: getCategoryListUrl, model: "category", checkId: "4"},
 ];
 
 /*********************

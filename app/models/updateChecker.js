@@ -6,6 +6,7 @@ ID       type Name
 2		getItemResponseByUid
 3		getFriendListUrl
 4 		getCategoryList
+5		getMessageByItem
 ************************************/
 
 exports.definition = {

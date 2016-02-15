@@ -4,16 +4,12 @@ var item_id = args.id;
 
 var u_id = Ti.App.Properties.getString('user_id') || 0;
 var user_thumb_path = Ti.App.Properties.getString('thumb_path') || "";
+var friend_thumb_path = "";
 var loading = Alloy.createController("loading");
-
-//get friend data
-var friends = Alloy.createCollection("friends");
-var friends_data = friends.getData(f_id);
 
 //get items data
 var items = Alloy.createCollection("items");
 var items_data = items.getDataById(item_id);
-console.log(items_data);
 
 //set message as read
 var message = Alloy.createCollection("message");
@@ -23,20 +19,28 @@ message.messageRead({item_id:item_id});
  * Send message
  */
 function SendMessage(){
-	console.log(f_id+" "+u_id);
-	console.log(item_id+" "+$.message.value);
 	if($.message.value == ""){
 		return;
 	}
-	API.callByPost({url: "sendMessageUrl", params:{to_id: f_id, item_id: item_id, u_id: u_id, message: $.message.value, target: "friends"}});
+	API.callByPost({url: "sendMessageUrl", params:{to_id: f_id, item_id: item_id, type: "text", u_id: u_id, message: $.message.value, target: "friends"}}, function(responseText){
+		var model = Alloy.createCollection("message");
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		console.log('message sent');
+		console.log(arr);
+		model.saveRecord(arr);
+		
+		$.message.value = "";
+		data = message.getData(item_id);
+		render_conversation();
+		setTimeout(scrollToBottom, 500);
+		});
 	
-	var params = {u_id: u_id, to_id: f_id, message: $.message.value, type: "text", read: 1, item_id: item_id};
-	var messager = Alloy.createCollection('message');
-	console.log(params);
-	messager.saveRecord(params);
-	$.message.value = "";
-	refresh();
-	setTimeout(scrollToBottom, 1000);
+	//var params = {u_id: u_id, to_id: f_id, message: $.message.value, type: "text", item_id: item_id};
+	//var messager = Alloy.createCollection('message');
+	
+	//messager.saveRecord(params);
+	
 }
 
 /*
@@ -102,13 +106,12 @@ function render_item_box(){
 
 function render_conversation(){
 	$.inner_box.removeAllChildren();
-	
 	for (var i=0; i < data.length; i++) {
 		var view_container = $.UI.create("View",{
 			classes: ['hsize','wfill','horz']
 		});
-		var thumb_path = (data[i].u_id == u_id)?user_thumb_path:data[i].thumb_path;
-
+		console.log("u_id: "+data[i].u_id+" = "+u_id+", message:"+data[i].message+", to_id:"+data[i].to_id);
+		var thumb_path = (data[i].u_id == u_id)?user_thumb_path:friend_thumb_path;
 		var imageview_thumb_path = $.UI.create("ImageView", {
 			top: 10,
 			width: 50,
@@ -146,6 +149,25 @@ function render_conversation(){
 		
 		$.inner_box.add(view_container);
 	}
+	scrollToBottom();
+}
+
+function getConversationByItemId(callback){
+	var checker = Alloy.createCollection('updateChecker'); 
+	var isUpdate = checker.getCheckerById(5);
+	var last_updated = isUpdate.updated || "";
+	
+	API.callByPost({url:"getMessageByItem", params: {item_id: item_id, receiver_id: u_id, last_updated: last_updated}}, function(responseText){
+		var model = Alloy.createCollection("message");
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		console.log('api get message');
+		console.log(arr);
+		model.saveArray(arr, callback);
+		checker.updateModule(5, "getMessageByItem", Common.now());
+		
+		callback && callback();
+	});
 }
 
 function scrollToBottom(){
@@ -157,9 +179,11 @@ function scrollToBottom(){
  * */
 function refresh(){
 	loading.start();
-	data = message.getData(item_id);
-	render_item_box();
-	render_conversation();
+	getConversationByItemId(function(){
+		data = message.getData(item_id);
+		render_item_box();
+		render_conversation();
+	});
 	loading.finish();
 }
 
@@ -170,10 +194,22 @@ function closeWindow(){
 	$.win.close();
 }
 
+function updateFriendInfo(callback){
+	var friends = Alloy.createCollection("friends");
+	API.callByPost({url:"getFriendListUrl", params: {u_id: u_id}}, function(responseText){
+		var res = JSON.parse(responseText);
+		var arr = res.data || null;
+		friends.saveArray(arr);
+		var friends_data = friends.getData(f_id);
+		friend_thumb_path = friends_data[0].thumb_path;
+		$.f_name.text = friends_data[0].fullname;
+		callback && callback();
+	});
+}
+
 function init(){
 	$.win.add(loading.getView());
-	refresh();
-	$.f_name.text = friends_data[0].fullname;
+	updateFriendInfo(refresh);
 }
 
 init();

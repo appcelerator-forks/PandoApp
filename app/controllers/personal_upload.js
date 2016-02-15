@@ -44,7 +44,7 @@ function loadPhoto(){
 	                // show alert
 	                a.show();
 	            },
-	            allowImageEditing:true,
+	            allowImageEditing:false,
 	            mediaTypes : [Ti.Media.MEDIA_TYPE_PHOTO],
 	            saveToPhotoGallery:true
         	});
@@ -79,13 +79,16 @@ function callback_yes(){
 		owner_id: owner_id, 
 		item_name: $.item_name.value, 
 		item_category: $.item_category.value,
+		item_desc: $.item_desc.value,
 		photoLoad: photoLoad,
 		longitude: longitude,
 		latitude: latitude
 		};
+		console.log(records);
 	loading.start();
 	API.callByPostImage({url: "addItemUrl", params: records}, 
 		function(responseText){
+			console.log("addItemUrl");
 			console.log(responseText);
 			var result = JSON.parse(responseText);
 			if(result.status == "error"){
@@ -94,7 +97,7 @@ function callback_yes(){
 				return false;
 			}else{
 				loading.finish();
-				Common.createAlert("Notificatin", "Item Upload Successful", 
+				Common.createAlert("Congraturation", "Item Upload Successful", 
 				function(){
 					$.win.close();
 				});
@@ -114,6 +117,52 @@ function imageCallback(e){
 	photoLoad = 1;
 }
 
+function openCategorylist(e){
+	$.item_desc.blur();
+	$.item_name.blur();
+	var category_value = $.item_category.value || "";
+
+	var model =  Alloy.createCollection("category");
+	data = model.getData();
+	
+	var view_container = $.UI.create("View", {
+		classes:['wfill','hsize','vert'],
+		backgroundColor: "#ffffff",
+		bottom: 0,
+	});
+	
+	var button_selected = $.UI.create("Button",{
+		classes:['button'],
+		title: "Select",
+		bottom: 10,
+	});
+	
+	var picker = Ti.UI.createPicker();
+	
+	var pickerdata = [];
+	var selected_row = 0;
+	for (var i=0; i < data.length; i++) {
+		if(category_value == data[i].c_name){
+			selected_row = i;
+		}
+	  	pickerdata[i] = Ti.UI.createPickerRow({title: data[i].c_name});
+	};
+	
+	picker.add(pickerdata);
+	
+	view_container.add(picker);
+	view_container.add(button_selected);
+	
+	button_selected.addEventListener("click", function(e){
+		$.item_category.value = picker.getSelectedRow(0).title;
+		view_container.removeAllChildren();
+		$.win.remove(view_container);
+	});
+	
+	$.win.add(view_container);
+	picker.setSelectedRow(0, selected_row, false);
+}
+
 function init(){
 	var left_right = Alloy.createController("_left_right");
 	var label_desc = "Swipe left or right to select";
@@ -126,6 +175,20 @@ function init(){
 }
 
 init();
+
+$.item_category.addEventListener("click", openCategorylist);
+$.item_desc.addEventListener('focus',function(e){
+    if(e.source.value == e.source._hintText){
+        e.source.value = "";
+        e.source.color = "#000000";
+    }
+});
+$.item_desc.addEventListener('blur',function(e){
+    if(e.source.value==""){
+        e.source.value = e.source._hintText;
+        e.source.color = "#cccccc";
+    }
+});
 
 Ti.App.addEventListener("imagePreview: imageCallback", imageCallback);
 

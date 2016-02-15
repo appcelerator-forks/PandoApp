@@ -68,6 +68,18 @@ overrode the settings with other TSS, XML, or JS settings:
 	}
 },
 
+"TextArea":{
+	borderColor: "#a5a5a5",
+	borderStyle: Ti.UI.INPUT_BORDERSTYLE_ROUNDED,
+	backgroundColor: "#ffffff",
+	left: 10,
+	right: 10,
+	top: 10,
+	font: {
+		fontFamily: 'Lato-Regular'
+	}
+},
+
 "ImageView":{
 	preventDefaultImage: true
 },
@@ -288,6 +300,10 @@ overrode the settings with other TSS, XML, or JS settings:
 
 ".white":{
 	color: "#ffffff"
+}
+
+".tiffany":{
+	color: "#75d0cb"
 }
 
 ".shadow":{

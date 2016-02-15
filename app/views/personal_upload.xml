@@ -12,7 +12,8 @@
 	    		<Label class="h5 wfill hsize bold">Please upload your item photo</Label>
 				<ImageView id="item_image" onClick="loadPhoto" image="/images/icons/icon_take_photo.png" top="10" width="50%" />
 				<TextField id="item_name" hintText="Item name"></TextField>
-				<TextField id="item_category" hintText="Item category"></TextField>
+				<TextArea id="item_desc" _hintText="Item Description" color="#cccccc" class="wfill" height="100" hintText="Item Description" value="Item Description" maxLength="255"></TextArea>
+				<TextField id="item_category" editable="false" hintText="Item category"></TextField>
 	    	</View>
 	    </View>
 		<ImageView image="/images/shadow.png" left="10" right="10" class="wfill hsize"></ImageView>

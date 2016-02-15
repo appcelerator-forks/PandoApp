@@ -70,6 +70,45 @@ exports.definition = {
                 collection.trigger('sync');
                 return arr;
 			},
+			getDataById : function(id){
+				var collection = this;
+				var u_id = Ti.App.Properties.getString('user_id');
+                var sql = "SELECT * FROM "+collection.config.adapter.collection_name+" where item_response.id = ?";
+                
+                db = Ti.Database.open(collection.config.adapter.db_name);
+                if(Ti.Platform.osname != "android"){
+                	db.file.setRemoteBackup(false);
+                }
+                var res = db.execute(sql, id);
+                var arr = [];
+                var count = 0;
+                /**
+                 * debug use
+                 
+                var row_count = res.fieldCount;
+                for(var a = 0; a < row_count; a++){
+            		 console.log(a+":"+res.fieldName(a)+":"+res.field(a));
+            	 }*/
+            	
+                while (res.isValidRow()){
+					arr[count] = {
+					    id: res.fieldByName('id'),
+					    point: res.fieldByName('point'),
+					    owner_id: res.fieldByName('owner_id'),
+					    item_id: res.fieldByName('item_id'),
+					    requestor_id: res.fieldByName('requestor_id'),
+					    requestor_img_path: res.fieldByName('requestor_img_path'),
+					    requestor_name: res.fieldByName('requestor_name'),
+					};
+					res.next();
+					count++;
+				} 
+			 
+				res.close();
+                db.close();
+                collection.trigger('sync');
+                return arr;
+			},
 			getSpendPoint : function(){
 				var collection = this;
 				var u_id = Ti.App.Properties.getString('user_id') || 0;
@@ -151,3 +190,4 @@ exports.definition = {
 		return Collection;
 	}
 };
+

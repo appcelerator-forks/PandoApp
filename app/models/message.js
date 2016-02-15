@@ -8,7 +8,7 @@ exports.definition = {
 		    "message": "TEXT",
 		    "read": "INTEGER",
 		    "type":"TEXT",
-		    "created" : "TEXT",
+		    "created" : "DATE",
 		},
 		adapter: {
 			type: "sql",
@@ -28,7 +28,7 @@ exports.definition = {
 			// extended functions and properties go here
 			getData: function(item_id){
 				var collection = this;
-                var sql = "SELECT message.*, friends.thumb_path FROM message LEFT OUTER JOIN friends on friends.f_id = message.u_id WHERE message.item_id = ? order by message.created" ;
+                var sql = "SELECT * FROM message WHERE item_id = ? order by created" ;
                 
                 db = Ti.Database.open(collection.config.adapter.db_name);
                 if(Ti.Platform.osname != "android"){
@@ -53,7 +53,6 @@ exports.definition = {
 					    to_id: res.fieldByName('to_id'),
 					    item_id: res.fieldByName('item_id'),
 					    message: res.fieldByName('message'),
-					    thumb_path: res.fieldByName('thumb_path'),
 					    type: res.fieldByName('type'),
 					    created: res.fieldByName('created')
 					};
@@ -158,14 +157,13 @@ exports.definition = {
                 }
                 db.execute("BEGIN");
                 arr.forEach(function(entry) {
-	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (name, u_id) VALUES (?,?)";
-					db.execute(sql_query, entry.name, entry.u_id);
-					var sql_query =  "UPDATE "+collection.config.adapter.collection_name+" SET name=? WHERE u_id=?";
-					db.execute(sql_query, entry.name, entry.u_id);
+	                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (u_id, to_id, message, type,item_id, created) VALUES (?,?,?,?,?,?)";
+					db.execute(sql_query, entry.u_id, entry.to_id, entry.message, entry.type, entry.item_id, entry.created);
 				});
 				db.execute("COMMIT");
 	            db.close();
 	            collection.trigger('sync');
+	            
 			},
 			saveRecord: function(entry){
 				var collection = this;
@@ -174,8 +172,8 @@ exports.definition = {
                 if(Ti.Platform.osname != "android"){
                 	db.file.setRemoteBackup(false);
                 }
-                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (u_id, to_id, message, type,item_id, created) VALUES (?,?,?,?,?,?)";
-				db.execute(sql_query, entry.u_id, entry.to_id, entry.message, entry.type, entry.item_id, Common.now());
+                var sql_query =  "INSERT OR IGNORE INTO "+collection.config.adapter.collection_name+" (u_id, to_id, message, type,item_id, read,  created) VALUES (?,?,?,?,?,?,?)";
+				db.execute(sql_query, entry.u_id, entry.to_id, entry.message, entry.type, entry.item_id, 1, entry.created);
 				
 	            db.close();
 	            collection.trigger('sync');
